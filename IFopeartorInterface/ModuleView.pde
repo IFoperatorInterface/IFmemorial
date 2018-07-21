@@ -22,7 +22,31 @@ class ModuleView {
 
     for (Trigger t : triggers) {
       if (frameCount - t.startTime == 1)
-        modules[t.y][t.x].updateTrigger(t);
+        modules[t.y][t.x].updateTrigger(new Trigger(t.effect, t.x, t.y, frameCount));
+
+      if (t.effect.fieldMode[FieldMode.UP.ordinal()] && ((frameCount-t.startTime)%5==1)) {
+        int y = t.y - (frameCount-t.startTime)/5;
+        if (y >= 0)
+          modules[y][t.x].updateTrigger(new Trigger(t.effect, t.x, t.y, frameCount));
+      }
+
+      if (t.effect.fieldMode[FieldMode.DOWN.ordinal()] && ((frameCount-t.startTime)%5==1)) {
+        int y = t.y + (frameCount-t.startTime)/5;
+        if (y < 6)
+          modules[y][t.x].updateTrigger(new Trigger(t.effect, t.x, t.y, frameCount));
+      }
+
+      if (t.effect.fieldMode[FieldMode.LEFT.ordinal()] && ((frameCount-t.startTime)%5==1)) {
+        int x = t.x - (frameCount-t.startTime)/5;
+        if (x >= 0)
+          modules[t.y][x].updateTrigger(new Trigger(t.effect, t.x, t.y, frameCount));
+      }
+
+      if (t.effect.fieldMode[FieldMode.RIGHT.ordinal()] && ((frameCount-t.startTime)%5==1)) {
+        int x = t.x + (frameCount-t.startTime)/5;
+        if (x < 6)
+          modules[t.y][x].updateTrigger(new Trigger(t.effect, t.x, t.y, frameCount));
+      }
     }
 
     // Remove old trigger in triggers
