@@ -21,7 +21,15 @@ class ModuleView {
       for (int j=0; j<COLUMNS; j++)
         modules[i][j].draw();
 
-    for (Trigger t : triggers) {
+    // Remove old trigger in triggers
+    Iterator<Trigger> triggersIterator = triggers.iterator();
+    while (triggersIterator.hasNext()) {
+      Trigger t = triggersIterator.next();
+
+      if ((frameCount > t.startTime + DELAY * ROWS)
+        && (frameCount > t.startTime + DELAY * COLUMNS))
+        triggersIterator.remove();
+
       if (frameCount - t.startTime == 1)
         modules[t.y][t.x].updateTrigger(new Trigger(t.effect, t.x, t.y, frameCount));
 
@@ -48,15 +56,6 @@ class ModuleView {
         if (x < 6)
           modules[t.y][x].updateTrigger(new Trigger(t.effect, t.x, t.y, frameCount));
       }
-    }
-
-    // Remove old trigger in triggers
-    Iterator<Trigger> triggersIterator = triggers.iterator();
-    while (triggersIterator.hasNext()) {
-      Trigger t = triggersIterator.next();
-      if ((frameCount > t.startTime + DELAY * ROWS)
-        && (frameCount > t.startTime + DELAY * COLUMNS))
-        triggersIterator.remove();
     }
   }
 
