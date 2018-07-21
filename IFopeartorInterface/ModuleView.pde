@@ -26,32 +26,34 @@ class ModuleView {
     while (triggersIterator.hasNext()) {
       Trigger t = triggersIterator.next();
 
-      if ((frameCount > t.startTime + DELAY * ROWS)
-        && (frameCount > t.startTime + DELAY * COLUMNS))
+      int phase = frameCount - startTime;
+
+      if ((phase > DELAY * ROWS)
+        && (phase > DELAY * COLUMNS))
         triggersIterator.remove();
 
-      if (frameCount - t.startTime == 1)
+      if (phase == 1)
         modules[t.y][t.x].updateTrigger(new Trigger(t.effect, t.x, t.y, frameCount));
 
-      if (t.effect.fieldMode[FieldMode.UP.ordinal()] && ((frameCount-t.startTime)%DELAY==1)) {
+      if (t.effect.fieldMode[FieldMode.UP.ordinal()] && (phase%DELAY==1)) {
         int y = t.y - (frameCount-t.startTime)/DELAY;
         if (y >= 0)
           modules[y][t.x].updateTrigger(new Trigger(t.effect, t.x, t.y, frameCount));
       }
 
-      if (t.effect.fieldMode[FieldMode.DOWN.ordinal()] && ((frameCount-t.startTime)%DELAY==1)) {
+      if (t.effect.fieldMode[FieldMode.DOWN.ordinal()] && (phase%DELAY==1)) {
         int y = t.y + (frameCount-t.startTime)/DELAY;
         if (y < 6)
           modules[y][t.x].updateTrigger(new Trigger(t.effect, t.x, t.y, frameCount));
       }
 
-      if (t.effect.fieldMode[FieldMode.LEFT.ordinal()] && ((frameCount-t.startTime)%DELAY==1)) {
+      if (t.effect.fieldMode[FieldMode.LEFT.ordinal()] && (phase%DELAY==1)) {
         int x = t.x - (frameCount-t.startTime)/DELAY;
         if (x >= 0)
           modules[t.y][x].updateTrigger(new Trigger(t.effect, t.x, t.y, frameCount));
       }
 
-      if (t.effect.fieldMode[FieldMode.RIGHT.ordinal()] && ((frameCount-t.startTime)%DELAY==1)) {
+      if (t.effect.fieldMode[FieldMode.RIGHT.ordinal()] && (phase%DELAY==1)) {
         int x = t.x + (frameCount-t.startTime)/DELAY;
         if (x < 6)
           modules[t.y][x].updateTrigger(new Trigger(t.effect, t.x, t.y, frameCount));
