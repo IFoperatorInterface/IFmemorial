@@ -1,5 +1,6 @@
 class Module {
   private int x, y;
+  private Trigger trigger;
 
 
   Module(int x, int y) {
@@ -11,5 +12,11 @@ class Module {
   public void draw() {
     stroke(192);
     line((50+x*130+y*20)/SCALE, 50/SCALE, (50+x*130+y*20)/SCALE, 150/SCALE);
+  }
+
+
+  public void updateTrigger(Trigger trigger) {
+    this.trigger = trigger;
+    println("updateTrigger");
   }
 }

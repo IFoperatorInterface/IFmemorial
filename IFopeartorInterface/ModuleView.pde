@@ -20,9 +20,18 @@ class ModuleView {
       for (int j=0; j<COLUMNS; j++)
         modules[i][j].draw();
 
-    println();
-    for (Trigger t : triggers)
-      println(t.x + "," + t.y + "," + t.startTime);
+    for (Trigger t : triggers) {
+      if (frameCount - t.startTime == 1)
+        modules[t.y][t.x].updateTrigger(t);
+    }
+
+    // Remove old trigger in triggers
+    Iterator<Trigger> triggersIterator = triggers.iterator();
+    while (triggersIterator.hasNext()) {
+      Trigger t = triggersIterator.next();
+      if (frameCount > t.startTime + 30)
+        triggersIterator.remove();
+    }
   }
 
 
