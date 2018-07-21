@@ -1,9 +1,12 @@
 class FieldController {
   FieldController() {
-    controlP5.addMatrix("fieldMatrix")
-      .setPosition(1200/SCALE, 300/SCALE)
-      .setSize(600/SCALE, 600/SCALE)
-      .setGrid(6, 6)
-      .stop();
+    for (int i=0; i<6; i++)
+      for (int j=0; j<6; j++) {
+        controlP5.addButton("fieldButton"+i*6+j)
+         .setValue(i*6+j)
+         .setPosition((1000+100*j)/SCALE, (300+100*i)/SCALE)
+         .setSize(90/SCALE, 90/SCALE)
+         ;
+      }
   }
 }
