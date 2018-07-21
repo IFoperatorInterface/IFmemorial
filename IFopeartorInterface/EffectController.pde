@@ -31,6 +31,30 @@ public class EffectController {
       .setRangeValues(effect.position[0], effect.position[1])
       .plugTo(this)
       ;
+
+    controlP5.addToggle("fieldModeUpToggle")
+      .setPosition(400/SCALE, 700/SCALE)
+      .setSize(90/SCALE, 90/SCALE)
+      .plugTo(this, "fieldModeToggle")
+      ;
+
+    controlP5.addToggle("fieldModeDownToggle")
+      .setPosition(400/SCALE, 800/SCALE)
+      .setSize(90/SCALE, 90/SCALE)
+      .plugTo(this, "fieldModeToggle")
+      ;
+
+    controlP5.addToggle("fieldModeLeftToggle")
+      .setPosition(300/SCALE, 800/SCALE)
+      .setSize(90/SCALE, 90/SCALE)
+      .plugTo(this, "fieldModeToggle")
+      ;
+
+    controlP5.addToggle("fieldModeRightToggle")
+      .setPosition(500/SCALE, 800/SCALE)
+      .setSize(90/SCALE, 90/SCALE)
+      .plugTo(this, "fieldModeToggle")
+      ;
   }
 
 
@@ -53,6 +77,23 @@ public class EffectController {
   void positionRange(ControlEvent theEvent) {
     effect.position[0] = (int) theEvent.getArrayValue()[0];
     effect.position[1] = (int) theEvent.getArrayValue()[1];
+  }
+
+
+  void fieldModeToggle(ControlEvent theEvent) {
+    int idx = -1;
+
+    if (theEvent.isFrom("fieldModeUpToggle"))
+      idx = FieldMode.UP.ordinal();
+    else if (theEvent.isFrom("fieldModeDownToggle"))
+      idx = FieldMode.DOWN.ordinal();
+    else if (theEvent.isFrom("fieldModeLeftToggle"))
+      idx = FieldMode.LEFT.ordinal();
+    else if (theEvent.isFrom("fieldModeRightToggle"))
+      idx = FieldMode.RIGHT.ordinal();
+
+    if (idx != -1)
+      effect.fieldMode[idx] = theEvent.getValue() != 0.0;
   }
 
 
