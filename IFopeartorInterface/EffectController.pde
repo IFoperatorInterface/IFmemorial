@@ -54,4 +54,9 @@ public class EffectController {
     effect.position[0] = (int) theEvent.getArrayValue()[0];
     effect.position[1] = (int) theEvent.getArrayValue()[1];
   }
+
+
+  Effect getEffect() {
+    return effect.copy();
+  }
 }

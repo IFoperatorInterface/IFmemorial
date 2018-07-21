@@ -13,6 +13,8 @@ public class FieldController {
 
 
   void fieldButton(int a) {
-    println("Pressed " + a/6 + "," + a%6 + " in field");
+    Trigger trigger = new Trigger(effectController.getEffect(), a%6, a/6, frameCount);
+    
+    moduleView.addTrigger(trigger);
   }
 }

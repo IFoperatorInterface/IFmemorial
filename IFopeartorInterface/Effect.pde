@@ -17,4 +17,19 @@ class Effect {
     colorRGB = new int[3];
     brightness = new int[4][2];
   }
+
+
+  Effect copy() {
+    Effect newEffect = new Effect();
+
+    newEffect.barMode = barMode;
+    newEffect.size = size;
+    newEffect.position[0] = position[0];
+    newEffect.position[1] = position[1];
+    newEffect.fieldMode = fieldMode;
+    newEffect.colorRGB = colorRGB;
+    newEffect.brightness = brightness;
+
+    return newEffect;
+  }
 }
