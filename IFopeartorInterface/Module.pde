@@ -14,6 +14,9 @@ class Module {
 
     if (trigger != null) {
       drawLine(255, trigger.effect.position[0], trigger.effect.position[1]);
+
+      if (frameCount - trigger.startTime > 30)
+        trigger = null;
     }
   }
 
