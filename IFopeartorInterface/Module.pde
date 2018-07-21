@@ -68,6 +68,5 @@ class Module {
 
   public void updateTrigger(Trigger trigger) {
     this.trigger = trigger;
-    println("updateTrigger");
   }
 }
