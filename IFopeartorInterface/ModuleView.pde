@@ -26,7 +26,7 @@ class ModuleView {
     while (triggersIterator.hasNext()) {
       Trigger t = triggersIterator.next();
 
-      int phase = frameCount - startTime;
+      int phase = frameCount - t.startTime;
 
       if ((phase > DELAY * ROWS)
         && (phase > DELAY * COLUMNS))
