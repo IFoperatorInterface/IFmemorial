@@ -10,8 +10,17 @@ class Module {
 
 
   public void draw() {
-    stroke(192);
-    line((50+x*130+y*20)/SCALE, 50/SCALE, (50+x*130+y*20)/SCALE, 150/SCALE);
+    drawLine(64, 0, 100);
+
+    if (trigger != null) {
+      drawLine(255, trigger.effect.position[0], trigger.effect.position[1]);
+    }
+  }
+
+
+  private void drawLine(int strokeColor, int start, int end) {
+    stroke(strokeColor);
+    line((50+x*130+y*20)/SCALE, (50+start)/SCALE, (50+x*130+y*20)/SCALE, (50+end)/SCALE);
   }
 
 
