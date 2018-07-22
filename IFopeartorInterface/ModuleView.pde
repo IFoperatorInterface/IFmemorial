@@ -55,28 +55,32 @@ class ModuleView {
       if (phase == 1)
         modules[t.y][t.x].updateTrigger(new Trigger(t.effect, t.x, t.y, frameCount));
 
-      if (t.effect.fieldMode[FieldMode.UP.ordinal()] && (phase % DELAY == 1)) {
-        int y = t.y - (frameCount - t.startTime) / DELAY;
-        if (y >= 0)
-          modules[y][t.x].updateTrigger(new Trigger(t.effect, t.x, t.y, frameCount));
-      }
+      if (phase % DELAY == 1) {
+        int distance = (frameCount - t.startTime) / DELAY;
 
-      if (t.effect.fieldMode[FieldMode.DOWN.ordinal()] && (phase % DELAY == 1)) {
-        int y = t.y + (frameCount - t.startTime) / DELAY;
-        if (y < 6)
-          modules[y][t.x].updateTrigger(new Trigger(t.effect, t.x, t.y, frameCount));
-      }
+        if (t.effect.fieldMode[FieldMode.UP.ordinal()]) {
+          int y = t.y - distance;
+          if (y >= 0)
+            modules[y][t.x].updateTrigger(new Trigger(t.effect, t.x, t.y, frameCount));
+        }
 
-      if (t.effect.fieldMode[FieldMode.LEFT.ordinal()] && (phase % DELAY == 1)) {
-        int x = t.x - (frameCount - t.startTime) / DELAY;
-        if (x >= 0)
-          modules[t.y][x].updateTrigger(new Trigger(t.effect, t.x, t.y, frameCount));
-      }
+        if (t.effect.fieldMode[FieldMode.DOWN.ordinal()]) {
+          int y = t.y + distance;
+          if (y < 6)
+            modules[y][t.x].updateTrigger(new Trigger(t.effect, t.x, t.y, frameCount));
+        }
 
-      if (t.effect.fieldMode[FieldMode.RIGHT.ordinal()] && (phase % DELAY == 1)) {
-        int x = t.x + (frameCount - t.startTime) / DELAY;
-        if (x < 6)
-          modules[t.y][x].updateTrigger(new Trigger(t.effect, t.x, t.y, frameCount));
+        if (t.effect.fieldMode[FieldMode.LEFT.ordinal()]) {
+          int x = t.x - distance;
+          if (x >= 0)
+            modules[t.y][x].updateTrigger(new Trigger(t.effect, t.x, t.y, frameCount));
+        }
+
+        if (t.effect.fieldMode[FieldMode.RIGHT.ordinal()]) {
+          int x = t.x + distance;
+          if (x < 6)
+            modules[t.y][x].updateTrigger(new Trigger(t.effect, t.x, t.y, frameCount));
+        }
       }
     }
   }
