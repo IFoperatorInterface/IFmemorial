@@ -10,20 +10,26 @@ class ModuleView {
     triggers = new ArrayList < Trigger > ();
     modules = new Module[6][6];
     int indx = 0;
+    PVector[] fieldBtsPos = new PVector[ROWS * COLUMNS];
+    fieldBtsPos = fieldController.setFieldPostion();
     for (int i = 0; i < ROWS; i++)
       for (int j = 0; j < COLUMNS; j++) {
         int x = (int) opc.ledStripPos[indx].x;
         int y = (int) opc.ledStripPos[indx].y;
-        modules[i][j] = new Module(indx, x, y);
+        PVector loc = fieldBtsPos[indx];
+        modules[i][j] = new Module(indx, x, y, loc);
         indx++;
       }
   }
 
 
+
   public void draw() {
-    for (int i = 0; i < ROWS; i++)
-      for (int j = 0; j < COLUMNS; j++)
+    for (int i = 0; i < ROWS; i++) {
+      for (int j = 0; j < COLUMNS; j++) {
         modules[i][j].draw();
+      }
+    }
 
     // Remove old trigger in triggers
     Iterator < Trigger > triggersIterator = triggers.iterator();

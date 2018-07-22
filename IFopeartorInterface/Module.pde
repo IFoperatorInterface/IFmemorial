@@ -6,11 +6,14 @@ class Module {
   Boolean isJumped, isStanding;
   float[] pressures = new float[4];
   PVector barPos;
+  PVector fieldBtsPos;
 
-  Module(int indx, int x, int y) {
+  Module(int indx, int x, int y, PVector fieldPos) {
     this.indx = indx;
     this.x = x;
     this.y = y;
+
+    fieldBtsPos = fieldPos;
 
     isJumped = false;
     isStanding = false;
@@ -21,7 +24,7 @@ class Module {
 
     barPos = new PVector(0, 0);
   }
-  
+
   public void draw() {
     drawLine(64, 0, barH);
 

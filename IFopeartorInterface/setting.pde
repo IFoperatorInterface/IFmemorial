@@ -22,14 +22,14 @@
          int y = 0;
          for (int i = 0; i < windows.length; i++) {
              x = (i < 4) ? spacing : width / 2 + spacing;
-             y = (i) % 4 * ((height - spacing * 2) / 4) + spacing;
+             y = (i) % 4 * ((height - spacing ) / 4) + spacing;
              pos[i] = new PVector(x, y);
          }
          for (int i = 0; i < windows.length; i++) {
              float winX = pos[i].x;
              float winY = pos[i].y;
              float winWidth = width / 2 - spacing * 2;
-             float winHeight = (i < 5) ? pos[1].y - pos[0].y - spacing : height - pos[1].y - pos[0].y - spacing;
+             float winHeight = (i < 5) ? pos[1].y - pos[0].y - spacing : height - pos[1].y - pos[0].y - 1;
              windows[i] = new Window(winX, winY, winWidth, winHeight, title[i]);
          }
      }
@@ -49,7 +49,7 @@
      void display() {
          pushStyle();
          noFill();
-         stroke(255, 0, 0);
+         stroke(20);
          rect(pos.x, pos.y, size.x, size.y);
          textFont(tinyFont);
          text(title, pos.x, pos.y + 10);

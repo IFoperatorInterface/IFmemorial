@@ -228,6 +228,25 @@ public class EffectController {
 }
 public class FieldController {
   FieldController() {
+    int indx = 0;
+    PVector[] fieldBtsPos = new PVector[6 * 6];
+    fieldBtsPos = setFieldPostion();
+    int btSize = (int)fieldBtsPos[36].x;
+    for (int i = 0; i < 6; i++)
+      for (int j = 0; j < 6; j++) {
+        float x = fieldBtsPos[indx].x;
+        float y = fieldBtsPos[indx].y;
+        controlP5.addButton("" + (i * 6 + j))
+          .setValue(i * 6 + j)
+          .setPosition(x, y)
+          .setSize(btSize, btSize)
+          .setId(i * 6 + j)
+          .plugTo(this, "fieldButton");
+        indx++;
+      }
+  }
+  public PVector[] setFieldPostion() {
+    PVector[] result = new PVector[6 * 6 + 1];
     int padding = 2;
     int spacing = 25;
     int margin = 5;
@@ -235,15 +254,17 @@ public class FieldController {
     int windowHeight = (int) windows[5].size.y - spacing * 2;
     int windowX = (int) windows[5].pos.x + spacing;
     int windowY = (int) windows[5].pos.y + spacing;
-    int btSize = (windowWidth > windowHeight) ? (windowHeight - margin * 2 - padding * 5) / 6: (windowWidth - margin * 2 - padding * 5) / 6;
+    int btSize = (windowWidth > windowHeight) ? (windowHeight - margin * 2 - padding * 5) / 6 : (windowWidth - margin * 2 - padding * 5) / 6;
+    int indx = 0;
     for (int i = 0; i < 6; i++)
       for (int j = 0; j < 6; j++) {
-        controlP5.addButton("" + (i * 6 + j))
-          .setValue(i * 6 + j)
-          .setPosition(windowX + (btSize + margin) * j, windowY + (btSize + margin) * i)
-          .setSize(btSize, btSize)
-          .plugTo(this, "fieldButton");
+        int x = windowX + (btSize + margin) * j;
+        int y = windowY + (btSize + margin) * i;
+        result[indx] = new PVector(x, y);
+        indx++;
       }
+    result[36] = new PVector(btSize, btSize);
+    return result;
   }
 
 
@@ -261,11 +282,14 @@ class Module {
   Boolean isJumped, isStanding;
   float[] pressures = new float[4];
   PVector barPos;
+  PVector fieldBtsPos;
 
-  Module(int indx, int x, int y) {
+  Module(int indx, int x, int y, PVector fieldPos) {
     this.indx = indx;
     this.x = x;
     this.y = y;
+
+    fieldBtsPos = fieldPos;
 
     isJumped = false;
     isStanding = false;
@@ -276,7 +300,7 @@ class Module {
 
     barPos = new PVector(0, 0);
   }
-  
+
   public void draw() {
     drawLine(64, 0, barH);
 
@@ -351,20 +375,28 @@ class ModuleView {
     triggers = new ArrayList < Trigger > ();
     modules = new Module[6][6];
     int indx = 0;
+    PVector[] fieldBtsPos = new PVector[ROWS * COLUMNS];
+    fieldBtsPos = fieldController.setFieldPostion();
     for (int i = 0; i < ROWS; i++)
       for (int j = 0; j < COLUMNS; j++) {
         int x = (int) opc.ledStripPos[indx].x;
         int y = (int) opc.ledStripPos[indx].y;
-        modules[i][j] = new Module(indx, x, y);
+        PVector loc = fieldBtsPos[indx];
+        modules[i][j] = new Module(indx, x, y, loc);
         indx++;
       }
+
+
   }
 
 
+
   public void draw() {
-    for (int i = 0; i < ROWS; i++)
-      for (int j = 0; j < COLUMNS; j++)
+    for (int i = 0; i < ROWS; i++) {
+      for (int j = 0; j < COLUMNS; j++) {
         modules[i][j].draw();
+      }
+    }
 
     // Remove old trigger in triggers
     Iterator < Trigger > triggersIterator = triggers.iterator();
@@ -886,14 +918,14 @@ enum Rgb {
          int y = 0;
          for (int i = 0; i < windows.length; i++) {
              x = (i < 4) ? spacing : width / 2 + spacing;
-             y = (i) % 4 * ((height - spacing * 2) / 4) + spacing;
+             y = (i) % 4 * ((height - spacing ) / 4) + spacing;
              pos[i] = new PVector(x, y);
          }
          for (int i = 0; i < windows.length; i++) {
              float winX = pos[i].x;
              float winY = pos[i].y;
              float winWidth = width / 2 - spacing * 2;
-             float winHeight = (i < 5) ? pos[1].y - pos[0].y - spacing : height - pos[1].y - pos[0].y - spacing;
+             float winHeight = (i < 5) ? pos[1].y - pos[0].y - spacing : height - pos[1].y - pos[0].y - 1;
              windows[i] = new Window(winX, winY, winWidth, winHeight, title[i]);
          }
      }
@@ -913,7 +945,7 @@ enum Rgb {
      public void display() {
          pushStyle();
          noFill();
-         stroke(255, 0, 0);
+         stroke(20);
          rect(pos.x, pos.y, size.x, size.y);
          textFont(tinyFont);
          text(title, pos.x, pos.y + 10);
