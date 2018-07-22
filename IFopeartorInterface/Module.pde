@@ -1,6 +1,8 @@
 class Module {
   private int x, y, btSize;
   private Trigger trigger;
+
+  
   private int barH = opc.barLength;
   Integer indx;
   Boolean isJumped, isStanding;
@@ -14,14 +16,11 @@ class Module {
     this.y = y;
     this.btSize = btSize;
     fieldBtsPos = fieldPos;
-
     isJumped = false;
     isStanding = false;
-
     for (float prss: pressures) {
       prss = 0.0;
     }
-
     barPos = new PVector(0, 0);
   }
 
@@ -55,7 +54,7 @@ class Module {
     int start = round(80 * ratio);
     int end = start + 20;
 
-    drawLine(255, start, end);
+    drawLine(ledColor, start, end);
   }
 
 
@@ -63,7 +62,7 @@ class Module {
     int start = 0;
     int end = barH;
 
-    drawLine(255, start, end);
+    drawLine(ledColor, start, end);
   }
 
 
@@ -73,11 +72,11 @@ class Module {
     int start = 0;
     int end = round(barH * phase);
 
-    drawLine(255, start, end);
+    drawLine(ledColor, start, end);
   }
 
 
-  private void drawLine(int strokeColor, int start, int end) {
+  private void drawLine(color strokeColor, int start, int end) {
     stroke(strokeColor);
     // line((50+x*130+y*20)/SCALE, (150-end)/SCALE, (50+x*130+y*20)/SCALE, (150-start)/SCALE);
     line(x, y - end, x, y + start);

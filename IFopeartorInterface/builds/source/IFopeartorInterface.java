@@ -236,10 +236,11 @@ public class EffectController {
 }
 public void applyC() {
   int c = controlP5.get(ColorWheel.class, "ledColor").getRGB();
-  controlP5.getController("applyC").setColorForeground(c);
+  controlP5.getController("applyC").setColorForeground(lerpColor(c, color(255), .2f));
   controlP5.getController("applyC").setColorBackground(c);
-  controlP5.getController("applyC").setColorActive(lerpColor(c, color(0, 0, 0), .2f));
-  println("asdfadf");
+  controlP5.getController("applyC").setColorActive(lerpColor(c, color(0), .2f));
+  ledColor = c;
+  //TODO: change ledBarColor accordingly
 }
 public class FieldController {
   FieldController() {
@@ -293,6 +294,8 @@ public class FieldController {
 class Module {
   private int x, y, btSize;
   private Trigger trigger;
+
+  
   private int barH = opc.barLength;
   Integer indx;
   Boolean isJumped, isStanding;
@@ -306,14 +309,11 @@ class Module {
     this.y = y;
     this.btSize = btSize;
     fieldBtsPos = fieldPos;
-
     isJumped = false;
     isStanding = false;
-
     for (float prss: pressures) {
       prss = 0.0f;
     }
-
     barPos = new PVector(0, 0);
   }
 
@@ -347,7 +347,7 @@ class Module {
     int start = round(80 * ratio);
     int end = start + 20;
 
-    drawLine(255, start, end);
+    drawLine(ledColor, start, end);
   }
 
 
@@ -355,7 +355,7 @@ class Module {
     int start = 0;
     int end = barH;
 
-    drawLine(255, start, end);
+    drawLine(ledColor, start, end);
   }
 
 
@@ -365,7 +365,7 @@ class Module {
     int start = 0;
     int end = round(barH * phase);
 
-    drawLine(255, start, end);
+    drawLine(ledColor, start, end);
   }
 
 
@@ -390,6 +390,7 @@ class Module {
     popMatrix();
   }
 }
+int ledColor;
 class ModuleView {
   private List < Trigger > triggers;
   private Module modules[][];
@@ -398,6 +399,7 @@ class ModuleView {
   private static final int DELAY = 5;
 
   private List < Rider > riders;
+  
   ModuleView() {
     triggers = new ArrayList < Trigger > ();
     modules = new Module[6][6];
@@ -415,6 +417,7 @@ class ModuleView {
         modules[i][j] = new Module(indx, x, y, loc, btSize);
         indx++;
       }
+    ledColor = controlP5.get(ColorWheel.class, "ledColor").getRGB();
   }
 
 

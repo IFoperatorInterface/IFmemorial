@@ -1,3 +1,4 @@
+color ledColor;
 class ModuleView {
   private List < Trigger > triggers;
   private Module modules[][];
@@ -6,6 +7,7 @@ class ModuleView {
   private static final int DELAY = 5;
 
   private List < Rider > riders;
+  
   ModuleView() {
     triggers = new ArrayList < Trigger > ();
     modules = new Module[6][6];
@@ -23,6 +25,7 @@ class ModuleView {
         modules[i][j] = new Module(indx, x, y, loc, btSize);
         indx++;
       }
+    ledColor = controlP5.get(ColorWheel.class, "ledColor").getRGB();
   }
 
 
