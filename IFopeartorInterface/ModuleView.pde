@@ -17,7 +17,8 @@ class ModuleView {
         int x = (int) opc.ledStripPos[indx].x;
         int y = (int) opc.ledStripPos[indx].y;
         PVector loc = fieldBtsPos[indx];
-        modules[i][j] = new Module(indx, x, y, loc);
+        int btSize = (int) fieldBtsPos[36].x;
+        modules[i][j] = new Module(indx, x, y, loc, btSize);
         indx++;
       }
   }
@@ -28,6 +29,7 @@ class ModuleView {
     for (int i = 0; i < ROWS; i++) {
       for (int j = 0; j < COLUMNS; j++) {
         modules[i][j].draw();
+        modules[i][j].drawBar();
       }
     }
 

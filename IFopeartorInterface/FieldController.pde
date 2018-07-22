@@ -3,7 +3,8 @@ public class FieldController {
     int indx = 0;
     PVector[] fieldBtsPos = new PVector[6 * 6];
     fieldBtsPos = setFieldPostion();
-    int btSize = (int)fieldBtsPos[36].x;
+    int btSize = (int) fieldBtsPos[36].x;
+
     for (int i = 0; i < 6; i++)
       for (int j = 0; j < 6; j++) {
         float x = fieldBtsPos[indx].x;
@@ -17,6 +18,7 @@ public class FieldController {
         indx++;
       }
   }
+
   PVector[] setFieldPostion() {
     PVector[] result = new PVector[6 * 6 + 1];
     int padding = 2;

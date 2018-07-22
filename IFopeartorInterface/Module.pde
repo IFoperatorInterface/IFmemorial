@@ -1,5 +1,5 @@
 class Module {
-  private int x, y;
+  private int x, y, btSize;
   private Trigger trigger;
   private int barH = opc.barLength;
   Integer indx;
@@ -8,11 +8,11 @@ class Module {
   PVector barPos;
   PVector fieldBtsPos;
 
-  Module(int indx, int x, int y, PVector fieldPos) {
+  Module(int indx, int x, int y, PVector fieldPos, int btSize) {
     this.indx = indx;
     this.x = x;
     this.y = y;
-
+    this.btSize = btSize;
     fieldBtsPos = fieldPos;
 
     isJumped = false;
@@ -26,7 +26,8 @@ class Module {
   }
 
   public void draw() {
-    drawLine(64, 0, barH);
+
+    drawLine(64, 0, barH); //TODO: remove this
 
     if (trigger != null) {
       switch (trigger.effect.barMode) {
@@ -85,5 +86,15 @@ class Module {
 
   public void updateTrigger(Trigger trigger) {
     this.trigger = trigger;
+  }
+
+  public void drawBar() {
+    int x = map(barPos.x, 0, 1, 0, btSize / 2);
+    int y = map(barPos.y, 0, 1, 0, btSize / 2);
+    pushMatrix();
+    translate(fieldBtsPos.x + btSize / 2, fieldBtsPos.y + btSize / 2);
+    stroke(100);
+    line(0, 0, x, y);
+    popMatrix();
   }
 }

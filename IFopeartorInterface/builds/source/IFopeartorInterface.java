@@ -54,6 +54,7 @@ public void setup() {
   dataController = new DATA(false);
 
   controlP5 = new ControlP5(this);
+  controlP5.setAutoDraw(false);
   effectController = new EffectController();
   fieldController = new FieldController();
   moduleView = new ModuleView();
@@ -62,6 +63,7 @@ public void setup() {
 
 public void draw() {
   background(0);
+  controlP5.draw();
   moduleView.draw();
   for(Window w : windows){
     w.display();
@@ -231,7 +233,8 @@ public class FieldController {
     int indx = 0;
     PVector[] fieldBtsPos = new PVector[6 * 6];
     fieldBtsPos = setFieldPostion();
-    int btSize = (int)fieldBtsPos[36].x;
+    int btSize = (int) fieldBtsPos[36].x;
+
     for (int i = 0; i < 6; i++)
       for (int j = 0; j < 6; j++) {
         float x = fieldBtsPos[indx].x;
@@ -245,6 +248,7 @@ public class FieldController {
         indx++;
       }
   }
+
   public PVector[] setFieldPostion() {
     PVector[] result = new PVector[6 * 6 + 1];
     int padding = 2;
@@ -275,7 +279,7 @@ public class FieldController {
   }
 }
 class Module {
-  private int x, y;
+  private int x, y, btSize;
   private Trigger trigger;
   private int barH = opc.barLength;
   Integer indx;
@@ -284,11 +288,11 @@ class Module {
   PVector barPos;
   PVector fieldBtsPos;
 
-  Module(int indx, int x, int y, PVector fieldPos) {
+  Module(int indx, int x, int y, PVector fieldPos, int btSize) {
     this.indx = indx;
     this.x = x;
     this.y = y;
-
+    this.btSize = btSize;
     fieldBtsPos = fieldPos;
 
     isJumped = false;
@@ -302,7 +306,8 @@ class Module {
   }
 
   public void draw() {
-    drawLine(64, 0, barH);
+
+    drawLine(64, 0, barH); //TODO: remove this
 
     if (trigger != null) {
       switch (trigger.effect.barMode) {
@@ -362,6 +367,14 @@ class Module {
   public void updateTrigger(Trigger trigger) {
     this.trigger = trigger;
   }
+  
+  public void drawBar() {
+    pushMatrix();
+    translate(fieldBtsPos.x + btSize/2, fieldBtsPos.y + btSize/2);
+    stroke(100);
+    line(0, 0, 10, 10);
+    popMatrix();
+  }
 }
 class ModuleView {
   private List < Trigger > triggers;
@@ -382,11 +395,10 @@ class ModuleView {
         int x = (int) opc.ledStripPos[indx].x;
         int y = (int) opc.ledStripPos[indx].y;
         PVector loc = fieldBtsPos[indx];
-        modules[i][j] = new Module(indx, x, y, loc);
+        int btSize = (int) fieldBtsPos[36].x;
+        modules[i][j] = new Module(indx, x, y, loc, btSize);
         indx++;
       }
-
-
   }
 
 
@@ -395,6 +407,7 @@ class ModuleView {
     for (int i = 0; i < ROWS; i++) {
       for (int j = 0; j < COLUMNS; j++) {
         modules[i][j].draw();
+        modules[i][j].drawBar();
       }
     }
 

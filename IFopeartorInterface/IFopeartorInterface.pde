@@ -29,6 +29,7 @@ void setup() {
   dataController = new DATA(false);
 
   controlP5 = new ControlP5(this);
+  controlP5.setAutoDraw(false);
   effectController = new EffectController();
   fieldController = new FieldController();
   moduleView = new ModuleView();
@@ -37,6 +38,7 @@ void setup() {
 
 void draw() {
   background(0);
+  controlP5.draw();
   moduleView.draw();
   for(Window w : windows){
     w.display();
