@@ -104,6 +104,7 @@ class Effect {
     return newEffect;
   }
 }
+Button colorBt;
 public class EffectController {
   private Effect effect;
   private controlP5.RadioButton b;
@@ -152,9 +153,12 @@ public class EffectController {
 
     x = x + h + pd;
     y = y + btSize * 2;
-    controlP5.addButton("applyC")
+    colorBt = controlP5.addButton("applyC")
       .setValue(c)
       .setPosition(x, y)
+      .setColorBackground(c)
+      .setColorForeground(lerpColor(c, color(255), .2f))
+      .setColorActive(lerpColor(c, color(0), .2f))
       .setCaptionLabel("apply color")
       .setSize(btSize, btSize);
 
@@ -227,6 +231,15 @@ public class EffectController {
   public Effect getEffect() {
     return effect.copy();
   }
+
+
+}
+public void applyC() {
+  int c = controlP5.get(ColorWheel.class, "ledColor").getRGB();
+  controlP5.getController("applyC").setColorForeground(c);
+  controlP5.getController("applyC").setColorBackground(c);
+  controlP5.getController("applyC").setColorActive(lerpColor(c, color(0, 0, 0), .2f));
+  println("asdfadf");
 }
 public class FieldController {
   FieldController() {
@@ -798,19 +811,10 @@ public class OPC {
         float y2 = ENDPOINT - pd; // 88 
         noStroke();
         fill(0);
-        rect(x1, 0, x2, y2 + pd);
+        rect(x1, 16, x2, y2 + pd);
         stroke(255);
         noFill();
         rect(x1, y1 + indxFontSize, x2, y2);
-        // //=================================text//=================================
-        // textFont(titleFont);
-        // textAlign(CENTER, CENTER);
-        // fill(255);
-        // String title = "WINDOW1";
-        // float mid = width / 4;
-
-        // text(title, mid, y2 - 10);
-
         popStyle();
     }
 
@@ -983,8 +987,12 @@ class Rider {
          noFill();
          stroke(20);
          rect(pos.x, pos.y, size.x, size.y);
+         textAlign(CENTER, CENTER);
          textFont(tinyFont);
-         text(title, pos.x, pos.y + 10);
+         fill(100);
+         float x = pos.x + size.x/2;
+         float y = pos.y + size.y + 5;
+         text(title, x, y);
          popStyle();
      }
  }

@@ -51,8 +51,12 @@
          noFill();
          stroke(20);
          rect(pos.x, pos.y, size.x, size.y);
+         textAlign(CENTER, CENTER);
          textFont(tinyFont);
-         text(title, pos.x, pos.y + 10);
+         fill(100);
+         float x = pos.x + size.x/2;
+         float y = pos.y + size.y + 5;
+         text(title, x, y);
          popStyle();
      }
  }
