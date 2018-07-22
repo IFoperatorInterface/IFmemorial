@@ -33,6 +33,17 @@ void setup() {
   effectController = new EffectController();
   fieldController = new FieldController();
   moduleView = new ModuleView();
+
+
+
+  dddd = controlP5.addSlider2D("test")
+        // .setLabelVisible(false)
+        .setPosition(width/2, height/2)
+        .setSize(100, 100)
+        .setMinMax(100, 100, 0, 0)
+        .setValue(50, 50)
+        // .disableCrosshair()
+        ;
 }
 
 
@@ -43,4 +54,7 @@ void draw() {
   for(Window w : windows){
     w.display();
   }
+
+  dddd.setCursorX(-20);
+  dddd.setCursorY(-20);
 }
