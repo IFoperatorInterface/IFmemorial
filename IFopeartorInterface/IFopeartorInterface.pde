@@ -11,6 +11,7 @@ import java.util.Arrays;
 ControlP5 controlP5;
 EffectController effectController;
 FieldController fieldController;
+RecordController recordController;
 ModuleView moduleView;
 final int SCALE = 1;
 
@@ -32,6 +33,7 @@ void setup() {
   controlP5.setAutoDraw(false);
   effectController = new EffectController();
   fieldController = new FieldController();
+  recordController = new RecordController();
   moduleView = new ModuleView();
 
 
