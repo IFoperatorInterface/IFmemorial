@@ -82,6 +82,7 @@ void receive(byte[] data) {
             PVector[] pos = new PVector[numPerson];
             for (int i = 0; i < numPerson; i++) {
                 pos[i] = new PVector(a[NUM_MODULE_TOKENS + i], a[NUM_MODULE_TOKENS + 1 + i]);
+                moduleView.riders.add(new Rider(pos[i]));
             }
         }
     }

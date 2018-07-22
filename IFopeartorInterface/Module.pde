@@ -89,8 +89,8 @@ class Module {
   }
 
   public void drawBar() {
-    int x = map(barPos.x, 0, 1, 0, btSize / 2);
-    int y = map(barPos.y, 0, 1, 0, btSize / 2);
+    float x = map(barPos.x, 0, 1, 0, btSize / 2);
+    float y = map(barPos.y, 0, 1, 0, btSize / 2);
     pushMatrix();
     translate(fieldBtsPos.x + btSize / 2, fieldBtsPos.y + btSize / 2);
     stroke(100);

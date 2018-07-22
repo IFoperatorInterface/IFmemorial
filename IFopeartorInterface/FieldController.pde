@@ -19,7 +19,13 @@ public class FieldController {
       }
   }
 
-  PVector[] setFieldPostion() {
+  void fieldButton(int a) {
+    Trigger trigger = new Trigger(effectController.getEffect(), a % 6, a / 6, frameCount);
+
+    moduleView.addTrigger(trigger);
+  }
+
+   PVector[] setFieldPostion() {
     PVector[] result = new PVector[6 * 6 + 1];
     int padding = 2;
     int spacing = 25;
@@ -39,12 +45,5 @@ public class FieldController {
       }
     result[36] = new PVector(btSize, btSize);
     return result;
-  }
-
-
-  void fieldButton(int a) {
-    Trigger trigger = new Trigger(effectController.getEffect(), a % 6, a / 6, frameCount);
-
-    moduleView.addTrigger(trigger);
   }
 }

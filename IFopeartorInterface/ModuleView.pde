@@ -5,10 +5,12 @@ class ModuleView {
   private static final int COLUMNS = 6;
   private static final int DELAY = 5;
 
-
+  private List < Rider > riders;
   ModuleView() {
     triggers = new ArrayList < Trigger > ();
     modules = new Module[6][6];
+    riders = new ArrayList < Rider > ();
+
     int indx = 0;
     PVector[] fieldBtsPos = new PVector[ROWS * COLUMNS];
     fieldBtsPos = fieldController.setFieldPostion();
@@ -31,6 +33,9 @@ class ModuleView {
         modules[i][j].draw();
         modules[i][j].drawBar();
       }
+    }
+    for (Rider r: riders) {
+      r.draw();
     }
 
     // Remove old trigger in triggers
