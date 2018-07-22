@@ -1,11 +1,18 @@
 public class FieldController {
   FieldController() {
+    int padding = 2;
+    int spacing = 80;
+    int margin = 5;
+    int windowWidth = width/2 - spacing*2;
+    int windowX = width - windowWidth - spacing;
+    int windowY = height - windowWidth - spacing;
+    int btWidth = (windowWidth-margin*2-padding*5)/6;
     for (int i=0; i<6; i++)
       for (int j=0; j<6; j++) {
-        controlP5.addButton("fieldButton"+i*6+j)
+        controlP5.addButton(""+(i*6+j))
          .setValue(i*6+j)
-         .setPosition((1000+100*j)/SCALE, (300+100*i)/SCALE)
-         .setSize(90/SCALE, 90/SCALE)
+         .setPosition(windowX+(btWidth+margin)*j, windowY+(btWidth+margin)*i)
+         .setSize(btWidth, btWidth)
          .plugTo(this, "fieldButton")
          ;
       }
