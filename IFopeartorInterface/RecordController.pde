@@ -35,19 +35,25 @@ public class RecordController {
     else {
       newRecord.duration = frameCount - newRecord.recordStartTime;
       records.add(newRecord);
+      newRecord = null;
 
+      updateRecordPlayToggle();
+    }
+  }
+
+
+  private void updateRecordPlayToggle() {
+    for (int i=0; i<records.size(); i++) {
       int x = int(windows[4].pos.x);
       int y = int(windows[4].pos.y);
       int h = int(windows[4].size.y);
       int pd = 10;
       int btSize = int(h / 3);
-      controlP5.addToggle("recordPlay" + newRecord.id + "Toggle")
-        .setPosition(x+(btSize+pd)*newRecord.id, y)
+      controlP5.addToggle("recordPlay" + records.get(i).id + "Toggle")
+        .setPosition(x+(btSize+pd)*i, y)
         .setSize(btSize, btSize)
-        .setCaptionLabel("record" + newRecord.id)
+        .setCaptionLabel("record" + records.get(i).id)
         .plugTo(this);
-
-      newRecord = null;
     }
   }
 }
