@@ -54,7 +54,7 @@ class Module {
     int start = round(80 * ratio);
     int end = start + 20;
 
-    drawLine(ledColor, start, end);
+    drawLine(color(trigger.effect.colorRGB[0], trigger.effect.colorRGB[1], trigger.effect.colorRGB[2]), start, end);
   }
 
 
@@ -62,7 +62,7 @@ class Module {
     int start = 0;
     int end = barH;
 
-    drawLine(ledColor, start, end);
+    drawLine(color(trigger.effect.colorRGB[0], trigger.effect.colorRGB[1], trigger.effect.colorRGB[2]), start, end);
   }
 
 
@@ -72,7 +72,7 @@ class Module {
     int start = 0;
     int end = round(barH * phase);
 
-    drawLine(ledColor, start, end);
+    drawLine(color(trigger.effect.colorRGB[0], trigger.effect.colorRGB[1], trigger.effect.colorRGB[2]), start, end);
   }
 
 

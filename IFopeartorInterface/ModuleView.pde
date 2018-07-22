@@ -1,4 +1,3 @@
-color ledColor;
 class ModuleView {
   private List < Trigger > triggers;
   private Module modules[][];
@@ -25,7 +24,6 @@ class ModuleView {
         modules[i][j] = new Module(indx, x, y, loc, btSize);
         indx++;
       }
-    ledColor = controlP5.get(ColorWheel.class, "ledColor").getRGB();
   }
 
 

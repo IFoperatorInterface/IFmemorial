@@ -63,8 +63,8 @@ public class EffectController {
 
     x = int(windows[3].pos.x);
     y = int(windows[3].pos.y);
-    color c = color(128, 0, 255);
-    controlP5.addColorWheel("ledColor", x, y, h).setRGB(c);
+    color c = color(effect.colorRGB[0], effect.colorRGB[1], effect.colorRGB[2]);
+    controlP5.addColorWheel("ledColor", x, y, h).setRGB(c).plugTo(this);
 
     x = x + h + pd;
     y = y + btSize * 2;
@@ -166,11 +166,16 @@ public class EffectController {
   // println(controlP5.getController("adrBehaviorTime").getAbsolutePosition()[1]);
   }
 
+
+  void ledColor(color c) {
+    effect.colorRGB[0] = (int) red(c);
+    effect.colorRGB[1] = (int) green(c);
+    effect.colorRGB[2] = (int) blue(c);
+  }
 }
 public void applyC() {
   color c = controlP5.get(ColorWheel.class, "ledColor").getRGB();
   controlP5.getController("applyC").setColorForeground(lerpColor(c, color(255), .2));
   controlP5.getController("applyC").setColorBackground(c);
   controlP5.getController("applyC").setColorActive(lerpColor(c, color(0), .2));
-  ledColor = c;
 }
