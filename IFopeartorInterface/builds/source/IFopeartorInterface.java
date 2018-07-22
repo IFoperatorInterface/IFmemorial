@@ -229,18 +229,19 @@ public class EffectController {
 public class FieldController {
   FieldController() {
     int padding = 2;
-    int spacing = 35;
+    int spacing = 25;
     int margin = 5;
     int windowWidth = (int) windows[5].size.x - spacing * 2;
+    int windowHeight = (int) windows[5].size.y - spacing * 2;
     int windowX = (int) windows[5].pos.x + spacing;
     int windowY = (int) windows[5].pos.y + spacing;
-    int btWidth = (windowWidth - margin * 2 - padding * 5) / 6;
+    int btSize = (windowWidth > windowHeight) ? (windowHeight - margin * 2 - padding * 5) / 6: (windowWidth - margin * 2 - padding * 5) / 6;
     for (int i = 0; i < 6; i++)
       for (int j = 0; j < 6; j++) {
         controlP5.addButton("" + (i * 6 + j))
           .setValue(i * 6 + j)
-          .setPosition(windowX + (btWidth + margin) * j, windowY + (btWidth + margin) * i)
-          .setSize(btWidth, btWidth)
+          .setPosition(windowX + (btSize + margin) * j, windowY + (btSize + margin) * i)
+          .setSize(btSize, btSize)
           .plugTo(this, "fieldButton");
       }
   }
@@ -275,6 +276,7 @@ class Module {
 
     barPos = new PVector(0, 0);
   }
+  
   public void draw() {
     drawLine(64, 0, barH);
 
@@ -748,14 +750,14 @@ public class OPC {
         stroke(255);
         noFill();
         rect(x1, y1 + indxFontSize, x2, y2);
-        //=================================text//=================================
-        textFont(titleFont);
-        textAlign(CENTER, CENTER);
-        fill(255);
-        String title = "WINDOW1";
-        float mid = width / 4;
+        // //=================================text//=================================
+        // textFont(titleFont);
+        // textAlign(CENTER, CENTER);
+        // fill(255);
+        // String title = "WINDOW1";
+        // float mid = width / 4;
 
-        text(title, mid, y2 - 10);
+        // text(title, mid, y2 - 10);
 
         popStyle();
     }
@@ -879,19 +881,19 @@ enum Rgb {
              "WINDOW5",
              "WINDOW6"
          };
-         int spacing = 10;
+         int spacing = 15;
          int x = 0;
          int y = 0;
          for (int i = 0; i < windows.length; i++) {
              x = (i < 4) ? spacing : width / 2 + spacing;
-             y = (i) % 4 * ((height + spacing) / 4);
+             y = (i) % 4 * ((height - spacing * 2) / 4) + spacing;
              pos[i] = new PVector(x, y);
          }
          for (int i = 0; i < windows.length; i++) {
              float winX = pos[i].x;
              float winY = pos[i].y;
              float winWidth = width / 2 - spacing * 2;
-             float winHeight = (i < 5) ? pos[1].y - pos[0].y - spacing : height - pos[1].y - pos[0].y-1;
+             float winHeight = (i < 5) ? pos[1].y - pos[0].y - spacing : height - pos[1].y - pos[0].y - spacing;
              windows[i] = new Window(winX, winY, winWidth, winHeight, title[i]);
          }
      }

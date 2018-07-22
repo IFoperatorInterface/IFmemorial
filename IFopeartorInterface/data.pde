@@ -324,14 +324,14 @@ public class OPC {
         stroke(255);
         noFill();
         rect(x1, y1 + indxFontSize, x2, y2);
-        //=================================text//=================================
-        textFont(titleFont);
-        textAlign(CENTER, CENTER);
-        fill(255);
-        String title = "WINDOW1";
-        float mid = width / 4;
+        // //=================================text//=================================
+        // textFont(titleFont);
+        // textAlign(CENTER, CENTER);
+        // fill(255);
+        // String title = "WINDOW1";
+        // float mid = width / 4;
 
-        text(title, mid, y2 - 10);
+        // text(title, mid, y2 - 10);
 
         popStyle();
     }

@@ -17,19 +17,19 @@
              "WINDOW5",
              "WINDOW6"
          };
-         int spacing = 10;
+         int spacing = 15;
          int x = 0;
          int y = 0;
          for (int i = 0; i < windows.length; i++) {
              x = (i < 4) ? spacing : width / 2 + spacing;
-             y = (i) % 4 * ((height + spacing) / 4);
+             y = (i) % 4 * ((height - spacing * 2) / 4) + spacing;
              pos[i] = new PVector(x, y);
          }
          for (int i = 0; i < windows.length; i++) {
              float winX = pos[i].x;
              float winY = pos[i].y;
              float winWidth = width / 2 - spacing * 2;
-             float winHeight = (i < 5) ? pos[1].y - pos[0].y - spacing : height - pos[1].y - pos[0].y-1;
+             float winHeight = (i < 5) ? pos[1].y - pos[0].y - spacing : height - pos[1].y - pos[0].y - spacing;
              windows[i] = new Window(winX, winY, winWidth, winHeight, title[i]);
          }
      }

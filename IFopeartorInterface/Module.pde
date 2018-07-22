@@ -21,6 +21,7 @@ class Module {
 
     barPos = new PVector(0, 0);
   }
+  
   public void draw() {
     drawLine(64, 0, barH);
 
