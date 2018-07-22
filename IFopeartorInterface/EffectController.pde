@@ -80,7 +80,7 @@ public class EffectController {
     String[] btTitle = {
       null,
       "Up",
-      null,
+      "Ellipse",
       "Left",
       "Down",
       "Right"
@@ -134,6 +134,8 @@ public class EffectController {
       idx = FieldMode.LEFT.ordinal();
     else if (theEvent.isFrom("fieldModeRightToggle"))
       idx = FieldMode.RIGHT.ordinal();
+    else if (theEvent.isFrom("fieldModeEllipseToggle"))
+      idx = FieldMode.ELLIPSE.ordinal();
 
     if (idx != -1)
       effect.fieldMode[idx] = theEvent.getValue() != 0.0;

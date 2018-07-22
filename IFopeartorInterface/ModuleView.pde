@@ -81,6 +81,13 @@ class ModuleView {
           if (x < 6)
             modules[t.y][x].updateTrigger(new Trigger(t.effect, t.x, t.y, frameCount));
         }
+
+        if (t.effect.fieldMode[FieldMode.ELLIPSE.ordinal()]) {
+          for (int x=0; x<6; x++)
+            for (int y=0; y<6; y++)
+              if ((int)sqrt((x-t.x)*(x-t.x) + (y-t.y)*(y-t.y)) == distance)
+                modules[y][x].updateTrigger(new Trigger(t.effect, t.x, t.y, frameCount));
+        }
       }
     }
   }
