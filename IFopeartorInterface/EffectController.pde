@@ -77,25 +77,22 @@ public class EffectController {
       .setCaptionLabel("apply color")
       .setSize(btSize, btSize);
 
-    String[] btMode = {
-      "fieldModeLeftToggle",
-      "fieldModeDownToggle",
-      "fieldModeRightToggle",
-      "fieldModeUpToggle"
-    };
     String[] btTitle = {
-      "left",
-      "down",
-      "right",
-      "up"
+      null,
+      "Up",
+      null,
+      "Left",
+      "Down",
+      "Right"
     };
-
-    for (int i = 0; i < btTitle.length; i++) {
+    for (int i = 5; i >= 0; i--) {
+      if (btTitle[i] == null)
+        continue;
       int baseX = int(windows[3].pos.x) + h + (pd + btSize) * 3;
       int baseY = int(windows[3].pos.y);
-      x = (i < btTitle.length - 1) ? baseX + (btSize + pd) * i : baseX + (btSize + pd);
-      y = (i < btTitle.length - 1) ? baseY + btSize + 1 : baseY;
-      controlP5.addToggle(btMode[i])
+      x = baseX + (btSize + pd) * (i % 3);
+      y = baseY + (btSize + 1) * (i / 3);
+      controlP5.addToggle("fieldMode"+btTitle[i]+"Toggle")
         .setPosition(x, y)
         .setSize(btSize, btSize)
         .setCaptionLabel(btTitle[i])
