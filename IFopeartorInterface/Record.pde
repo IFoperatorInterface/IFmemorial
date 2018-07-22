@@ -1,13 +1,15 @@
 class Record {
   private List<Trigger> triggers;
-  private final int startTime;
+  private final int recordStartTime;
   private int duration;
   private final int id;
+  private int playStartTime;
 
 
-  Record(int startTime, int id) {
+  Record(int recordStartTime, int id) {
     this.triggers = new ArrayList<Trigger>();
-    this.startTime = startTime;
+    this.recordStartTime = recordStartTime;
     this.id = id;
+    this.playStartTime = -1;
   }
 }

@@ -1,6 +1,5 @@
 public class RecordController {
   private List<Record> records;
-  private List<Integer> playStartTime;
   private Record newRecord;
   private int newId;
   private boolean isRecording;
@@ -8,7 +7,6 @@ public class RecordController {
 
   RecordController() {
     this.records = new ArrayList<Record>();
-    this.playStartTime = new ArrayList<Integer>();
     this.isRecording = false;
     this.newId = 0;
 
@@ -35,9 +33,8 @@ public class RecordController {
       newId++;
     }
     else {
-      newRecord.duration = frameCount - newRecord.startTime;
+      newRecord.duration = frameCount - newRecord.recordStartTime;
       records.add(newRecord);
-      playStartTime.add(-1);
 
       int x = int(windows[4].pos.x);
       int y = int(windows[4].pos.y);
