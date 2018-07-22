@@ -2,14 +2,25 @@ class Module {
   private int x, y;
   private Trigger trigger;
   private int barH = opc.barLength;
+  Integer indx;
+  Boolean isJumped, isStanding;
+  float[] pressures = new float[4];
+  PVector barPos;
 
-
-  Module(int x, int y) {
+  Module(int indx, int x, int y) {
+    this.indx = indx;
     this.x = x;
     this.y = y;
+
+    isJumped = false;
+    isStanding = false;
+
+    for (float prss: pressures) {
+      prss = 0.0;
+    }
+
+    barPos = new PVector(0, 0);
   }
-
-
   public void draw() {
     drawLine(64, 0, barH);
 

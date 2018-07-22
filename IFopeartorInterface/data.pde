@@ -21,16 +21,16 @@ class DATA {
     void setOPC() {
         int opcPort = 7890; //7890 default
         int NUM_LED = 64;
-        int padding = 20;
+        int spacing = 20;
         int margin = 5;
-        int windowWidth = width / 2 - padding * 2 - margin * 2;
+        int windowWidth = width / 2 - spacing * 2 - margin * 2;
         int windowX = (width / 2 - windowWidth) / 2;
         int windowY = 200;
         // PVector ledInit_pos = new PVector(windowX, windowY); //50,250 previously
-        int ledSpacing = 3;
+        int padding = 3;
         int stripSpacing = (windowWidth - margin * 2) / 49;
         opc = new OPC(sketch, "192.168.7.2", opcPort, runWithConnection);
-        opc.ledGrid(0, NUM_LED, 49, windowX, windowY, windowWidth, ledSpacing, stripSpacing, HALF_PI, true);
+        opc.ledGrid(0, NUM_LED, 49, windowX, windowY, windowWidth, padding, stripSpacing, HALF_PI, true);
         opc.reIndx();
 
     }
@@ -48,7 +48,7 @@ void receive(byte[] data) {
 
     int size = int(tokens[0]) * 2 + NUM_MODULE_TOKENS;
 
-    if (tokens.length == size) {
+    if (tokens.length == size && dataController.runWithConnection) {
         float[] a = new float[size];
         for (int i = 0; i < a.length; i++) {
             a[i] = float(tokens[i]);
@@ -62,8 +62,20 @@ void receive(byte[] data) {
         for (int i = 0; i < pressures.length; i++) {
             pressures[i] = a[i + 4];
         }
-        boolean jumped = (a[8] == 1) ? true : false;
-        boolean standing = (a[9] == 1) ? true : false;
+        boolean isJumped = (a[8] == 1) ? true : false;
+        boolean isStanding = (a[9] == 1) ? true : false;
+
+        for (int i = 0; i < moduleView.modules.length; i++) {
+            for (int j = 0; j < moduleView.modules[0].length; j++) {
+                if (indx == moduleView.modules[i][j].indx) {
+                    moduleView.modules[i][j].barPos = barPos;
+                    moduleView.modules[i][j].pressures = pressures;
+                    moduleView.modules[i][j].isJumped = isJumped;
+                    moduleView.modules[i][j].isStanding = isStanding;
+                }
+            }
+        }
+
 
         //================================global================================
         if (numPerson != 0) {
@@ -100,10 +112,11 @@ public class OPC {
         if (runWithConnection) {
             this.host = host;
             this.port = port;
-            connection = false;
+
         }
         this.enableShowLocations = true;
         parent.registerMethod("draw", this);
+        connection = runWithConnection;
     }
 
     void reIndx() {
@@ -313,10 +326,10 @@ public class OPC {
         rect(x1, y1 + indxFontSize, x2, y2);
         //=================================text//=================================
         textFont(titleFont);
+        textAlign(CENTER, CENTER);
         fill(255);
-        String title = "OPC WINDOW";
-        float w = abs(x2 - x1);
-        float mid = w / 2 - textWidth(title) / 2;
+        String title = "WINDOW1";
+        float mid = width / 4;
 
         text(title, mid, y2 - 10);
 

@@ -6,55 +6,76 @@ public class EffectController {
   EffectController() {
     effect = new Effect();
 
+    int x = int(windows[2].pos.x);
+    int y = int(windows[2].pos.y);
+    int h = int(windows[2].size.y);
+    int pd = 10;
+    int btSize = int(h / 3);
     b = controlP5.addRadioButton("barModeRadioButton")
-      .setPosition(50/SCALE, 300/SCALE)
-      .setSize(100/SCALE, 100/SCALE)
+      .setPosition(x, y)
+      .setSize(btSize, btSize)
       .addItem("Bounce", BarMode.BOUNCE.ordinal())
       .addItem("Blink", BarMode.BLINK.ordinal())
       .addItem("Stretch", BarMode.STRETCH.ordinal())
       .activate(effect.barMode.ordinal())
-      .plugTo(this)
-      ;
+      .plugTo(this);
 
+    x = x + btSize + pd;
     controlP5.addSlider("sizeSlider")
-      .setPosition(300/SCALE, 300/SCALE)
-      .setSize(500/SCALE, 100/SCALE)
+      .setPosition(x, y)
+      .setSize(btSize, h)
       .setRange(0, 100)
       .setValue(effect.size)
-      .plugTo(this)
-      ;
+      .plugTo(this);
 
+    x = x + btSize + pd;
     controlP5.addRange("positionRange")
-      .setPosition(300/SCALE, 500/SCALE)
-      .setSize(500/SCALE, 100/SCALE)
+      .setPosition(x, y)
+      .setSize(btSize, h)
       .setRange(0, 100)
       .setRangeValues(effect.position[0], effect.position[1])
-      .plugTo(this)
-      ;
+      .plugTo(this);
 
-    controlP5.addToggle("fieldModeUpToggle")
-      .setPosition(400/SCALE, 700/SCALE)
-      .setSize(90/SCALE, 90/SCALE)
-      .plugTo(this, "fieldModeToggle")
-      ;
+    x = x + btSize + pd;
+    //TODO: behavior chart add
 
-    controlP5.addToggle("fieldModeDownToggle")
-      .setPosition(400/SCALE, 800/SCALE)
-      .setSize(90/SCALE, 90/SCALE)
-      .plugTo(this, "fieldModeToggle")
-      ;
+    x = int(windows[3].pos.x);
+    y = int(windows[3].pos.y);
+    color c = color(128, 0, 255);
+    controlP5.addColorWheel("ledColor", x, y, h).setRGB(c);
 
-    controlP5.addToggle("fieldModeLeftToggle")
-      .setPosition(300/SCALE, 800/SCALE)
-      .setSize(90/SCALE, 90/SCALE)
-      .plugTo(this, "fieldModeToggle")
-      ;
+    x = x + h + pd;
+    y = y + btSize * 2;
+    controlP5.addButton("applyC")
+      .setValue(c)
+      .setPosition(x, y)
+      .setCaptionLabel("apply color")
+      .setSize(btSize, btSize);
 
-    controlP5.addToggle("fieldModeRightToggle")
-      .setPosition(500/SCALE, 800/SCALE)
-      .setSize(90/SCALE, 90/SCALE)
-      .plugTo(this, "fieldModeToggle")
-      ;
+    String[] btMode = {
+      "fieldModeLeftToggle",
+      "fieldModeDownToggle",
+      "fieldModeRightToggle",
+      "fieldModeUpToggle"
+    };
+    String[] btTitle = {
+      "left",
+      "down",
+      "right",
+      "up"
+    };
+
+    for (int i = 0; i < btTitle.length; i++) {
+      int baseX = int(windows[3].pos.x) + h + (pd + btSize) * 3;
+      int baseY = int(windows[3].pos.y);
+      x = (i < btTitle.length - 1) ? baseX + (btSize + pd) * i : baseX + (btSize + pd);
+      y = (i < btTitle.length - 1) ? baseY + btSize + 1 : baseY;
+      controlP5.addToggle(btMode[i])
+        .setPosition(x, y)
+        .setSize(btSize, btSize)
+        .setCaptionLabel(btTitle[i])
+        .plugTo(this, "fieldModeToggle");
+    }
   }
 
 

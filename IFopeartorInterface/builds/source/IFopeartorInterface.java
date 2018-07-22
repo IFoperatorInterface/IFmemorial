@@ -63,7 +63,9 @@ public void setup() {
 public void draw() {
   background(0);
   moduleView.draw();
-
+  for(Window w : windows){
+    w.display();
+  }
 }
 class Effect {
   public BarMode barMode;
@@ -108,55 +110,76 @@ public class EffectController {
   EffectController() {
     effect = new Effect();
 
+    int x = PApplet.parseInt(windows[2].pos.x);
+    int y = PApplet.parseInt(windows[2].pos.y);
+    int h = PApplet.parseInt(windows[2].size.y);
+    int pd = 10;
+    int btSize = PApplet.parseInt(h / 3);
     b = controlP5.addRadioButton("barModeRadioButton")
-      .setPosition(50/SCALE, 300/SCALE)
-      .setSize(100/SCALE, 100/SCALE)
+      .setPosition(x, y)
+      .setSize(btSize, btSize)
       .addItem("Bounce", BarMode.BOUNCE.ordinal())
       .addItem("Blink", BarMode.BLINK.ordinal())
       .addItem("Stretch", BarMode.STRETCH.ordinal())
       .activate(effect.barMode.ordinal())
-      .plugTo(this)
-      ;
+      .plugTo(this);
 
+    x = x + btSize + pd;
     controlP5.addSlider("sizeSlider")
-      .setPosition(300/SCALE, 300/SCALE)
-      .setSize(500/SCALE, 100/SCALE)
+      .setPosition(x, y)
+      .setSize(btSize, h)
       .setRange(0, 100)
       .setValue(effect.size)
-      .plugTo(this)
-      ;
+      .plugTo(this);
 
+    x = x + btSize + pd;
     controlP5.addRange("positionRange")
-      .setPosition(300/SCALE, 500/SCALE)
-      .setSize(500/SCALE, 100/SCALE)
+      .setPosition(x, y)
+      .setSize(btSize, h)
       .setRange(0, 100)
       .setRangeValues(effect.position[0], effect.position[1])
-      .plugTo(this)
-      ;
+      .plugTo(this);
 
-    controlP5.addToggle("fieldModeUpToggle")
-      .setPosition(400/SCALE, 700/SCALE)
-      .setSize(90/SCALE, 90/SCALE)
-      .plugTo(this, "fieldModeToggle")
-      ;
+    x = x + btSize + pd;
+    //TODO: behavior chart add
 
-    controlP5.addToggle("fieldModeDownToggle")
-      .setPosition(400/SCALE, 800/SCALE)
-      .setSize(90/SCALE, 90/SCALE)
-      .plugTo(this, "fieldModeToggle")
-      ;
+    x = PApplet.parseInt(windows[3].pos.x);
+    y = PApplet.parseInt(windows[3].pos.y);
+    int c = color(128, 0, 255);
+    controlP5.addColorWheel("ledColor", x, y, h).setRGB(c);
 
-    controlP5.addToggle("fieldModeLeftToggle")
-      .setPosition(300/SCALE, 800/SCALE)
-      .setSize(90/SCALE, 90/SCALE)
-      .plugTo(this, "fieldModeToggle")
-      ;
+    x = x + h + pd;
+    y = y + btSize * 2;
+    controlP5.addButton("applyC")
+      .setValue(c)
+      .setPosition(x, y)
+      .setCaptionLabel("apply color")
+      .setSize(btSize, btSize);
 
-    controlP5.addToggle("fieldModeRightToggle")
-      .setPosition(500/SCALE, 800/SCALE)
-      .setSize(90/SCALE, 90/SCALE)
-      .plugTo(this, "fieldModeToggle")
-      ;
+    String[] btMode = {
+      "fieldModeLeftToggle",
+      "fieldModeDownToggle",
+      "fieldModeRightToggle",
+      "fieldModeUpToggle"
+    };
+    String[] btTitle = {
+      "left",
+      "down",
+      "right",
+      "up"
+    };
+
+    for (int i = 0; i < btTitle.length; i++) {
+      int baseX = PApplet.parseInt(windows[3].pos.x) + h + (pd + btSize) * 3;
+      int baseY = PApplet.parseInt(windows[3].pos.y);
+      x = (i < btTitle.length - 1) ? baseX + (btSize + pd) * i : baseX + (btSize + pd);
+      y = (i < btTitle.length - 1) ? baseY + btSize + 1 : baseY;
+      controlP5.addToggle(btMode[i])
+        .setPosition(x, y)
+        .setSize(btSize, btSize)
+        .setCaptionLabel(btTitle[i])
+        .plugTo(this, "fieldModeToggle");
+    }
   }
 
 
@@ -206,27 +229,26 @@ public class EffectController {
 public class FieldController {
   FieldController() {
     int padding = 2;
-    int spacing = 80;
+    int spacing = 35;
     int margin = 5;
-    int windowWidth = width/2 - spacing*2;
-    int windowX = width - windowWidth - spacing;
-    int windowY = height - windowWidth - spacing;
-    int btWidth = (windowWidth-margin*2-padding*5)/6;
-    for (int i=0; i<6; i++)
-      for (int j=0; j<6; j++) {
-        controlP5.addButton(""+(i*6+j))
-         .setValue(i*6+j)
-         .setPosition(windowX+(btWidth+margin)*j, windowY+(btWidth+margin)*i)
-         .setSize(btWidth, btWidth)
-         .plugTo(this, "fieldButton")
-         ;
+    int windowWidth = (int) windows[5].size.x - spacing * 2;
+    int windowX = (int) windows[5].pos.x + spacing;
+    int windowY = (int) windows[5].pos.y + spacing;
+    int btWidth = (windowWidth - margin * 2 - padding * 5) / 6;
+    for (int i = 0; i < 6; i++)
+      for (int j = 0; j < 6; j++) {
+        controlP5.addButton("" + (i * 6 + j))
+          .setValue(i * 6 + j)
+          .setPosition(windowX + (btWidth + margin) * j, windowY + (btWidth + margin) * i)
+          .setSize(btWidth, btWidth)
+          .plugTo(this, "fieldButton");
       }
   }
 
 
   public void fieldButton(int a) {
-    Trigger trigger = new Trigger(effectController.getEffect(), a%6, a/6, frameCount);
-    
+    Trigger trigger = new Trigger(effectController.getEffect(), a % 6, a / 6, frameCount);
+
     moduleView.addTrigger(trigger);
   }
 }
@@ -234,14 +256,25 @@ class Module {
   private int x, y;
   private Trigger trigger;
   private int barH = opc.barLength;
+  Integer indx;
+  Boolean isJumped, isStanding;
+  float[] pressures = new float[4];
+  PVector barPos;
 
-
-  Module(int x, int y) {
+  Module(int indx, int x, int y) {
+    this.indx = indx;
     this.x = x;
     this.y = y;
+
+    isJumped = false;
+    isStanding = false;
+
+    for (float prss: pressures) {
+      prss = 0.0f;
+    }
+
+    barPos = new PVector(0, 0);
   }
-
-
   public void draw() {
     drawLine(64, 0, barH);
 
@@ -320,7 +353,7 @@ class ModuleView {
       for (int j = 0; j < COLUMNS; j++) {
         int x = (int) opc.ledStripPos[indx].x;
         int y = (int) opc.ledStripPos[indx].y;
-        modules[i][j] = new Module(x, y);
+        modules[i][j] = new Module(indx, x, y);
         indx++;
       }
   }
@@ -412,16 +445,16 @@ class DATA {
     public void setOPC() {
         int opcPort = 7890; //7890 default
         int NUM_LED = 64;
-        int padding = 20;
+        int spacing = 20;
         int margin = 5;
-        int windowWidth = width / 2 - padding * 2 - margin * 2;
+        int windowWidth = width / 2 - spacing * 2 - margin * 2;
         int windowX = (width / 2 - windowWidth) / 2;
         int windowY = 200;
         // PVector ledInit_pos = new PVector(windowX, windowY); //50,250 previously
-        int ledSpacing = 3;
+        int padding = 3;
         int stripSpacing = (windowWidth - margin * 2) / 49;
         opc = new OPC(sketch, "192.168.7.2", opcPort, runWithConnection);
-        opc.ledGrid(0, NUM_LED, 49, windowX, windowY, windowWidth, ledSpacing, stripSpacing, HALF_PI, true);
+        opc.ledGrid(0, NUM_LED, 49, windowX, windowY, windowWidth, padding, stripSpacing, HALF_PI, true);
         opc.reIndx();
 
     }
@@ -439,7 +472,7 @@ public void receive(byte[] data) {
 
     int size = PApplet.parseInt(tokens[0]) * 2 + NUM_MODULE_TOKENS;
 
-    if (tokens.length == size) {
+    if (tokens.length == size && dataController.runWithConnection) {
         float[] a = new float[size];
         for (int i = 0; i < a.length; i++) {
             a[i] = PApplet.parseFloat(tokens[i]);
@@ -453,8 +486,20 @@ public void receive(byte[] data) {
         for (int i = 0; i < pressures.length; i++) {
             pressures[i] = a[i + 4];
         }
-        boolean jumped = (a[8] == 1) ? true : false;
-        boolean standing = (a[9] == 1) ? true : false;
+        boolean isJumped = (a[8] == 1) ? true : false;
+        boolean isStanding = (a[9] == 1) ? true : false;
+
+        for (int i = 0; i < moduleView.modules.length; i++) {
+            for (int j = 0; j < moduleView.modules[0].length; j++) {
+                if (indx == moduleView.modules[i][j].indx) {
+                    moduleView.modules[i][j].barPos = barPos;
+                    moduleView.modules[i][j].pressures = pressures;
+                    moduleView.modules[i][j].isJumped = isJumped;
+                    moduleView.modules[i][j].isStanding = isStanding;
+                }
+            }
+        }
+
 
         //================================global================================
         if (numPerson != 0) {
@@ -491,10 +536,11 @@ public class OPC {
         if (runWithConnection) {
             this.host = host;
             this.port = port;
-            connection = false;
+
         }
         this.enableShowLocations = true;
         parent.registerMethod("draw", this);
+        connection = runWithConnection;
     }
 
     public void reIndx() {
@@ -704,10 +750,10 @@ public class OPC {
         rect(x1, y1 + indxFontSize, x2, y2);
         //=================================text//=================================
         textFont(titleFont);
+        textAlign(CENTER, CENTER);
         fill(255);
-        String title = "OPC WINDOW";
-        float w = abs(x2 - x1);
-        float mid = w / 2 - textWidth(title) / 2;
+        String title = "WINDOW1";
+        float mid = width / 4;
 
         text(title, mid, y2 - 10);
 
@@ -815,13 +861,63 @@ enum Rgb {
   RED, GREEN, BLUE
 }
  PFont titleFont, tinyFont;
-class SETTING {
-   
-    SETTING() {
-        titleFont = createFont("stan0758.ttf", 8);
-        tinyFont = createFont("stan0758.ttf", 8);
-    }
-}
+ Window[] windows = new Window[6];
+ class SETTING {
+
+     SETTING() {
+         titleFont = createFont("stan0758.ttf", 8);
+         tinyFont = createFont("stan0758.ttf", 8);
+         setWindow();
+     }
+     public void setWindow() {
+         PVector[] pos = new PVector[windows.length];
+         String[] title = {
+             "WINDOW1",
+             "WINDOW2",
+             "WINDOW3",
+             "WINDOW4",
+             "WINDOW5",
+             "WINDOW6"
+         };
+         int spacing = 10;
+         int x = 0;
+         int y = 0;
+         for (int i = 0; i < windows.length; i++) {
+             x = (i < 4) ? spacing : width / 2 + spacing;
+             y = (i) % 4 * ((height + spacing) / 4);
+             pos[i] = new PVector(x, y);
+         }
+         for (int i = 0; i < windows.length; i++) {
+             float winX = pos[i].x;
+             float winY = pos[i].y;
+             float winWidth = width / 2 - spacing * 2;
+             float winHeight = (i < 5) ? pos[1].y - pos[0].y - spacing : height - pos[1].y - pos[0].y-1;
+             windows[i] = new Window(winX, winY, winWidth, winHeight, title[i]);
+         }
+     }
+ }
+
+ class Window {
+     PVector pos;
+     PVector size;
+     Integer spacing, padding, margin;
+     String title;
+     Window(float x, float y, float w, float h, String title) {
+         pos = new PVector(x, y);
+         size = new PVector(w, h);
+         this.title = title;
+         margin = 5;
+     }
+     public void display() {
+         pushStyle();
+         noFill();
+         stroke(255, 0, 0);
+         rect(pos.x, pos.y, size.x, size.y);
+         textFont(tinyFont);
+         text(title, pos.x, pos.y + 10);
+         popStyle();
+     }
+ }
   static public void main(String[] passedArgs) {
     String[] appletArgs = new String[] { "IFopeartorInterface" };
     if (passedArgs != null) {

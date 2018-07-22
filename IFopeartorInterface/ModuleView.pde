@@ -14,7 +14,7 @@ class ModuleView {
       for (int j = 0; j < COLUMNS; j++) {
         int x = (int) opc.ledStripPos[indx].x;
         int y = (int) opc.ledStripPos[indx].y;
-        modules[i][j] = new Module(x, y);
+        modules[i][j] = new Module(indx, x, y);
         indx++;
       }
   }

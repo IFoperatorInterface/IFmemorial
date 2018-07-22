@@ -38,5 +38,7 @@ void setup() {
 void draw() {
   background(0);
   moduleView.draw();
-
+  for(Window w : windows){
+    w.display();
+  }
 }
