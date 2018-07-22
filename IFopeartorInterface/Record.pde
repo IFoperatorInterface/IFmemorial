@@ -12,4 +12,9 @@ class Record {
     this.id = id;
     this.playStartTime = -1;
   }
+
+
+  public void addTrigger(Trigger trigger) {
+    triggers.add(trigger);
+  }
 }

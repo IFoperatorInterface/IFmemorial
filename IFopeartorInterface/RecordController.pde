@@ -72,4 +72,12 @@ public class RecordController {
         .plugTo(this, "recordDeleteButton");
     }
   }
+
+
+  public void addTrigger(Trigger trigger) {
+    if (!isRecording)
+      return;
+
+    newRecord.addTrigger(trigger);
+  }
 }

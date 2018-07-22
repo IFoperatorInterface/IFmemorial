@@ -23,6 +23,7 @@ public class FieldController {
     Trigger trigger = new Trigger(effectController.getEffect(), a % 6, a / 6, frameCount);
 
     moduleView.addTrigger(trigger);
+    recordController.addTrigger(trigger);
   }
 
    PVector[] setFieldPostion() {
