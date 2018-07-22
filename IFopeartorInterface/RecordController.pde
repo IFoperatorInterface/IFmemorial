@@ -107,7 +107,7 @@ public class RecordController {
 
       for (Trigger t : r.triggers)
         if (t.startTime - r.recordStartTime == phase)
-          moduleView.addTrigger(new Trigger(t.effect, t.x, t.y, frameCount));
+          moduleView.addTrigger(t.copyWithStartTime(frameCount));
     }
   }
 }

@@ -53,7 +53,7 @@ class ModuleView {
         triggersIterator.remove();
 
       if (phase == 1)
-        modules[t.y][t.x].updateTrigger(new Trigger(t.effect, t.x, t.y, frameCount));
+        modules[t.y][t.x].updateTrigger(t.copyWithStartTime(frameCount));
 
       if (phase % DELAY == 1) {
         int distance = (frameCount - t.startTime) / DELAY;
@@ -61,32 +61,32 @@ class ModuleView {
         if (t.effect.fieldMode[FieldMode.UP.ordinal()]) {
           int y = t.y - distance;
           if (y >= 0)
-            modules[y][t.x].updateTrigger(new Trigger(t.effect, t.x, t.y, frameCount));
+            modules[y][t.x].updateTrigger(t.copyWithStartTime(frameCount));
         }
 
         if (t.effect.fieldMode[FieldMode.DOWN.ordinal()]) {
           int y = t.y + distance;
           if (y < 6)
-            modules[y][t.x].updateTrigger(new Trigger(t.effect, t.x, t.y, frameCount));
+            modules[y][t.x].updateTrigger(t.copyWithStartTime(frameCount));
         }
 
         if (t.effect.fieldMode[FieldMode.LEFT.ordinal()]) {
           int x = t.x - distance;
           if (x >= 0)
-            modules[t.y][x].updateTrigger(new Trigger(t.effect, t.x, t.y, frameCount));
+            modules[t.y][x].updateTrigger(t.copyWithStartTime(frameCount));
         }
 
         if (t.effect.fieldMode[FieldMode.RIGHT.ordinal()]) {
           int x = t.x + distance;
           if (x < 6)
-            modules[t.y][x].updateTrigger(new Trigger(t.effect, t.x, t.y, frameCount));
+            modules[t.y][x].updateTrigger(t.copyWithStartTime(frameCount));
         }
 
         if (t.effect.fieldMode[FieldMode.ELLIPSE.ordinal()]) {
           for (int x=0; x<6; x++)
             for (int y=0; y<6; y++)
               if ((int)sqrt((x-t.x)*(x-t.x) + (y-t.y)*(y-t.y)) == distance)
-                modules[y][x].updateTrigger(new Trigger(t.effect, t.x, t.y, frameCount));
+                modules[y][x].updateTrigger(t.copyWithStartTime(frameCount));
         }
       }
     }

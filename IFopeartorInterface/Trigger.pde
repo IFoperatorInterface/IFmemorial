@@ -10,4 +10,9 @@ class Trigger {
     this.y = y;
     this.startTime = startTime;
   }
+
+
+  public Trigger copyWithStartTime(int startTime) {
+    return new Trigger(this.effect, this.x, this.y, startTime);
+  }
 }
