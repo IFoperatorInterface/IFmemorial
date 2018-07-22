@@ -42,18 +42,34 @@ public class RecordController {
   }
 
 
+  void recordDeleteButton(int theValue) {
+    controlP5.getController("recordPlay" + records.get(theValue).id + "Toggle").remove();
+    controlP5.getController("recordDelete" + records.get(theValue).id + "Button").remove();
+    records.remove(theValue);
+    updateRecordPlayToggle();
+  }
+
+
   private void updateRecordPlayToggle() {
     for (int i=0; i<records.size(); i++) {
       int x = int(windows[4].pos.x);
       int y = int(windows[4].pos.y);
       int h = int(windows[4].size.y);
-      int pd = 10;
+      int pd = 15;
       int btSize = int(h / 3);
+
       controlP5.addToggle("recordPlay" + records.get(i).id + "Toggle")
         .setPosition(x+(btSize+pd)*i, y)
         .setSize(btSize, btSize)
         .setCaptionLabel("record" + records.get(i).id)
         .plugTo(this);
+      
+      controlP5.addButton("recordDelete" + records.get(i).id + "Button")
+        .setPosition(x+(btSize+pd)*i, y+btSize+pd)
+        .setSize(btSize, btSize/2)
+        .setValue(i)
+        .setCaptionLabel("clear")
+        .plugTo(this, "recordDeleteButton");
     }
   }
 }
