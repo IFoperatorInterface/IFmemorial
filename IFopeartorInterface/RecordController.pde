@@ -96,4 +96,18 @@ public class RecordController {
 
     newRecord.addTrigger(trigger);
   }
+
+
+  public void onDraw() {
+    for (Record r : records) {
+      if (r.playStartTime == -1)
+        continue;
+
+      int phase = (frameCount - r.playStartTime) % r.duration;
+
+      for (Trigger t : r.triggers)
+        if (t.startTime - r.recordStartTime == phase)
+          moduleView.addTrigger(new Trigger(t.effect, t.x, t.y, frameCount));
+    }
+  }
 }
