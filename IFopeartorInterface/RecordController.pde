@@ -59,9 +59,18 @@ public class RecordController {
 
 
   void recordDeleteButton(int theValue) {
-    controlP5.getController("recordPlay" + records.get(theValue).id + "Toggle").remove();
-    controlP5.getController("recordDelete" + records.get(theValue).id + "Button").remove();
-    records.remove(theValue);
+    int idx = -1;
+
+    for (int i=0; i<records.size(); i++)
+      if (records.get(i).id == theValue)
+        idx = i;
+
+    if (idx == -1)
+      return;
+
+    controlP5.getController("recordPlay" + records.get(idx).id + "Toggle").remove();
+    controlP5.getController("recordDelete" + records.get(idx).id + "Button").remove();
+    records.remove(idx);
     updateRecordPlayToggle();
   }
 
@@ -74,18 +83,28 @@ public class RecordController {
       int pd = 15;
       int btSize = int(h / 3);
 
-      controlP5.addToggle("recordPlay" + records.get(i).id + "Toggle")
-        .setPosition(x+(btSize+pd)*i, y)
-        .setSize(btSize, btSize)
-        .setCaptionLabel("record" + records.get(i).id)
-        .plugTo(this, "recordPlayToggle");
-      
-      controlP5.addButton("recordDelete" + records.get(i).id + "Button")
-        .setPosition(x+(btSize+pd)*i, y+btSize+pd)
-        .setSize(btSize, btSize/2)
-        .setValue(i)
-        .setCaptionLabel("clear")
-        .plugTo(this, "recordDeleteButton");
+      String playName = "recordPlay" + records.get(i).id + "Toggle";
+      String deleteName = "recordDelete" + records.get(i).id + "Button";
+
+      Controller playController = controlP5.getController(playName);
+      Controller deleteController = controlP5.getController(deleteName);
+
+      if (playController == null) {
+        playController = controlP5.addToggle(playName)
+          .setSize(btSize, btSize)
+          .setCaptionLabel("record" + records.get(i).id)
+          .plugTo(this, "recordPlayToggle");
+      }
+      if (deleteController == null) {
+        deleteController = controlP5.addButton(deleteName)
+          .setSize(btSize, btSize/2)
+          .setValue(records.get(i).id)
+          .setCaptionLabel("clear")
+          .plugTo(this, "recordDeleteButton");
+      }
+
+      playController.setPosition(x+(btSize+pd)*i, y);
+      deleteController.setPosition(x+(btSize+pd)*i, y+btSize+pd);
     }
   }
 
