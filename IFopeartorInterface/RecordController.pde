@@ -42,6 +42,22 @@ public class RecordController {
   }
 
 
+  void recordPlayToggle(ControlEvent theEvent) {
+    Record targetRecord = null;
+    for (Record r : records)
+      if (theEvent.isFrom("recordPlay" + r.id + "Toggle"))
+        targetRecord = r;
+
+    if (targetRecord == null)
+      return;
+
+    if (theEvent.getValue() != 0.0)
+      targetRecord.playStartTime = frameCount;
+    else
+      targetRecord.playStartTime = -1;
+  }
+
+
   void recordDeleteButton(int theValue) {
     controlP5.getController("recordPlay" + records.get(theValue).id + "Toggle").remove();
     controlP5.getController("recordDelete" + records.get(theValue).id + "Button").remove();
@@ -62,7 +78,7 @@ public class RecordController {
         .setPosition(x+(btSize+pd)*i, y)
         .setSize(btSize, btSize)
         .setCaptionLabel("record" + records.get(i).id)
-        .plugTo(this);
+        .plugTo(this, "recordPlayToggle");
       
       controlP5.addButton("recordDelete" + records.get(i).id + "Button")
         .setPosition(x+(btSize+pd)*i, y+btSize+pd)
