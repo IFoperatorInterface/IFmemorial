@@ -1,11 +1,11 @@
 Button colorBt;
 Slider2D[] adrBt = new Slider2D[2];
-Slider2D dddd;
 
 public class EffectController {
   private Effect effect;
   private controlP5.RadioButton b;
 
+  private ADRpointer[] adrPointers = new ADRpointer[4];
 
   EffectController() {
     effect = new Effect();
@@ -41,17 +41,27 @@ public class EffectController {
       .plugTo(this);
 
     x = x + btSize + pd;
-    //TODO: 
     int w = width / 2 - pd - x - 4;
     for (int i = 0; i < adrBt.length; i++) {
+      int _x = x + w / 2 * i;
+      int _y = y;
+      int _w = w / 2;
+      int _h = h - pd -1;
       adrBt[i] = controlP5.addSlider2D("adrBehaviorTransition" + i)
         .setLabelVisible(false)
-        .setPosition(x + w / 2 * i, y)
-        .setSize(w / 2, h - pd - 1)
+        .setPosition(_x, _y)
+        .setSize(_w, _h)
         .setMinMax(0, 0, 100, 100)
-        .setValue(50, 50)
-        .disableCrosshair();
+        .setValue(50, 0)
+        .disableCrosshair()
+        .plugTo(this, "adrGui");
+      adrPointers[i] = new ADRpointer(new PVector(_x + 50, _y + 50));
+      int _bX = (i > 0) ? _x + _w : _x;
+      adrPointers[i + 2] = new ADRpointer(new PVector(_bX, _h + _y));
     }
+
+
+
     controlP5.addSlider("adrBehaviorTime")
       .setPosition(x, y + h - 10)
       .setWidth(w)
@@ -60,6 +70,7 @@ public class EffectController {
       .setNumberOfTickMarks(20)
       .setSliderMode(Slider.FLEXIBLE)
       .plugTo(this, "adrBehavior");
+
 
     x = int(windows[3].pos.x);
     y = int(windows[3].pos.y);
@@ -92,7 +103,7 @@ public class EffectController {
       int baseY = int(windows[3].pos.y);
       x = baseX + (btSize + pd) * (i % 3);
       y = baseY + (btSize + 1) * (i / 3);
-      controlP5.addToggle("fieldMode"+btTitle[i]+"Toggle")
+      controlP5.addToggle("fieldMode" + btTitle[i] + "Toggle")
         .setPosition(x, y)
         .setSize(btSize, btSize)
         .setCaptionLabel(btTitle[i])
@@ -146,24 +157,45 @@ public class EffectController {
     return effect.copy();
   }
 
+  //FIXME:time 축으로 변화 있을 시 각 점의 비율은 그대로인 상태 유지하기
   void adrBehavior() {
     int w = (int) controlP5.getController("adrBehaviorTime").getWidth();
     int pos0 = (int) controlP5.getController("adrBehaviorTransition0").getPosition()[0];
     int w0 = (int) controlP5.getController("adrBehaviorTransition0").getWidth();
     int areaWidth = (int) map(controlP5.getController("adrBehaviorTime").getValue(), 0, 100, 0, w);
 
-    controlP5.getController("adrBehaviorTransition1").setPosition(w0 + pos0, int(windows[2].pos.y));
     for (int i = 0; i < adrBt.length; i++) {
-      controlP5.getController("adrBehaviorTransition" + i).setSize(areaWidth / 2, int(windows[2].size.y) - 10);
-      // int cursorX = (int)map(controlP5.getController("adrBehaviorTransition" + i).getWidth(), 0, 228, 0, 100);
-      // int cursorX = (int) map(areaWidth * adrBt[i].getCursorX() / w, 0, 228, 0, 100);
-      // int cursorX = 
-      // adrBt[i].setCursorX(cursorX);
-      // int cursorX =(int)adrBt[i].getCursorX()*(int)controlP5.getController("adrBehaviorTime").getValue()/100;
-      adrBt[i].setCursorX(cursorX);
+      if (i == 1) {
+        controlP5.getController("adrBehaviorTransition1").setPosition(w0 + pos0, int(windows[2].pos.y));
+      }
+      controlP5.getController("adrBehaviorTransition" + i).setSize(areaWidth / 2, controlP5.getController("adrBehaviorTransition" + i).getHeight());
+
     }
-  
-  // println(controlP5.getController("adrBehaviorTime").getAbsolutePosition()[1]);
+
+    float as = map(adrBt[0].getArrayValue()[0], 0, 100, 0, controlP5.getController("adrBehaviorTransition0").getWidth());
+    // float df = map(adrBt[0].getArrayValue()[1], 0, 100, 0, controlP5.getController("adrBehaviorTransition0").getHeight());
+    adrBt[0].setCursorX(as);
+    // adrBt[0].setCursorX(df);
+    // print(adrBt[1].getCursorX(), normalTime * adrBt[1].getCursorX(), "/");
+    // println(normalTime, w0, (int) controlP5.getController("adrBehaviorTransition0").getWidth(), controlP5.getController("adrBehaviorTime").getValue());
+
+    //==============update cursor position to ADRpointer============================
+    float x = map(controlP5.getController("adrBehaviorTime").getValue(), 0, 100, 0, controlP5.getController("adrBehaviorTime").getWidth());
+    float baseX = controlP5.getController("adrBehaviorTime").getPosition()[0];
+    float y = controlP5.getController("adrBehaviorTime").getPosition()[1];
+    PVector pos = new PVector(x + baseX, y);
+    adrPointers[3].update(pos);
+  }
+  void adrGui() {
+    PVector[] pos = new PVector[2];
+    for (int i = 0; i < adrBt.length; i++) {
+      float baseX = map(adrBt[i].getArrayValue()[0], 0, 100, 0, controlP5.getController("adrBehaviorTransition" + i).getWidth());
+      float baseY = map(adrBt[i].getArrayValue()[1], 0, 100, 0, controlP5.getController("adrBehaviorTransition" + i).getHeight());
+      float x = controlP5.getController("adrBehaviorTransition" + i).getPosition()[0];
+      float y = controlP5.getController("adrBehaviorTransition" + i).getPosition()[1];
+      pos[i] = new PVector(baseX + x, baseY + y);
+      adrPointers[i].update(pos[i]);
+    }
   }
 
 
@@ -178,4 +210,20 @@ public void applyC() {
   controlP5.getController("applyC").setColorForeground(lerpColor(c, color(255), .2));
   controlP5.getController("applyC").setColorBackground(c);
   controlP5.getController("applyC").setColorActive(lerpColor(c, color(0), .2));
+}
+
+class ADRpointer {
+  PVector pos;
+  int size = 20;
+  ADRpointer(PVector pos) {
+    this.pos = pos;
+  }
+  void draw() {
+    noStroke();
+    fill(200);
+    ellipse(pos.x, pos.y, size, size);
+  }
+  void update(PVector a) {
+    pos = a;
+  }
 }

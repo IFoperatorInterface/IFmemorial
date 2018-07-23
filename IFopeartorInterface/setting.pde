@@ -22,7 +22,7 @@
          int y = 0;
          for (int i = 0; i < windows.length; i++) {
              x = (i < 4) ? spacing : width / 2 + spacing;
-             y = (i) % 4 * ((height - spacing ) / 4) + spacing;
+             y = (i) % 4 * ((height - spacing) / 4) + spacing;
              pos[i] = new PVector(x, y);
          }
          for (int i = 0; i < windows.length; i++) {
@@ -47,6 +47,10 @@
          margin = 5;
      }
      void display() {
+         windowGUI();
+         adrGUI();
+     }
+     void windowGUI() {
          pushStyle();
          noFill();
          stroke(20);
@@ -54,9 +58,19 @@
          textAlign(CENTER, CENTER);
          textFont(tinyFont);
          fill(100);
-         float x = pos.x + size.x/2;
+         float x = pos.x + size.x / 2;
          float y = pos.y + size.y + 5;
          text(title, x, y);
          popStyle();
+     }
+     void adrGUI() {
+         for (int i = 0; i < effectController.adrPointers.length; i++) {//effectController.adrPointers.length
+             effectController.adrPointers[i].draw();
+         }
+         stroke(255);
+         line(effectController.adrPointers[0].pos.x, effectController.adrPointers[0].pos.y, effectController.adrPointers[1].pos.x, effectController.adrPointers[1].pos.y);
+         line(effectController.adrPointers[0].pos.x, effectController.adrPointers[0].pos.y, effectController.adrPointers[2].pos.x, effectController.adrPointers[2].pos.y);
+         line(effectController.adrPointers[3].pos.x, effectController.adrPointers[3].pos.y, effectController.adrPointers[1].pos.x, effectController.adrPointers[1].pos.y);
+
      }
  }
