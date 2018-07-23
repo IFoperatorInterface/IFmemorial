@@ -1,15 +1,55 @@
 UDP udp_sending, udp_receiving;
 OPC opc;
 int NUM_STRIPS = 36;
+class Data {
+    Boolean isJumped, isStanding;
+    float[] pressures = new float[4];
+    PVector barPos;
+    int indx;
 
-class DATA {
+    Data(int indx) {
+        this.indx = indx;
+        isJumped = false;
+        isStanding = false;
+        for (float prss: pressures) {
+            prss = 0.0;
+        }
+        barPos = new PVector(0, 0);
+
+    }
+    // void update(PVector barPos, float[] pressures, boolean isJumped, boolean isStanding) {
+    //     this.isJumped = isJumped;
+    //     this.isStanding = isStanding;
+    //     this.pressures = pressures;
+    //     this.barPos = barPos;
+    // }
+    void update(float[] a) {
+        barPos = new PVector(a[2], a[3]);
+        for (int i = 0; i < pressures.length; i++) {
+            pressures[i] = a[i + 4];
+        }
+        isJumped = (a[8] == 1) ? true : false;
+        isStanding = (a[9] == 1) ? true : false;
+    }
+}
+
+class DataController {
     Boolean runWithConnection;
 
-    DATA(boolean a) {
+    DataController(boolean a) {
         runWithConnection = a;
         setUDP();
         setOPC();
+        setModuleData();
     }
+
+    void setModuleData() {
+        mdata = new Data[NUM_STRIPS];
+        for (int i = 0; i < mdata.length; i++) {
+            mdata[i] = new Data(i);
+        }
+    }
+
     void setUDP() {
         int receivingPort = 40000;
         int sendingPort = 40001;
@@ -52,38 +92,26 @@ void receive(byte[] data) {
         float[] a = new float[size];
         for (int i = 0; i < a.length; i++) {
             a[i] = float(tokens[i]);
+
         }
+
+        // printArray(a);
+
 
         //================================module================================
         int numPerson = (int) a[0];
         int indx = (int) a[1];
-        PVector barPos = new PVector(a[2], a[3]);
-        float[] pressures = new float[4];
-        for (int i = 0; i < pressures.length; i++) {
-            pressures[i] = a[i + 4];
-        }
-        boolean isJumped = (a[8] == 1) ? true : false;
-        boolean isStanding = (a[9] == 1) ? true : false;
-
-        for (int i = 0; i < moduleView.modules.length; i++) {
-            for (int j = 0; j < moduleView.modules[0].length; j++) {
-                if (indx == moduleView.modules[i][j].indx) {
-                    moduleView.modules[i][j].barPos = barPos;
-                    moduleView.modules[i][j].pressures = pressures;
-                    moduleView.modules[i][j].isJumped = isJumped;
-                    moduleView.modules[i][j].isStanding = isStanding;
-                }
-            }
-        }
-
+        mdata[indx].update(a);
 
         //================================global================================
         if (numPerson != 0) {
+
             PVector[] pos = new PVector[numPerson];
             for (int i = 0; i < numPerson; i++) {
                 pos[i] = new PVector(a[NUM_MODULE_TOKENS + i], a[NUM_MODULE_TOKENS + 1 + i]);
-                moduleView.riders.add(new Rider(pos[i]));
+                // moduleView.riders.add(new Rider(pos[i]));
             }
+            fieldView.update(numPerson, pos);
         }
     }
 }
@@ -113,7 +141,6 @@ public class OPC {
         if (runWithConnection) {
             this.host = host;
             this.port = port;
-
         }
         this.enableShowLocations = true;
         parent.registerMethod("draw", this);
@@ -281,7 +308,6 @@ public class OPC {
                     pixels[pixelLocation] = 0xFFFFFF ^ pixel;
                 }
             }
-            println("2");
             writePixels();
 
 

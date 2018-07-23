@@ -5,12 +5,9 @@ class ModuleView {
   private static final int COLUMNS = 6;
   private static final int DELAY = 5;
 
-  private List < Rider > riders;
-  
   ModuleView() {
     triggers = new ArrayList < Trigger > ();
     modules = new Module[6][6];
-    riders = new ArrayList < Rider > ();
 
     int indx = 0;
     PVector[] fieldBtsPos = new PVector[ROWS * COLUMNS];
@@ -20,25 +17,19 @@ class ModuleView {
         int x = (int) opc.ledStripPos[indx].x;
         int y = (int) opc.ledStripPos[indx].y;
         PVector loc = fieldBtsPos[indx];
-        int btSize = (int) fieldBtsPos[36].x;
-        modules[i][j] = new Module(indx, x, y, loc, btSize);
+        modules[i][j] = new Module(indx, x, y, loc);
         indx++;
       }
+
   }
 
 
 
   public void draw() {
-    for (int i = 0; i < ROWS; i++) {
+    for (int i = 0; i < ROWS; i++)
       for (int j = 0; j < COLUMNS; j++) {
         modules[i][j].draw();
-        modules[i][j].drawBar();
       }
-    }
-    for (Rider r: riders) {
-      r.draw();
-    }
-
     // Remove old trigger in triggers
     Iterator < Trigger > triggersIterator = triggers.iterator();
     while (triggersIterator.hasNext()) {
@@ -81,9 +72,9 @@ class ModuleView {
         }
 
         if (t.effect.fieldMode[FieldMode.ELLIPSE.ordinal()]) {
-          for (int x=0; x<6; x++)
-            for (int y=0; y<6; y++)
-              if ((int)sqrt((x-t.x)*(x-t.x) + (y-t.y)*(y-t.y)) == distance)
+          for (int x = 0; x < 6; x++)
+            for (int y = 0; y < 6; y++)
+              if ((int) sqrt((x - t.x) * (x - t.x) + (y - t.y) * (y - t.y)) == distance)
                 modules[y][x].updateTrigger(t.copyWithStartTime(frameCount));
         }
       }
@@ -94,4 +85,5 @@ class ModuleView {
   public void addTrigger(Trigger trigger) {
     triggers.add(trigger);
   }
+
 }

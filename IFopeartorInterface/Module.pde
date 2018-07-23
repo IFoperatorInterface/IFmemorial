@@ -1,32 +1,24 @@
 class Module {
-  private int x, y, btSize;
+  private int x, y;
   private Trigger trigger;
 
-  
   private int barH = opc.barLength;
-  Integer indx;
-  Boolean isJumped, isStanding;
-  float[] pressures = new float[4];
-  PVector barPos;
   PVector fieldBtsPos;
+  int btSize, indx;
 
-  Module(int indx, int x, int y, PVector fieldPos, int btSize) {
+  Module(int indx, int x, int y, PVector fieldPos) {
     this.indx = indx;
     this.x = x;
     this.y = y;
-    this.btSize = btSize;
     fieldBtsPos = fieldPos;
-    isJumped = false;
-    isStanding = false;
-    for (float prss: pressures) {
-      prss = 0.0;
-    }
-    barPos = new PVector(0, 0);
+    btSize = fieldController.btSize;
+
   }
 
-  public void draw() {
 
-    drawLine(64, 0, barH); //TODO: remove this
+  public void draw() {
+    drawBar();
+    // drawLine(64, 0, barH); //TODO: remove this
 
     if (trigger != null) {
       switch (trigger.effect.barMode) {
@@ -86,14 +78,16 @@ class Module {
   public void updateTrigger(Trigger trigger) {
     this.trigger = trigger;
   }
+  
+  void drawBar() {
+    float x = map(mdata[indx].barPos.x, -1, 1, -btSize / 2, btSize / 2);
+    float y = map(mdata[indx].barPos.y, -1, 1, -btSize / 2, btSize / 2);
 
-  public void drawBar() {
-    float x = map(barPos.x, 0, 1, 0, btSize / 2);
-    float y = map(barPos.y, 0, 1, 0, btSize / 2);
     pushMatrix();
-    translate(fieldBtsPos.x + btSize / 2, fieldBtsPos.y + btSize / 2);
-    stroke(100);
+    translate(fieldController.fieldBtsPos[indx].x + btSize / 2, fieldController.fieldBtsPos[indx].y + btSize / 2);
+    stroke(255);
     line(0, 0, x, y);
     popMatrix();
   }
+
 }

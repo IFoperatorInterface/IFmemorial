@@ -13,11 +13,12 @@ EffectController effectController;
 FieldController fieldController;
 RecordController recordController;
 ModuleView moduleView;
-final int SCALE = 1;
+FieldView fieldView;
 
 PApplet sketch = this;
 
-DATA dataController;
+DataController dataController;
+Data mdata[];
 SETTING setting;
 
 public void settings() {
@@ -27,7 +28,7 @@ public void settings() {
 
 void setup() {
   setting = new SETTING();
-  dataController = new DATA(false);
+  dataController = new DataController(true);
 
   controlP5 = new ControlP5(this);
   controlP5.setAutoDraw(false);
@@ -35,6 +36,8 @@ void setup() {
   fieldController = new FieldController();
   recordController = new RecordController();
   moduleView = new ModuleView();
+  fieldView = new FieldView();
+
 }
 
 
@@ -43,8 +46,8 @@ void draw() {
   controlP5.draw();
   recordController.onDraw();
   moduleView.draw();
-  for(Window w : windows){
+  for (Window w: windows) {
     w.display();
   }
-   
+
 }

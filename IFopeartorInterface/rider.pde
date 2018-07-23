@@ -7,6 +7,11 @@ class Rider {
         c = color(random(255), random(255), random(255), 100);
         r = 20;
     }
+    
+    void update(PVector loc){
+        pos = loc;
+    }
+
     void draw() {
         pushStyle();
         fill(c);

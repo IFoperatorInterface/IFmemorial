@@ -1,9 +1,11 @@
 public class FieldController {
+  Integer btSize;
+  PVector[] fieldBtsPos;
   FieldController() {
     int indx = 0;
-    PVector[] fieldBtsPos = new PVector[6 * 6];
+    fieldBtsPos = new PVector[6 * 6];
     fieldBtsPos = setFieldPostion();
-    int btSize = (int) fieldBtsPos[36].x;
+    btSize = (int) fieldBtsPos[36].x;
 
     for (int i = 0; i < 6; i++)
       for (int j = 0; j < 6; j++) {

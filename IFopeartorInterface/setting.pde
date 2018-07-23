@@ -3,9 +3,12 @@
  class SETTING {
 
      SETTING() {
+         setFont();
+         setWindow();
+     }
+     void setFont() {
          titleFont = createFont("stan0758.ttf", 8);
          tinyFont = createFont("stan0758.ttf", 8);
-         setWindow();
      }
      void setWindow() {
          PVector[] pos = new PVector[windows.length];
@@ -49,6 +52,8 @@
      void display() {
          windowGUI();
          adrGUI();
+         fieldViewGUI();
+
      }
      void windowGUI() {
          pushStyle();
@@ -63,14 +68,18 @@
          text(title, x, y);
          popStyle();
      }
+
      void adrGUI() {
-         for (int i = 0; i < effectController.adrPointers.length; i++) {//effectController.adrPointers.length
+         for (int i = 0; i < effectController.adrPointers.length; i++) { //effectController.adrPointers.length
              effectController.adrPointers[i].draw();
          }
          stroke(255);
          line(effectController.adrPointers[0].pos.x, effectController.adrPointers[0].pos.y, effectController.adrPointers[1].pos.x, effectController.adrPointers[1].pos.y);
          line(effectController.adrPointers[0].pos.x, effectController.adrPointers[0].pos.y, effectController.adrPointers[2].pos.x, effectController.adrPointers[2].pos.y);
          line(effectController.adrPointers[3].pos.x, effectController.adrPointers[3].pos.y, effectController.adrPointers[1].pos.x, effectController.adrPointers[1].pos.y);
-
+     }
+     void fieldViewGUI() {
+        //  fieldView.update();
+         fieldView.draw();
      }
  }
