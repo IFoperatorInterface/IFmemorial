@@ -1,5 +1,6 @@
  PFont titleFont, tinyFont;
  Window[] windows = new Window[6];
+
  class SETTING {
 
      SETTING() {
@@ -41,21 +42,16 @@
  class Window {
      PVector pos;
      PVector size;
-     Integer spacing, padding, margin;
+     Integer spacing, padding;
      String title;
+
      Window(float x, float y, float w, float h, String title) {
          pos = new PVector(x, y);
          size = new PVector(w, h);
          this.title = title;
-         margin = 5;
+         //  margin = 5;
      }
      void display() {
-         windowGUI();
-         adrGUI();
-         fieldViewGUI();
-
-     }
-     void windowGUI() {
          pushStyle();
          noFill();
          stroke(20);
@@ -67,19 +63,24 @@
          float y = pos.y + size.y + 5;
          text(title, x, y);
          popStyle();
-     }
 
-     void adrGUI() {
-         for (int i = 0; i < effectController.adrPointers.length; i++) { //effectController.adrPointers.length
-             effectController.adrPointers[i].draw();
-         }
-         stroke(255);
-         line(effectController.adrPointers[0].pos.x, effectController.adrPointers[0].pos.y, effectController.adrPointers[1].pos.x, effectController.adrPointers[1].pos.y);
-         line(effectController.adrPointers[0].pos.x, effectController.adrPointers[0].pos.y, effectController.adrPointers[2].pos.x, effectController.adrPointers[2].pos.y);
-         line(effectController.adrPointers[3].pos.x, effectController.adrPointers[3].pos.y, effectController.adrPointers[1].pos.x, effectController.adrPointers[1].pos.y);
      }
-     void fieldViewGUI() {
-        //  fieldView.update();
-         fieldView.draw();
+ }
+ class Title {
+     PVector pos;
+     String title;
+     Title(PVector pos, String title) {
+         this.pos = pos;
+         this.title = title;
+     }
+     void display() {
+         pushStyle();
+         fill(255);
+         textAlign(CENTER, CENTER);
+         textFont(titleFont);
+         if (title != "NoTitle")
+             text(title.toUpperCase(), pos.x, pos.y);
+
+         popStyle();
      }
  }

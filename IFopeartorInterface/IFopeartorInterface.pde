@@ -14,6 +14,7 @@ FieldController fieldController;
 RecordController recordController;
 ModuleView moduleView;
 FieldView fieldView;
+SystemView systemView;
 
 PApplet sketch = this;
 
@@ -28,8 +29,8 @@ public void settings() {
 
 void setup() {
   setting = new SETTING();
-  dataController = new DataController(true);
-
+  dataController = new DataController(false);
+  systemView = new SystemView();
   controlP5 = new ControlP5(this);
   controlP5.setAutoDraw(false);
   effectController = new EffectController();
@@ -37,6 +38,7 @@ void setup() {
   recordController = new RecordController();
   moduleView = new ModuleView();
   fieldView = new FieldView();
+  
 
 }
 
@@ -46,8 +48,6 @@ void draw() {
   controlP5.draw();
   recordController.onDraw();
   moduleView.draw();
-  for (Window w: windows) {
-    w.display();
-  }
-
+  fieldView.draw();
+  systemView.draw();
 }

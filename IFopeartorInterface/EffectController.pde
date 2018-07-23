@@ -15,14 +15,28 @@ public class EffectController {
     int h = int(windows[2].size.y);
     int pd = 10;
     int btSize = int(h / 3);
+    String[] titles = {
+      "Bounce",
+      "Blink",
+      "Stretch"
+    };
     b = controlP5.addRadioButton("barModeRadioButton")
       .setPosition(x, y)
       .setSize(btSize, btSize)
-      .addItem("Bounce", BarMode.BOUNCE.ordinal())
-      .addItem("Blink", BarMode.BLINK.ordinal())
-      .addItem("Stretch", BarMode.STRETCH.ordinal())
+      .addItem(titles[0], BarMode.BOUNCE.ordinal())
+      .addItem(titles[1], BarMode.BLINK.ordinal())
+      .addItem(titles[2], BarMode.STRETCH.ordinal())
       .activate(effect.barMode.ordinal())
       .plugTo(this);
+
+
+
+    for (int i = 0; i < titles.length; i++) {
+      PVector pos = new PVector(x + btSize / 2, y + btSize * i + btSize / 2);
+      systemView.ledBehaviorTiltles[i] = new Title(pos, titles[i]);
+      b.getController(titles[i]).getCaptionLabel().setVisible(false);
+    }
+
 
     x = x + btSize + pd;
     controlP5.addSlider("sizeSlider")
@@ -30,7 +44,8 @@ public class EffectController {
       .setSize(btSize, h)
       .setRange(0, 100)
       .setValue(effect.size)
-      .plugTo(this);
+      .plugTo(this)
+      .getCaptionLabel().setVisible(false);
 
     x = x + btSize + pd;
     controlP5.addRange("positionRange")
@@ -38,7 +53,8 @@ public class EffectController {
       .setSize(btSize, h)
       .setRange(0, 100)
       .setRangeValues(effect.position[0], effect.position[1])
-      .plugTo(this);
+      .plugTo(this)
+      .getCaptionLabel().setVisible(false);
 
     x = x + btSize + pd;
     int w = width / 2 - pd - x - 4;
@@ -46,7 +62,7 @@ public class EffectController {
       int _x = x + w / 2 * i;
       int _y = y;
       int _w = w / 2;
-      int _h = h - pd -1;
+      int _h = h - pd - 1;
       adrBt[i] = controlP5.addSlider2D("adrBehaviorTransition" + i)
         .setLabelVisible(false)
         .setPosition(_x, _y)
@@ -89,7 +105,7 @@ public class EffectController {
       .setSize(btSize, btSize);
 
     String[] btTitle = {
-      null,
+      "NoTitle",
       "Up",
       "Ellipse",
       "Left",
@@ -103,12 +119,21 @@ public class EffectController {
       int baseY = int(windows[3].pos.y);
       x = baseX + (btSize + pd) * (i % 3);
       y = baseY + (btSize + 1) * (i / 3);
+      PVector pos = new PVector(x + btSize/2, y + btSize/2);
+      systemView.fieldDirectionTitles[i] = new Title(pos, btTitle[i]);
       controlP5.addToggle("fieldMode" + btTitle[i] + "Toggle")
         .setPosition(x, y)
         .setSize(btSize, btSize)
         .setCaptionLabel(btTitle[i])
         .plugTo(this, "fieldModeToggle");
     }
+    controlP5.getController("fieldModeNoTitleToggle").hide();
+    controlP5.getController("fieldModeUpToggle").getCaptionLabel().setVisible(false);
+    controlP5.getController("fieldModeEllipseToggle").getCaptionLabel().setVisible(false);
+    controlP5.getController("fieldModeLeftToggle").getCaptionLabel().setVisible(false);
+    controlP5.getController("fieldModeDownToggle").getCaptionLabel().setVisible(false);
+    controlP5.getController("fieldModeRightToggle").getCaptionLabel().setVisible(false); 
+
   }
 
 
