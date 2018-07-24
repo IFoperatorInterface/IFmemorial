@@ -3,7 +3,7 @@ class ModuleView {
   private Module modules[][];
   private static final int ROWS = 6;
   private static final int COLUMNS = 6;
-  private static final int DELAY = 5;
+  private static final int DELAY = 10;
 
   ModuleView() {
     triggers = new ArrayList < Trigger > ();
