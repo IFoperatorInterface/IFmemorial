@@ -60,9 +60,10 @@ class Module {
 
   private void stretch() {
     float phase = (frameCount - trigger.startTime) / 30.0;
+    float ratio = 1 - (phase - 0.5) * (phase - 0.5) * 4;
 
     int start = 0;
-    int end = round(barH * phase);
+    int end = round(barH * ratio);
 
     drawLine(color(trigger.effect.colorRGB[0], trigger.effect.colorRGB[1], trigger.effect.colorRGB[2]), start, end);
   }
@@ -71,7 +72,7 @@ class Module {
   private void drawLine(color strokeColor, int start, int end) {
     stroke(strokeColor);
     // line((50+x*130+y*20)/SCALE, (150-end)/SCALE, (50+x*130+y*20)/SCALE, (150-start)/SCALE);
-    line(x, y - end, x, y + start);
+    line(x, y - end, x, y - start);
   }
 
 
