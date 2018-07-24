@@ -70,9 +70,18 @@ class Module {
 
 
   private void drawLine(color strokeColor, float start, float end) {
+    strokeWeight(1);
     stroke(strokeColor);
     // line((50+x*130+y*20)/SCALE, (150-end)/SCALE, (50+x*130+y*20)/SCALE, (150-start)/SCALE);
     line(x, y - end * barH, x, y - start * barH);
+
+    pushMatrix();
+    translate(fieldController.fieldBtsPos[indx].x + btSize, fieldController.fieldBtsPos[indx].y);
+    strokeWeight(3);
+    line(1, (1 - start) * btSize, 1, (1 - end) * btSize);
+    popMatrix();
+
+    strokeWeight(1);
   }
 
 
