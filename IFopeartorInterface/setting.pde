@@ -66,21 +66,3 @@
 
      }
  }
- class Title {
-     PVector pos;
-     String title;
-     Title(PVector pos, String title) {
-         this.pos = pos;
-         this.title = title;
-     }
-     void display() {
-         pushStyle();
-         fill(255);
-         textAlign(CENTER, CENTER);
-         textFont(titleFont);
-         if (title != "NoTitle")
-             text(title.toUpperCase(), pos.x, pos.y);
-
-         popStyle();
-     }
- }

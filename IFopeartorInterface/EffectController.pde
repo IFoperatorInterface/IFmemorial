@@ -46,6 +46,9 @@ public class EffectController {
       .setValue(effect.size)
       .plugTo(this)
       .getCaptionLabel().setVisible(false);
+    controlP5.getController("sizeSlider").getValueLabel().setVisible(false);
+    PVector pos = new PVector(x + btSize / 2, y + h / 2);
+    systemView.sliderTitles[0] = new Title(pos, "size");
 
     x = x + btSize + pd;
     controlP5.addRange("positionRange")
@@ -55,6 +58,8 @@ public class EffectController {
       .setRangeValues(effect.position[0], effect.position[1])
       .plugTo(this)
       .getCaptionLabel().setVisible(false);
+    pos = new PVector(x + btSize / 2, y + h / 2);
+    systemView.sliderTitles[1] = new Title(pos, "position");
 
     x = x + btSize + pd;
     int w = width / 2 - pd - x - 4;
@@ -74,19 +79,27 @@ public class EffectController {
       adrPointers[i] = new ADRpointer(new PVector(_x + 50, _y + 50));
       int _bX = (i > 0) ? _x + _w : _x;
       adrPointers[i + 2] = new ADRpointer(new PVector(_bX, _h + _y));
+
+      adrBt[i].getValueLabel().setVisible(false);
+      adrBt[i].getCaptionLabel().setVisible(false);
     }
+    String adrTitle = "adr behavior";
+    pos = new PVector(x + pd + textWidth(adrTitle) / 2, y + pd);
+    systemView.sliderTitles[2] = new Title(pos, adrTitle);
 
 
 
     controlP5.addSlider("adrBehaviorTime")
       .setPosition(x, y + h - 10)
       .setWidth(w)
-      .setRange(0, 100)
+      .setRange(10, 100)
       .setValue(100)
       .setNumberOfTickMarks(20)
       .setSliderMode(Slider.FLEXIBLE)
+      .showTickMarks(false)
       .plugTo(this, "adrBehavior");
-
+    controlP5.getController("adrBehaviorTime").getCaptionLabel().setVisible(false);
+    controlP5.getController("adrBehaviorTime").getValueLabel().setVisible(false);
 
     x = int(windows[3].pos.x);
     y = int(windows[3].pos.y);
@@ -119,7 +132,7 @@ public class EffectController {
       int baseY = int(windows[3].pos.y);
       x = baseX + (btSize + pd) * (i % 3);
       y = baseY + (btSize + 1) * (i / 3);
-      PVector pos = new PVector(x + btSize/2, y + btSize/2);
+      pos = new PVector(x + btSize / 2, y + btSize / 2);
       systemView.fieldDirectionTitles[i] = new Title(pos, btTitle[i]);
       controlP5.addToggle("fieldMode" + btTitle[i] + "Toggle")
         .setPosition(x, y)
@@ -132,7 +145,7 @@ public class EffectController {
     controlP5.getController("fieldModeEllipseToggle").getCaptionLabel().setVisible(false);
     controlP5.getController("fieldModeLeftToggle").getCaptionLabel().setVisible(false);
     controlP5.getController("fieldModeDownToggle").getCaptionLabel().setVisible(false);
-    controlP5.getController("fieldModeRightToggle").getCaptionLabel().setVisible(false); 
+    controlP5.getController("fieldModeRightToggle").getCaptionLabel().setVisible(false);
 
   }
 
@@ -187,7 +200,7 @@ public class EffectController {
     int w = (int) controlP5.getController("adrBehaviorTime").getWidth();
     int pos0 = (int) controlP5.getController("adrBehaviorTransition0").getPosition()[0];
     int w0 = (int) controlP5.getController("adrBehaviorTransition0").getWidth();
-    int areaWidth = (int) map(controlP5.getController("adrBehaviorTime").getValue(), 0, 100, 0, w);
+    int areaWidth = (int) map(controlP5.getController("adrBehaviorTime").getValue(), 10, 100, 40, w);
 
     for (int i = 0; i < adrBt.length; i++) {
       if (i == 1) {
@@ -205,7 +218,7 @@ public class EffectController {
     // println(normalTime, w0, (int) controlP5.getController("adrBehaviorTransition0").getWidth(), controlP5.getController("adrBehaviorTime").getValue());
 
     //==============update cursor position to ADRpointer============================
-    float x = map(controlP5.getController("adrBehaviorTime").getValue(), 0, 100, 0, controlP5.getController("adrBehaviorTime").getWidth());
+    float x = map(controlP5.getController("adrBehaviorTime").getValue(), 10, 100, 40, controlP5.getController("adrBehaviorTime").getWidth());
     float baseX = controlP5.getController("adrBehaviorTime").getPosition()[0];
     float y = controlP5.getController("adrBehaviorTime").getPosition()[1];
     PVector pos = new PVector(x + baseX, y);
