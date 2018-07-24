@@ -7,7 +7,7 @@ class ModuleView {
 
   ModuleView() {
     triggers = new ArrayList < Trigger > ();
-    modules = new Module[6][6];
+    modules = new Module[ROWS][COLUMNS];
 
     int indx = 0;
     PVector[] fieldBtsPos = new PVector[ROWS * COLUMNS];
@@ -55,7 +55,7 @@ class ModuleView {
 
         if (t.effect.fieldMode[FieldMode.DOWN.ordinal()]) {
           int y = t.y + distance;
-          if (y < 6)
+          if (y < ROWS)
             modules[y][t.x].updateTrigger(t.copyWithStartTime(frameCount));
         }
 
@@ -67,14 +67,14 @@ class ModuleView {
 
         if (t.effect.fieldMode[FieldMode.RIGHT.ordinal()]) {
           int x = t.x + distance;
-          if (x < 6)
+          if (x < COLUMNS)
             modules[t.y][x].updateTrigger(t.copyWithStartTime(frameCount));
         }
       }
 
       if (t.effect.fieldMode[FieldMode.ELLIPSE.ordinal()]) {
-        for (int x = 0; x < 6; x++)
-          for (int y = 0; y < 6; y++)
+        for (int x = 0; x < COLUMNS; x++)
+          for (int y = 0; y < ROWS; y++)
             if ((int) (sqrt((x - t.x) * (x - t.x) + (y - t.y) * (y - t.y)) * DELAY) == phase + 1)
               modules[y][x].updateTrigger(t.copyWithStartTime(frameCount));
       }
