@@ -15,11 +15,33 @@ public class FieldController {
           .setValue(i * 6 + j)
           .setPosition(x, y)
           .setSize(btSize, btSize)
-          .setId(i * 6 + j)
-          .plugTo(this, "fieldButton");
+          .setId(i * 6 + j);
         indx++;
       }
   }
+
+
+  public void onDraw() {
+    if (!mousePressed)
+      return;
+
+    int target = -1;
+    for (int i=0; i<36; i++){
+      if ((mouseX > fieldBtsPos[i].x)
+          && (mouseX < fieldBtsPos[i].x+btSize)
+          && (mouseY > fieldBtsPos[i].y)
+          && (mouseY < fieldBtsPos[i].y+btSize))
+        target = i;
+    }
+
+    println(target);
+
+    if (target == -1)
+      return;
+
+    fieldButton(target);
+  }
+
 
   void fieldButton(int a) {
     Trigger trigger = new Trigger(effectController.getEffect(), a % 6, a / 6, frameCount);
