@@ -3,14 +3,15 @@ class Module {
   private Trigger trigger;
   private static final int MAX_DURATION = 30;
 
-  private int barH = opc.barLength;
+  private int barH;
   PVector fieldBtsPos;
   int btSize, indx;
 
-  Module(int indx, int x, int y, PVector fieldPos) {
+  Module(int indx, int x, int y, int barH, PVector fieldPos) {
     this.indx = indx;
     this.x = x;
     this.y = y;
+    this.barH = barH;
     fieldBtsPos = fieldPos;
     btSize = fieldController.btSize;
 
@@ -96,6 +97,9 @@ class Module {
     // line((50+x*130+y*20)/SCALE, (150-end)/SCALE, (50+x*130+y*20)/SCALE, (150-start)/SCALE);
     line(x, y - end * barH, x, y - start * barH);
 
+    if (fieldBtsPos == null)
+      return;
+
     pushMatrix();
     translate(fieldController.fieldBtsPos[indx].x + btSize, fieldController.fieldBtsPos[indx].y);
     strokeWeight(3);
@@ -111,6 +115,9 @@ class Module {
   }
   
   void drawBar() {
+    if (fieldBtsPos == null)
+      return;
+
     float x = map(mdata[indx].barPos.x, -1, 1, -btSize / 2, btSize / 2);
     float y = map(mdata[indx].barPos.y, -1, 1, -btSize / 2, btSize / 2);
 

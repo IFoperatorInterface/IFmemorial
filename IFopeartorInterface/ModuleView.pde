@@ -17,7 +17,7 @@ class ModuleView {
         int x = (int) opc.ledStripPos[indx].x;
         int y = (int) opc.ledStripPos[indx].y;
         PVector loc = fieldBtsPos[indx];
-        modules[i][j] = new Module(indx, x, y, loc);
+        modules[i][j] = new Module(indx, x, y, opc.barLength, loc);
         indx++;
       }
 
