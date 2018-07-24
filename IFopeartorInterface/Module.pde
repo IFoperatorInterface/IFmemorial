@@ -26,7 +26,7 @@ class Module {
     if (trigger == null)
       return;
 
-    if (frameCount - trigger.startTime >= (MAX_DURATION * (trigger.effect.brightness[3][0] / 100.0)))
+    if (frameCount - trigger.startTime > (MAX_DURATION * (trigger.effect.brightness[3][0] / 100.0)))
       trigger = null;
     else {
       switch (trigger.effect.barMode) {
