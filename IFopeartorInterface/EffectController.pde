@@ -6,6 +6,8 @@ public class EffectController {
   private controlP5.RadioButton b;
   private int sliderLastTime;
   private int sliderTarget;
+  private final Module previewModule;
+  private int previewStartTime;
 
   private ADRpointer[] adrPointers = new ADRpointer[4];
 
@@ -13,6 +15,12 @@ public class EffectController {
     effect = new Effect();
     sliderLastTime = -1;
     sliderTarget = -1;
+    previewModule = new Module(-1,
+                               (int)windows[1].pos.x + (int)windows[1].size.x - (int)windows[1].size.y/2,
+                               (int)windows[1].pos.y + (int)windows[1].size.y,
+                               (int)windows[1].size.y,
+                               null);
+    updatePreview();
 
     int x = int(windows[2].pos.x);
     int y = int(windows[2].pos.y);
@@ -233,6 +241,22 @@ public class EffectController {
     effect.colorRGB[0] = (int) red(c);
     effect.colorRGB[1] = (int) green(c);
     effect.colorRGB[2] = (int) blue(c);
+
+    updatePreview();
+  }
+
+
+  public void updatePreview() {
+    previewModule.updateTrigger(new Trigger(effect.copy(), -1, -1, frameCount));
+    previewStartTime = frameCount;
+  }
+
+
+  public void onDraw() {
+    if (frameCount >= previewStartTime + Module.MAX_DURATION * effect.brightness[3][0] / 100 + Module.MAX_DURATION)
+      updatePreview();
+
+    previewModule.draw();
   }
 }
 public void applyC() {

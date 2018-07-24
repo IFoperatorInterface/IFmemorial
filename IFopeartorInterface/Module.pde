@@ -13,7 +13,8 @@ class Module {
     this.y = y;
     this.barH = barH;
     fieldBtsPos = fieldPos;
-    btSize = fieldController.btSize;
+    if (fieldBtsPos != null)
+      btSize = fieldController.btSize;
 
   }
 
