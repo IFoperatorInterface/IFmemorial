@@ -117,14 +117,6 @@ public class EffectController {
 
     x = x + h + pd;
     y = y + btSize * 2;
-    colorBt = controlP5.addButton("applyC")
-      .setValue(c)
-      .setPosition(x, y)
-      .setColorBackground(c)
-      .setColorForeground(lerpColor(c, color(255), .2))
-      .setColorActive(lerpColor(c, color(0), .2))
-      .setCaptionLabel("apply color")
-      .setSize(btSize, btSize);
 
     String[] btTitle = {
       "NoTitle",
@@ -258,12 +250,6 @@ public class EffectController {
 
     previewModule.draw();
   }
-}
-public void applyC() {
-  color c = controlP5.get(ColorWheel.class, "ledColor").getRGB();
-  controlP5.getController("applyC").setColorForeground(lerpColor(c, color(255), .2));
-  controlP5.getController("applyC").setColorBackground(c);
-  controlP5.getController("applyC").setColorActive(lerpColor(c, color(0), .2));
 }
 
 class ADRpointer {
