@@ -43,8 +43,8 @@ class Module {
     float phase = (frameCount - trigger.startTime) / 30.0;
     float ratio = 1 - (phase - 0.5) * (phase - 0.5) * 4;
 
-    int start = round(80 * ratio);
-    int end = start + 20;
+    int start = round(barH * 0.8 * ratio);
+    int end = start + round(barH * 0.2);
 
     drawLine(color(trigger.effect.colorRGB[0], trigger.effect.colorRGB[1], trigger.effect.colorRGB[2]), start, end);
   }
