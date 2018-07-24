@@ -9,7 +9,7 @@ class Effect {
 
   Effect() {
     barMode = BarMode.BOUNCE;
-    size = 50;
+    size = 30;
     position = new int[2];
     position[0] = 0;
     position[1] = 100;
