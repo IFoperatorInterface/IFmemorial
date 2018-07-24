@@ -4,11 +4,15 @@ Slider2D adrBt;
 public class EffectController {
   private Effect effect;
   private controlP5.RadioButton b;
+  private int sliderLastTime;
+  private int sliderTarget;
 
   private ADRpointer[] adrPointers = new ADRpointer[4];
 
   EffectController() {
     effect = new Effect();
+    sliderLastTime = -1;
+    sliderTarget = -1;
 
     int x = int(windows[2].pos.x);
     int y = int(windows[2].pos.y);
@@ -195,25 +199,27 @@ public class EffectController {
     PVector position = new PVector(map(values[0], 0, 100, adrPointers[0].x, adrPointers[0].x+adrPointers[0].w),
                                    map(values[1], 100, 0, adrPointers[0].y+adrPointers[0].h, adrPointers[0].y));
 
-    println();
-    println(position);
+    boolean isNew = (frameCount - sliderLastTime) > 2;
+    sliderLastTime = frameCount;
 
-    for (int i=0; i<4; i++) {
-      ADRpointer a = adrPointers[i];
-      println(a.pos);
-
-      if (a.pos.dist(position) > 40)
-        continue;
-
-      if (i != 0 && (position.x - adrPointers[i-1].pos.x < 40))
-        continue;
-      if (i != 3 && (position.x - adrPointers[i+1].pos.x > -40))
-        continue;
+    if (isNew) {
+      sliderTarget = -1;
+      for (int i=0; i<4; i++) {
+        if (adrPointers[i].pos.dist(position) < 40)
+          sliderTarget = i;
+      }
+    }
+    
+    if (sliderTarget != -1) {
+      if (sliderTarget != 0 && (position.x - adrPointers[sliderTarget-1].pos.x < 40))
+        return;
+      if (sliderTarget != 3 && (position.x - adrPointers[sliderTarget+1].pos.x > -40))
+        return;
       
-      if (i == 1 || i == 2)
-        a.update(position);
-      else if (i == 3)
-        a.update(new PVector(position.x, a.pos.y));
+      if (sliderTarget == 1 || sliderTarget == 2)
+        adrPointers[sliderTarget].update(position);
+      else if (sliderTarget == 3)
+        adrPointers[sliderTarget].update(new PVector(position.x, adrPointers[sliderTarget].pos.y));
     }
   }
 
