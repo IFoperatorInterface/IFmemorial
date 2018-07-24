@@ -68,8 +68,8 @@ public class RecordController {
     if (idx == -1)
       return;
 
-    controlP5.getController("recordPlay" + records.get(idx).id + "Toggle").remove();
-    controlP5.getController("recordDelete" + records.get(idx).id + "Button").remove();
+    controlP5.getController("recordPlay" + records.get(idx).id + "Toggle").hide();
+    controlP5.getController("recordDelete" + records.get(idx).id + "Button").hide();
     records.remove(idx);
     updateRecordPlayToggle();
   }
