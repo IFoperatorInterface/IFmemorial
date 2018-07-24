@@ -43,16 +43,16 @@ class Module {
     float phase = (frameCount - trigger.startTime) / 30.0;
     float ratio = 1 - (phase - 0.5) * (phase - 0.5) * 4;
 
-    int start = round(barH * 0.8 * ratio);
-    int end = start + round(barH * 0.2);
+    float start = 0.8 * ratio;
+    float end = start + 0.2;
 
     drawLine(color(trigger.effect.colorRGB[0], trigger.effect.colorRGB[1], trigger.effect.colorRGB[2]), start, end);
   }
 
 
   private void blink() {
-    int start = 0;
-    int end = barH;
+    float start = 0;
+    float end = 1;
 
     drawLine(color(trigger.effect.colorRGB[0], trigger.effect.colorRGB[1], trigger.effect.colorRGB[2]), start, end);
   }
@@ -62,17 +62,17 @@ class Module {
     float phase = (frameCount - trigger.startTime) / 30.0;
     float ratio = 1 - (phase - 0.5) * (phase - 0.5) * 4;
 
-    int start = 0;
-    int end = round(barH * ratio);
+    float start = 0;
+    float end = ratio;
 
     drawLine(color(trigger.effect.colorRGB[0], trigger.effect.colorRGB[1], trigger.effect.colorRGB[2]), start, end);
   }
 
 
-  private void drawLine(color strokeColor, int start, int end) {
+  private void drawLine(color strokeColor, float start, float end) {
     stroke(strokeColor);
     // line((50+x*130+y*20)/SCALE, (150-end)/SCALE, (50+x*130+y*20)/SCALE, (150-start)/SCALE);
-    line(x, y - end, x, y - start);
+    line(x, y - end * barH, x, y - start * barH);
   }
 
 
