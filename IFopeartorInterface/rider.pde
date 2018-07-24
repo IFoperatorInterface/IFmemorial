@@ -3,10 +3,11 @@ class Rider {
     private color c;
     private int r;
     private float weight;
-    Rider(PVector pos) {
+    Rider(PVector pos, float weight) {
         this.pos = pos;
         c = color(random(255), random(255), random(255), 100);
         r = 20;
+        this.weight = weight;
     }
 
     void update(PVector pos, float weight) {
