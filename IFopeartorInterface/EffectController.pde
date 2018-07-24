@@ -67,7 +67,7 @@ public class EffectController {
       int _x = x + w / 2 * i;
       int _y = y;
       int _w = w / 2;
-      int _h = h - pd - 1;
+      int _h = h - pd - 11;
       adrBt[i] = controlP5.addSlider2D("adrBehaviorTransition" + i)
         .setLabelVisible(false)
         .setPosition(_x, _y)
@@ -88,10 +88,10 @@ public class EffectController {
     systemView.sliderTitles[2] = new Title(pos, adrTitle);
 
 
-
     controlP5.addSlider("adrBehaviorTime")
-      .setPosition(x, y + h - 10)
+      .setPosition(x, y + h - 20)
       .setWidth(w)
+      .setHeight(20)
       .setRange(10, 100)
       .setValue(100)
       .setNumberOfTickMarks(20)
@@ -104,7 +104,7 @@ public class EffectController {
     x = int(windows[3].pos.x);
     y = int(windows[3].pos.y);
     color c = color(effect.colorRGB[0], effect.colorRGB[1], effect.colorRGB[2]);
-    controlP5.addColorWheel("ledColor", x, y, h).setRGB(c).plugTo(this);
+    controlP5.addColorWheel("ledColor", x, y, h).setRGB(c).plugTo(this).getCaptionLabel().setVisible(false);
 
     x = x + h + pd;
     y = y + btSize * 2;
@@ -125,6 +125,7 @@ public class EffectController {
       "Down",
       "Right"
     };
+
     for (int i = 5; i >= 0; i--) {
       if (btTitle[i] == null)
         continue;
@@ -140,13 +141,10 @@ public class EffectController {
         .setCaptionLabel(btTitle[i])
         .plugTo(this, "fieldModeToggle");
     }
+    for (int i = 0; i < btTitle.length; i++) 
+      controlP5.getController("fieldMode" +btTitle[i] + "Toggle").getCaptionLabel().setVisible(false);
+    
     controlP5.getController("fieldModeNoTitleToggle").hide();
-    controlP5.getController("fieldModeUpToggle").getCaptionLabel().setVisible(false);
-    controlP5.getController("fieldModeEllipseToggle").getCaptionLabel().setVisible(false);
-    controlP5.getController("fieldModeLeftToggle").getCaptionLabel().setVisible(false);
-    controlP5.getController("fieldModeDownToggle").getCaptionLabel().setVisible(false);
-    controlP5.getController("fieldModeRightToggle").getCaptionLabel().setVisible(false);
-
   }
 
 
