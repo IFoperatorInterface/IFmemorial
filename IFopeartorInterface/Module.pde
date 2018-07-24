@@ -55,8 +55,8 @@ class Module {
   private void blink() {
     float ratio = getRatio();
 
-    float start = 0;
-    float end = 1;
+    float start = trigger.effect.position[0] / 100.0;
+    float end = trigger.effect.position[1] / 100.0;
 
     drawLine(color(trigger.effect.colorRGB[0]*ratio, trigger.effect.colorRGB[1]*ratio, trigger.effect.colorRGB[2]*ratio), start, end);
   }
