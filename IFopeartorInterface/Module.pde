@@ -1,6 +1,7 @@
 class Module {
   private int x, y;
   private Trigger trigger;
+  private static final int MAX_DURATION = 30;
 
   private int barH = opc.barLength;
   PVector fieldBtsPos;
@@ -20,7 +21,12 @@ class Module {
     drawBar();
     // drawLine(64, 0, barH); //TODO: remove this
 
-    if (trigger != null) {
+    if (trigger == null)
+      return;
+
+    if (frameCount - trigger.startTime >= (MAX_DURATION * (trigger.effect.brightness[3][0] / 100.0)))
+      trigger = null;
+    else {
       switch (trigger.effect.barMode) {
         case BOUNCE:
           bounce();
@@ -32,16 +38,12 @@ class Module {
           stretch();
           break;
       }
-
-      if (frameCount - trigger.startTime >= 30)
-        trigger = null;
     }
   }
 
 
   private void bounce() {
-    float phase = (frameCount - trigger.startTime) / 30.0;
-    float ratio = 1 - (phase - 0.5) * (phase - 0.5) * 4;
+    float ratio = getRatio();
 
     float start = 0.8 * ratio;
     float end = start + 0.2;
@@ -51,21 +53,39 @@ class Module {
 
 
   private void blink() {
+    float ratio = getRatio();
+
     float start = 0;
     float end = 1;
 
-    drawLine(color(trigger.effect.colorRGB[0], trigger.effect.colorRGB[1], trigger.effect.colorRGB[2]), start, end);
+    drawLine(color(trigger.effect.colorRGB[0]*ratio, trigger.effect.colorRGB[1]*ratio, trigger.effect.colorRGB[2]*ratio), start, end);
   }
 
 
   private void stretch() {
-    float phase = (frameCount - trigger.startTime) / 30.0;
-    float ratio = 1 - (phase - 0.5) * (phase - 0.5) * 4;
+    float ratio = getRatio();
 
     float start = 0;
     float end = ratio;
 
     drawLine(color(trigger.effect.colorRGB[0], trigger.effect.colorRGB[1], trigger.effect.colorRGB[2]), start, end);
+  }
+
+
+  private float getRatio() {
+    float phase = (float) (frameCount - trigger.startTime) / MAX_DURATION * 100;
+    float ratio = 100;
+
+    for (int i=3; i>=1; i--) {
+      if (trigger.effect.brightness[i][0] >= phase)
+        ratio = map(phase,
+                    trigger.effect.brightness[i-1][0],
+                    trigger.effect.brightness[i][0],
+                    trigger.effect.brightness[i-1][1],
+                    trigger.effect.brightness[i][1]);
+    }
+
+    return ratio / 100;
   }
 
 
