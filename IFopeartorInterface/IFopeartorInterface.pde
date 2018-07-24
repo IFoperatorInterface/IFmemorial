@@ -46,6 +46,7 @@ void setup() {
 void draw() {
   background(0);
   controlP5.draw();
+  effectController.onDraw();
   fieldController.onDraw();
   recordController.onDraw();
   moduleView.draw();
