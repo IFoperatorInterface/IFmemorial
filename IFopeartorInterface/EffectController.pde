@@ -216,10 +216,15 @@ public class EffectController {
       if (sliderTarget != 3 && (position.x - adrPointers[sliderTarget+1].pos.x > -40))
         return;
       
-      if (sliderTarget == 1 || sliderTarget == 2)
+      if (sliderTarget == 1 || sliderTarget == 2) {
         adrPointers[sliderTarget].update(position);
-      else if (sliderTarget == 3)
+        effect.brightness[sliderTarget][0] = (int) values[0];
+        effect.brightness[sliderTarget][1] = 100 - (int) values[1];
+      }
+      else if (sliderTarget == 3) {
         adrPointers[sliderTarget].update(new PVector(position.x, adrPointers[sliderTarget].pos.y));
+        effect.brightness[sliderTarget][0] = (int) values[0];
+      }
     }
   }
 
