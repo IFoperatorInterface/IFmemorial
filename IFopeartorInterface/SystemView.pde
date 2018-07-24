@@ -24,8 +24,8 @@ class SystemView {
 
         stroke(255);
         line(effectController.adrPointers[0].pos.x, effectController.adrPointers[0].pos.y, effectController.adrPointers[1].pos.x, effectController.adrPointers[1].pos.y);
-        line(effectController.adrPointers[0].pos.x, effectController.adrPointers[0].pos.y, effectController.adrPointers[2].pos.x, effectController.adrPointers[2].pos.y);
-        line(effectController.adrPointers[3].pos.x, effectController.adrPointers[3].pos.y, effectController.adrPointers[1].pos.x, effectController.adrPointers[1].pos.y);
+        line(effectController.adrPointers[1].pos.x, effectController.adrPointers[1].pos.y, effectController.adrPointers[2].pos.x, effectController.adrPointers[2].pos.y);
+        line(effectController.adrPointers[2].pos.x, effectController.adrPointers[2].pos.y, effectController.adrPointers[3].pos.x, effectController.adrPointers[3].pos.y);
     }
 }
 

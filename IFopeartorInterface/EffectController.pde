@@ -1,5 +1,5 @@
 Button colorBt;
-Slider2D[] adrBt = new Slider2D[2];
+Slider2D adrBt;
 
 public class EffectController {
   private Effect effect;
@@ -63,43 +63,40 @@ public class EffectController {
 
     x = x + btSize + pd;
     int w = width / 2 - pd - x - 4;
-    for (int i = 0; i < adrBt.length; i++) {
-      int _x = x + w / 2 * i;
-      int _y = y;
-      int _w = w / 2;
-      int _h = h - pd - 11;
-      adrBt[i] = controlP5.addSlider2D("adrBehaviorTransition" + i)
-        .setLabelVisible(false)
-        .setPosition(_x, _y)
-        .setSize(_w, _h)
-        .setMinMax(0, 0, 100, 100)
-        .setValue(50, 0)
-        .disableCrosshair()
-        .plugTo(this, "adrGui");
-      adrPointers[i] = new ADRpointer(new PVector(_x + 50, _y + 50));
-      int _bX = (i > 0) ? _x + _w : _x;
-      adrPointers[i + 2] = new ADRpointer(new PVector(_bX, _h + _y));
+    int _x = x;
+    int _y = y;
+    int _w = w;
+    int _h = h - pd - 11;
+    adrBt = controlP5.addSlider2D("adrBehaviorTransition")
+      .setLabelVisible(false)
+      .setPosition(_x, _y)
+      .setSize(_w, _h)
+      .setMinMax(0, 0, 100, 100)
+      .setValue(50, 0)
+      .disableCrosshair()
+      .plugTo(this, "adrGui");
 
-      adrBt[i].getValueLabel().setVisible(false);
-      adrBt[i].getCaptionLabel().setVisible(false);
+    adrPointers[0] = new ADRpointer(new PVector(map(0, 0, 100, _x, _x+_w),
+                                                map(0, 0, 100, _y+_h, _y)));
+    adrPointers[1] = new ADRpointer(new PVector(map(30, 0, 100, _x, _x+_w),
+                                                map(100, 0, 100, _y+_h, _y)));
+    adrPointers[2] = new ADRpointer(new PVector(map(70, 0, 100, _x, _x+_w),
+                                                map(100, 0, 100, _y+_h, _y)));
+    adrPointers[3] = new ADRpointer(new PVector(map(100, 0, 100, _x, _x+_w),
+                                                map(0, 0, 100, _y+_h, _y)));
+
+    for (ADRpointer a : adrPointers) {
+      a.x = _x;
+      a.y = _y;
+      a.w = _w;
+      a.h = _h;
     }
+
+    adrBt.getValueLabel().setVisible(false);
+    adrBt.getCaptionLabel().setVisible(false);
     String adrTitle = "adr behavior";
     pos = new PVector(x + pd + textWidth(adrTitle) / 2, y + pd);
     systemView.sliderTitles[2] = new Title(pos, adrTitle);
-
-
-    controlP5.addSlider("adrBehaviorTime")
-      .setPosition(x, y + h - 20)
-      .setWidth(w)
-      .setHeight(20)
-      .setRange(10, 100)
-      .setValue(100)
-      .setNumberOfTickMarks(20)
-      .setSliderMode(Slider.FLEXIBLE)
-      .showTickMarks(false)
-      .plugTo(this, "adrBehavior");
-    controlP5.getController("adrBehaviorTime").getCaptionLabel().setVisible(false);
-    controlP5.getController("adrBehaviorTime").getValueLabel().setVisible(false);
 
     x = int(windows[3].pos.x);
     y = int(windows[3].pos.y);
@@ -193,44 +190,30 @@ public class EffectController {
     return effect.copy();
   }
 
-  //FIXME:time 축으로 변화 있을 시 각 점의 비율은 그대로인 상태 유지하기
-  void adrBehavior() {
-    int w = (int) controlP5.getController("adrBehaviorTime").getWidth();
-    int pos0 = (int) controlP5.getController("adrBehaviorTransition0").getPosition()[0];
-    int w0 = (int) controlP5.getController("adrBehaviorTransition0").getWidth();
-    int areaWidth = (int) map(controlP5.getController("adrBehaviorTime").getValue(), 10, 100, 40, w);
-
-    for (int i = 0; i < adrBt.length; i++) {
-      if (i == 1) {
-        controlP5.getController("adrBehaviorTransition1").setPosition(w0 + pos0, int(windows[2].pos.y));
-      }
-      controlP5.getController("adrBehaviorTransition" + i).setSize(areaWidth / 2, controlP5.getController("adrBehaviorTransition" + i).getHeight());
-
-    }
-
-    float as = map(adrBt[0].getArrayValue()[0], 0, 100, 0, controlP5.getController("adrBehaviorTransition0").getWidth());
-    // float df = map(adrBt[0].getArrayValue()[1], 0, 100, 0, controlP5.getController("adrBehaviorTransition0").getHeight());
-    adrBt[0].setCursorX(as);
-    // adrBt[0].setCursorX(df);
-    // print(adrBt[1].getCursorX(), normalTime * adrBt[1].getCursorX(), "/");
-    // println(normalTime, w0, (int) controlP5.getController("adrBehaviorTransition0").getWidth(), controlP5.getController("adrBehaviorTime").getValue());
-
-    //==============update cursor position to ADRpointer============================
-    float x = map(controlP5.getController("adrBehaviorTime").getValue(), 10, 100, 40, controlP5.getController("adrBehaviorTime").getWidth());
-    float baseX = controlP5.getController("adrBehaviorTime").getPosition()[0];
-    float y = controlP5.getController("adrBehaviorTime").getPosition()[1];
-    PVector pos = new PVector(x + baseX, y);
-    adrPointers[3].update(pos);
-  }
   void adrGui() {
-    PVector[] pos = new PVector[2];
-    for (int i = 0; i < adrBt.length; i++) {
-      float baseX = map(adrBt[i].getArrayValue()[0], 0, 100, 0, controlP5.getController("adrBehaviorTransition" + i).getWidth());
-      float baseY = map(adrBt[i].getArrayValue()[1], 0, 100, 0, controlP5.getController("adrBehaviorTransition" + i).getHeight());
-      float x = controlP5.getController("adrBehaviorTransition" + i).getPosition()[0];
-      float y = controlP5.getController("adrBehaviorTransition" + i).getPosition()[1];
-      pos[i] = new PVector(baseX + x, baseY + y);
-      adrPointers[i].update(pos[i]);
+    float[] values = adrBt.getArrayValue();
+    PVector position = new PVector(map(values[0], 0, 100, adrPointers[0].x, adrPointers[0].x+adrPointers[0].w),
+                                   map(values[1], 100, 0, adrPointers[0].y+adrPointers[0].h, adrPointers[0].y));
+
+    println();
+    println(position);
+
+    for (int i=0; i<4; i++) {
+      ADRpointer a = adrPointers[i];
+      println(a.pos);
+
+      if (a.pos.dist(position) > 40)
+        continue;
+
+      if (i != 0 && (position.x - adrPointers[i-1].pos.x < 40))
+        continue;
+      if (i != 3 && (position.x - adrPointers[i+1].pos.x > -40))
+        continue;
+      
+      if (i == 1 || i == 2)
+        a.update(position);
+      else if (i == 3)
+        a.update(new PVector(position.x, a.pos.y));
     }
   }
 
@@ -251,6 +234,7 @@ public void applyC() {
 class ADRpointer {
   PVector pos;
   int size = 20;
+  int x, y, w, h;
   ADRpointer(PVector pos) {
     this.pos = pos;
   }
