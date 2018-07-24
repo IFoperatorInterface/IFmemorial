@@ -17,14 +17,8 @@ class Data {
         barPos = new PVector(0, 0);
 
     }
-    // void update(PVector barPos, float[] pressures, boolean isJumped, boolean isStanding) {
-    //     this.isJumped = isJumped;
-    //     this.isStanding = isStanding;
-    //     this.pressures = pressures;
-    //     this.barPos = barPos;
-    // }
     void update(float[] a) {
-        barPos = new PVector(a[2], a[3]);
+        barPos = new PVector(a[2] * -1, a[3] * -1);
         for (int i = 0; i < pressures.length; i++) {
             pressures[i] = a[i + 4];
         }
@@ -107,11 +101,12 @@ void receive(byte[] data) {
         if (numPerson != 0) {
 
             PVector[] pos = new PVector[numPerson];
+            float[] weight = new float[numPerson];
             for (int i = 0; i < numPerson; i++) {
                 pos[i] = new PVector(a[NUM_MODULE_TOKENS + i], a[NUM_MODULE_TOKENS + 1 + i]);
-                // moduleView.riders.add(new Rider(pos[i]));
+                weight[i] = a[NUM_MODULE_TOKENS + i + 2];
             }
-            fieldView.update(numPerson, pos);
+            fieldView.update(numPerson, pos, weight);
         }
     }
 }
@@ -341,13 +336,14 @@ public class OPC {
         }
         //============================window indicator============================
         rectMode(CORNERS);
-        float x1 = window.x + pd;
+        float x1 = window.x ;
         float x2 = window.x + windowWidth - pd;
         float y1 = window.y + pd;
         float y2 = ENDPOINT - pd; // 88 
         noStroke();
         fill(0);
         rect(x1, 16, x2, y2 + pd);
+        rect(0, 0 , x2, 15);
         stroke(255);
         noFill();
         rect(x1, y1 + indxFontSize, x2, y2);
