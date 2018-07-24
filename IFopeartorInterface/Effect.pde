@@ -29,7 +29,11 @@ class Effect {
     newEffect.size = size;
     newEffect.position[0] = position[0];
     newEffect.position[1] = position[1];
-    newEffect.fieldMode = fieldMode;
+    newEffect.fieldMode[0] = fieldMode[0];
+    newEffect.fieldMode[1] = fieldMode[1];
+    newEffect.fieldMode[2] = fieldMode[2];
+    newEffect.fieldMode[3] = fieldMode[3];
+    newEffect.fieldMode[4] = fieldMode[4];
     newEffect.colorRGB[0] = colorRGB[0];
     newEffect.colorRGB[1] = colorRGB[1];
     newEffect.colorRGB[2] = colorRGB[2];
