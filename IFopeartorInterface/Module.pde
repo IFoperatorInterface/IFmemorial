@@ -21,7 +21,6 @@ class Module {
 
   public void draw() {
     drawBar();
-    // drawLine(64, 0, barH); //TODO: remove this
 
     if (trigger == null)
       return;
@@ -48,7 +47,7 @@ class Module {
     float ratio = getRatio();
 
     float size = trigger.effect.size / 100.0;
-    float start = (1 - size) * map(ratio, 0, 1, trigger.effect.position[0]/100.0, trigger.effect.position[1]/100.0);
+    float start = (1 - size) * map(ratio, 0, 1, trigger.effect.position[0] / 100.0, trigger.effect.position[1] / 100.0);
     float end = start + size;
 
     drawLine(color(trigger.effect.colorRGB[0], trigger.effect.colorRGB[1], trigger.effect.colorRGB[2]), start, end);
@@ -61,7 +60,7 @@ class Module {
     float start = trigger.effect.position[0] / 100.0;
     float end = trigger.effect.position[1] / 100.0;
 
-    drawLine(color(trigger.effect.colorRGB[0]*ratio, trigger.effect.colorRGB[1]*ratio, trigger.effect.colorRGB[2]*ratio), start, end);
+    drawLine(color(trigger.effect.colorRGB[0] * ratio, trigger.effect.colorRGB[1] * ratio, trigger.effect.colorRGB[2] * ratio), start, end);
   }
 
 
@@ -69,23 +68,25 @@ class Module {
     float ratio = getRatio();
 
     float start = 0;
-    float end = map(ratio, 0, 1, trigger.effect.position[0]/100.0, trigger.effect.position[1]/100.0);
+    float end = map(ratio, 0, 1, trigger.effect.position[0] / 100.0, trigger.effect.position[1] / 100.0);
 
     drawLine(color(trigger.effect.colorRGB[0], trigger.effect.colorRGB[1], trigger.effect.colorRGB[2]), start, end);
   }
 
 
   private float getRatio() {
-    float phase = (float) (frameCount - trigger.startTime) / MAX_DURATION * 100;
+    float phase = (float)(frameCount - trigger.startTime) / MAX_DURATION * 100;
     float ratio = 100;
 
-    for (int i=3; i>=1; i--) {
+    for (int i = 3; i >= 1; i--) {
       if (trigger.effect.brightness[i][0] >= phase)
-        ratio = map(phase,
-                    trigger.effect.brightness[i-1][0],
-                    trigger.effect.brightness[i][0],
-                    trigger.effect.brightness[i-1][1],
-                    trigger.effect.brightness[i][1]);
+        ratio = map(
+          phase,
+          trigger.effect.brightness[i - 1][0],
+          trigger.effect.brightness[i][0],
+          trigger.effect.brightness[i - 1][1],
+          trigger.effect.brightness[i][1]
+        );
     }
 
     return ratio / 100;
@@ -103,8 +104,8 @@ class Module {
 
     pushMatrix();
     translate(fieldController.fieldBtsPos[indx].x + btSize, fieldController.fieldBtsPos[indx].y);
-    strokeWeight(3);
-    line(1, (1 - start) * btSize, 1, (1 - end) * btSize);
+    strokeWeight(5);
+    line(-4, (1 - start) * btSize, -4, (1 - end) * btSize);
     popMatrix();
 
     strokeWeight(1);
@@ -114,7 +115,7 @@ class Module {
   public void updateTrigger(Trigger trigger) {
     this.trigger = trigger;
   }
-  
+
   void drawBar() {
     if (fieldBtsPos == null)
       return;

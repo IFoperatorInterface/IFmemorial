@@ -2,12 +2,16 @@ class SystemView {
     Title[] ledBehaviorTiltles = new Title[3];
     Title[] fieldDirectionTitles = new Title[6];
     Title[] sliderTitles = new Title[3];
+    private List < Title > recordTitles;
     SystemView() {
-
+        recordTitles = new ArrayList < Title > ();
     }
     void draw() {
 
         adrWindow();
+
+        for (Title t: recordTitles)
+            t.display();
 
         for (Title t: sliderTitles)
             t.display();
@@ -18,20 +22,44 @@ class SystemView {
         for (Title t: ledBehaviorTiltles)
             t.display();
 
+        windowWindow();
+    }
+    void windowWindow() {
+        if (recordController.isRecording) {
+            // float x = fieldController.fieldBtsPos[0].x;
+            // float y = fieldController.fieldBtsPos[0].y;
+            // float w = fieldController.fieldBtsPos[5].x - fieldController.fieldBtsPos[0].x + fieldController.btSize;
+            // float h = fieldController.fieldBtsPos[30].y - fieldController.fieldBtsPos[0].y + fieldController.btSize;
+            float x = windows[4].pos.x;
+            float y = windows[4].pos.y;
+            float w = windows[4].size.x;
+            float h = windows[4].size.y;
+            float scale = 100;
+            float speed = 8;
+            pushStyle();
+            noFill();
+            strokeWeight(5);
+            stroke(millis() % (scale * speed), 0, 0);
+
+            rect(x, y, w, h);
+            popStyle();
+        }
+
+
         for (Window w: windows)
             w.display();
+
     }
-    
     void adrWindow() {
         int NUM_ADR = 3;
         int pd = 10;
         int h = int(windows[NUM_ADR - 1].size.y - pd);
         int btSize = int(h / 3);
-        
-        int x = int(windows[NUM_ADR - 1].pos.x) + (btSize + pd) * NUM_ADR +pd*3/2;
-        int y = int(windows[NUM_ADR - 1].pos.y + pd/2);
-        int w = width / 2 - 15 - x -pd/2;
-        color c = (!adrBt.isMouseOver()) ? color(0, 55, 110): color(0, 116, 180);
+
+        int x = int(windows[NUM_ADR - 1].pos.x) + (btSize + pd) * NUM_ADR + pd * 3 / 2;
+        int y = int(windows[NUM_ADR - 1].pos.y + pd / 2);
+        int w = width / 2 - 15 - x - pd / 2;
+        color c = (!adrBt.isMouseOver()) ? color(0, 55, 110) : color(0, 116, 180);
         pushStyle();
         stroke(c);
         strokeWeight(pd);
