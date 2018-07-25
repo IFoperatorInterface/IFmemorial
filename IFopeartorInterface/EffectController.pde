@@ -6,6 +6,8 @@ public class EffectController {
   private controlP5.RadioButton sb, b;
   private int sliderLastTime;
   private int sliderTarget;
+  private int positionLastTime;
+  private int positionTarget;
   private final Module previewModule;
   private int previewStartTime;
   int pd = 10;
@@ -16,6 +18,8 @@ public class EffectController {
     effect = new Effect();
     sliderLastTime = -1;
     sliderTarget = -1;
+    positionLastTime = -1;
+    positionTarget = -1;
     int x = (int) windows[1].pos.x + (int) windows[1].size.x - (int) windows[1].size.y / 2;
     int h = (int) windows[1].size.y - pd * 6;
     int y = (int) windows[1].pos.y + (int) + h + pd *2;
@@ -96,13 +100,13 @@ public class EffectController {
     systemView.sliderTitles[0] = new Title(pos, "size");
 
     x = x + btSize + pd;
-    controlP5.addRange("positionRange")
+    controlP5.addSlider("positionSlider")
       .setPosition(x, y)
       .setSize(btSize, h)
       .setRange(0, 100)
-      .setRangeValues(effect.position[0], effect.position[1])
       .plugTo(this)
       .getCaptionLabel().setVisible(false);
+    controlP5.getController("positionSlider").getValueLabel().setVisible(false);
     pos = new PVector(x + btSize / 2, y + h / 2);
     systemView.sliderTitles[1] = new Title(pos, "position");
 
@@ -228,9 +232,30 @@ public class EffectController {
   }
 
 
-  void positionRange(ControlEvent theEvent) {
-    effect.position[0] = (int) theEvent.getArrayValue()[0];
-    effect.position[1] = (int) theEvent.getArrayValue()[1];
+  void positionSlider(int a) {
+    final int MIN_DISTANCE = 20;
+
+    boolean isNew = (frameCount - positionLastTime) > 2;
+    positionLastTime = frameCount;
+
+    if (isNew) {
+      if (a < (effect.position[0] + effect.position[1]) / 2)
+        positionTarget = 0;
+      else
+        positionTarget = 1;
+    }
+
+    if (positionTarget != -1) {
+      if (positionTarget == 0) {
+        if (a < effect.position[1] - MIN_DISTANCE)
+          effect.position[0] = a;
+      }
+
+      if (positionTarget == 1) {
+        if (a > effect.position[0] + MIN_DISTANCE)
+          effect.position[1] = a;
+      }
+    }
   }
 
 
@@ -313,6 +338,23 @@ public class EffectController {
       updatePreview();
 
     previewModule.draw();
+
+    int h = int(windows[2].size.y);
+    int btSize = int(h / 3);
+    int x = int(windows[2].pos.x + (btSize + pd) * 2);
+    int y = int(windows[2].pos.y);
+
+    int start = (int) map(effect.position[0], 0, 100, y+h, y);
+    int end = (int) map(effect.position[1], 0, 100, y+h, y);
+
+    pushStyle();
+    strokeWeight(0);
+    rectMode(CORNERS);
+    fill(0, 45, 90);
+    rect(x, y, x+btSize, y+h);
+    fill(0, 116, 217);
+    rect(x, end, x+btSize, start);
+    popStyle();
   }
 }
 
