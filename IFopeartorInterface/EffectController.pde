@@ -3,9 +3,11 @@ Slider2D adrBt;
 
 public class EffectController {
   private Effect effect;
-  private controlP5.RadioButton b;
+  private controlP5.RadioButton sb, b;
   private int sliderLastTime;
   private int sliderTarget;
+  private int positionLastTime;
+  private int positionTarget;
   private final Module previewModule;
   private int previewStartTime;
   int pd = 10;
@@ -16,18 +18,52 @@ public class EffectController {
     effect = new Effect();
     sliderLastTime = -1;
     sliderTarget = -1;
+    positionLastTime = -1;
+    positionTarget = -1;
     int x = (int) windows[1].pos.x + (int) windows[1].size.x - (int) windows[1].size.y / 2;
     int h = (int) windows[1].size.y - pd * 6;
     int y = (int) windows[1].pos.y + (int) + h + pd *2;
+    PVector pos;
     previewModule = new Module(-1, x, y, h, null);
     updatePreview();
     systemView.previewTitle = new Title(new PVector(x, y + pd*2), "effect preview");
+
+    x = int(windows[1].pos.x);
+    y = int(windows[1].pos.y);
+    h = int(windows[1].size.y);
+    int btSize = int(h / 3);
+    sb = controlP5.addRadioButton("soundModeRadioButton")
+      .setPosition(x, y)
+      .setSize(btSize, btSize)
+      .addItem(SoundMode.SINGLE.name(), SoundMode.SINGLE.ordinal())
+      .addItem(SoundMode.CHORD.name(), SoundMode.CHORD.ordinal())
+      .addItem(SoundMode.RANDOM.name(), SoundMode.RANDOM.ordinal())
+      .activate(effect.soundMode.ordinal())
+      .plugTo(this);
+
+    for (int i = 0; i < SoundMode.values().length; i++) {
+      pos = new PVector(x + btSize / 2, y + btSize * i + btSize / 2);
+      systemView.soundModeTitles[i] = new Title(pos, SoundMode.values()[i].name());
+      sb.getController(SoundMode.values()[i].name()).getCaptionLabel().setVisible(false);
+    }
+
+    x += (btSize + pd);
+    controlP5.addSlider("noteSlider")
+      .setPosition(x, y)
+      .setSize(btSize, h)
+      .setRange(1, 127)
+      .setValue(effect.note)
+      .plugTo(this)
+      .getCaptionLabel().setVisible(false);
+    controlP5.getController("noteSlider").getValueLabel().setVisible(false);
+    pos = new PVector(x + btSize / 2, y + h / 2);
+    systemView.sliderTitles[3] = new Title(pos, "note");
 
     x = int(windows[2].pos.x);
     y = int(windows[2].pos.y);
     h = int(windows[2].size.y);
 
-    int btSize = int(h / 3);
+    btSize = int(h / 3);
     String[] titles = {
       "Bounce",
       "Blink",
@@ -45,7 +81,7 @@ public class EffectController {
 
 
     for (int i = 0; i < titles.length; i++) {
-      PVector pos = new PVector(x + btSize / 2, y + btSize * i + btSize / 2);
+      pos = new PVector(x + btSize / 2, y + btSize * i + btSize / 2);
       systemView.ledBehaviorTiltles[i] = new Title(pos, titles[i]);
       b.getController(titles[i]).getCaptionLabel().setVisible(false);
     }
@@ -60,17 +96,17 @@ public class EffectController {
       .plugTo(this)
       .getCaptionLabel().setVisible(false);
     controlP5.getController("sizeSlider").getValueLabel().setVisible(false);
-    PVector pos = new PVector(x + btSize / 2, y + h / 2);
+    pos = new PVector(x + btSize / 2, y + h / 2);
     systemView.sliderTitles[0] = new Title(pos, "size");
 
     x = x + btSize + pd;
-    controlP5.addRange("positionRange")
+    controlP5.addSlider("positionSlider")
       .setPosition(x, y)
       .setSize(btSize, h)
       .setRange(0, 100)
-      .setRangeValues(effect.position[0], effect.position[1])
       .plugTo(this)
       .getCaptionLabel().setVisible(false);
+    controlP5.getController("positionSlider").getValueLabel().setVisible(false);
     pos = new PVector(x + btSize / 2, y + h / 2);
     systemView.sliderTitles[1] = new Title(pos, "position");
 
@@ -90,20 +126,20 @@ public class EffectController {
       .plugTo(this, "adrGui");
 
     adrPointers[0] = new ADRpointer(new PVector(
-      map(0, 0, 100, _x, _x + _w),
-      map(0, 0, 100, _y + _h, _y)
+      map(effect.brightness[0][0], 0, 100, _x, _x + _w),
+      map(effect.brightness[0][1], 0, 100, _y + _h, _y)
     ));
     adrPointers[1] = new ADRpointer(new PVector(
-      map(30, 0, 100, _x, _x + _w),
-      map(100, 0, 100, _y + _h, _y)
+      map(effect.brightness[1][0], 0, 100, _x, _x + _w),
+      map(effect.brightness[1][1], 0, 100, _y + _h, _y)
     ));
     adrPointers[2] = new ADRpointer(new PVector(
-      map(70, 0, 100, _x, _x + _w),
-      map(100, 0, 100, _y + _h, _y)
+      map(effect.brightness[2][0], 0, 100, _x, _x + _w),
+      map(effect.brightness[2][1], 0, 100, _y + _h, _y)
     ));
     adrPointers[3] = new ADRpointer(new PVector(
-      map(100, 0, 100, _x, _x + _w),
-      map(0, 0, 100, _y + _h, _y)
+      map(effect.brightness[3][0], 0, 100, _x, _x + _w),
+      map(effect.brightness[3][1], 0, 100, _y + _h, _y)
     ));
 
     for (ADRpointer a: adrPointers) {
@@ -166,6 +202,28 @@ public class EffectController {
 
 
 
+  void soundModeRadioButton(int a) {
+    if (a == -1)
+      // Reactivate radio button if pressed same button
+      sb.activate(effect.soundMode.ordinal());
+    else
+      // Update soundMode
+      effect.soundMode = SoundMode.values()[a];
+
+    if (effect.soundMode == SoundMode.RANDOM) {
+      controlP5.getController("noteSlider").hide();
+    }
+    else {
+      controlP5.getController("noteSlider").show();
+    }
+  }
+
+
+  void noteSlider(int a) {
+    effect.note = a;
+  }
+
+
   void barModeRadioButton(int a) {
     if (a == -1)
       // Reactivate radio button if pressed same button
@@ -173,6 +231,13 @@ public class EffectController {
     else
       // Update barMode
       effect.barMode = BarMode.values()[a];
+
+    if (effect.barMode == BarMode.BOUNCE) {
+      controlP5.getController("sizeSlider").show();
+    }
+    else {
+      controlP5.getController("sizeSlider").hide();
+    }
   }
 
 
@@ -181,9 +246,30 @@ public class EffectController {
   }
 
 
-  void positionRange(ControlEvent theEvent) {
-    effect.position[0] = (int) theEvent.getArrayValue()[0];
-    effect.position[1] = (int) theEvent.getArrayValue()[1];
+  void positionSlider(int a) {
+    final int MIN_DISTANCE = 20;
+
+    boolean isNew = (frameCount - positionLastTime) > 2;
+    positionLastTime = frameCount;
+
+    if (isNew) {
+      if (a < (effect.position[0] + effect.position[1]) / 2)
+        positionTarget = 0;
+      else
+        positionTarget = 1;
+    }
+
+    if (positionTarget != -1) {
+      if (positionTarget == 0) {
+        if (a < effect.position[1] - MIN_DISTANCE)
+          effect.position[0] = a;
+      }
+
+      if (positionTarget == 1) {
+        if (a > effect.position[0] + MIN_DISTANCE)
+          effect.position[1] = a;
+      }
+    }
   }
 
 
@@ -221,9 +307,9 @@ public class EffectController {
     sliderLastTime = frameCount;
 
     if (isNew) {
-      sliderTarget = -1;
-      for (int i = 0; i < 4; i++) {
-        if (adrPointers[i].pos.dist(position) < 50)
+      sliderTarget = 0;
+      for (int i = 1; i < 4; i++) {
+        if (position.x > (adrPointers[i-1].pos.x + adrPointers[i].pos.x) / 2)
           sliderTarget = i;
       }
     }
@@ -239,8 +325,39 @@ public class EffectController {
         effect.brightness[sliderTarget][0] = (int) values[0];
         effect.brightness[sliderTarget][1] = 100 - (int) values[1];
       } else if (sliderTarget == 3) {
-        adrPointers[sliderTarget].update(new PVector(position.x, adrPointers[sliderTarget].pos.y));
-        effect.brightness[sliderTarget][0] = (int) values[0];
+        float newX;
+        int newValue;
+
+        newX = map(position.x,
+                   adrPointers[0].pos.x,
+                   adrPointers[3].pos.x,
+                   adrPointers[0].pos.x,
+                   adrPointers[1].pos.x);
+        newValue = (int) map(newX,
+                             adrPointers[0].x,
+                             adrPointers[0].x + adrPointers[0].w,
+                             0,
+                             100);
+        adrPointers[1].update(new PVector(newX, adrPointers[1].pos.y));
+        effect.brightness[1][0] = newValue;
+
+        newX = map(position.x,
+                   adrPointers[0].pos.x,
+                   adrPointers[3].pos.x,
+                   adrPointers[0].pos.x,
+                   adrPointers[2].pos.x);
+        newValue = (int) map(newX,
+                             adrPointers[0].x,
+                             adrPointers[0].x + adrPointers[0].w,
+                             0,
+                             100);
+        adrPointers[2].update(new PVector(newX, adrPointers[2].pos.y));
+        effect.brightness[2][0] = newValue;
+
+        newX = position.x;
+        newValue = (int) values[0];
+        adrPointers[3].update(new PVector(newX, adrPointers[sliderTarget].pos.y));
+        effect.brightness[3][0] = newValue;
       }
     }
   }
@@ -256,7 +373,7 @@ public class EffectController {
 
 
   public void updatePreview() {
-    previewModule.updateTrigger(new Trigger(effect.copy(), -1, -1, frameCount));
+    previewModule.addTrigger(new Trigger(effect.copy(), -1, -1, frameCount));
     previewStartTime = frameCount;
   }
 
@@ -266,6 +383,23 @@ public class EffectController {
       updatePreview();
 
     previewModule.draw();
+
+    int h = int(windows[2].size.y);
+    int btSize = int(h / 3);
+    int x = int(windows[2].pos.x + (btSize + pd) * 2);
+    int y = int(windows[2].pos.y);
+
+    int start = (int) map(effect.position[0], 0, 100, y+h, y);
+    int end = (int) map(effect.position[1], 0, 100, y+h, y);
+
+    pushStyle();
+    strokeWeight(0);
+    rectMode(CORNERS);
+    fill(0, 45, 90);
+    rect(x, y, x+btSize, y+h);
+    fill(0, 116, 217);
+    rect(x, end, x+btSize, start);
+    popStyle();
   }
 }
 

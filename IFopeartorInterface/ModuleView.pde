@@ -41,8 +41,11 @@ class ModuleView {
         (phase > DELAY * COLUMNS))
         triggersIterator.remove();
 
-      if (phase == 1)
-        modules[t.y][t.x].updateTrigger(t.copyWithStartTime(frameCount));
+      if (phase == 1) {
+        modules[t.y][t.x].addTrigger(t.copyWithStartTime(frameCount));
+
+        println(getNote(t.effect, phase));
+      }
 
       if (phase % DELAY == 1) {
         int distance = (frameCount - t.startTime) / DELAY;
@@ -50,25 +53,32 @@ class ModuleView {
         if (t.effect.fieldMode[FieldMode.UP.ordinal()]) {
           int y = t.y - distance;
           if (y >= 0)
-            modules[y][t.x].updateTrigger(t.copyWithStartTime(frameCount));
+            modules[y][t.x].addTrigger(t.copyWithStartTime(frameCount));
         }
 
         if (t.effect.fieldMode[FieldMode.DOWN.ordinal()]) {
           int y = t.y + distance;
           if (y < ROWS)
-            modules[y][t.x].updateTrigger(t.copyWithStartTime(frameCount));
+            modules[y][t.x].addTrigger(t.copyWithStartTime(frameCount));
         }
 
         if (t.effect.fieldMode[FieldMode.LEFT.ordinal()]) {
           int x = t.x - distance;
           if (x >= 0)
-            modules[t.y][x].updateTrigger(t.copyWithStartTime(frameCount));
+            modules[t.y][x].addTrigger(t.copyWithStartTime(frameCount));
         }
 
         if (t.effect.fieldMode[FieldMode.RIGHT.ordinal()]) {
           int x = t.x + distance;
           if (x < COLUMNS)
-            modules[t.y][x].updateTrigger(t.copyWithStartTime(frameCount));
+            modules[t.y][x].addTrigger(t.copyWithStartTime(frameCount));
+        }
+
+        if (t.effect.fieldMode[FieldMode.UP.ordinal()]
+            || t.effect.fieldMode[FieldMode.DOWN.ordinal()]
+            || t.effect.fieldMode[FieldMode.LEFT.ordinal()]
+            || t.effect.fieldMode[FieldMode.RIGHT.ordinal()]) {
+          println(getNote(t.effect, phase));
         }
       }
 
@@ -76,10 +86,30 @@ class ModuleView {
         for (int x = 0; x < COLUMNS; x++)
           for (int y = 0; y < ROWS; y++)
             if ((int) (sqrt((x - t.x) * (x - t.x) + (y - t.y) * (y - t.y)) * DELAY) == phase + 1)
-              modules[y][x].updateTrigger(t.copyWithStartTime(frameCount));
+              modules[y][x].addTrigger(t.copyWithStartTime(frameCount));
+        println(getNote(t.effect, phase));
       }
     }
   }
+
+
+  private int getNote(Effect effect, int phase) {
+    switch (effect.soundMode) {
+      case SINGLE:
+        if (phase == 1)
+          return effect.note;
+        else
+          return -1;
+      case CHORD:
+        return effect.note + (phase - 1) * 3 / DELAY;
+      case RANDOM:
+        if (phase == 1)
+          return (int) random(1, 128);
+        else
+          return -1;
+    }
+    return -1;
+  } 
 
 
   public void addTrigger(Trigger trigger) {

@@ -1,4 +1,6 @@
 class Effect {
+  public SoundMode soundMode;
+  public int note;
   public BarMode barMode;
   public int size;
   public int[] position;
@@ -8,11 +10,13 @@ class Effect {
 
 
   Effect() {
+    soundMode = SoundMode.SINGLE;
+    note = 60;
     barMode = BarMode.BOUNCE;
     size = 30;
     position = new int[2];
-    position[0] = 0;
-    position[1] = 100;
+    position[0] = 10;
+    position[1] = 90;
     fieldMode = new boolean[5];
     colorRGB = new int[3];
     colorRGB[0] = 128;
@@ -21,14 +25,16 @@ class Effect {
     brightness = new int[4][2];
     brightness[0] = new int[]{0, 0};
     brightness[1] = new int[]{30, 100};
-    brightness[2] = new int[]{70, 100};
-    brightness[3] = new int[]{100, 0};
+    brightness[2] = new int[]{60, 100};
+    brightness[3] = new int[]{90, 0};
   }
 
 
   Effect copy() {
     Effect newEffect = new Effect();
 
+    newEffect.soundMode = soundMode;
+    newEffect.note = note;
     newEffect.barMode = barMode;
     newEffect.size = size;
     newEffect.position[0] = position[0];

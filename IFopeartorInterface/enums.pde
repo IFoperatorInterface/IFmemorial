@@ -1,3 +1,8 @@
+enum SoundMode {
+  SINGLE, CHORD, RANDOM
+}
+
+
 enum BarMode {
   BOUNCE, BLINK, STRETCH
 }
@@ -10,4 +15,9 @@ enum FieldMode {
 
 enum Rgb {
   RED, GREEN, BLUE
+}
+
+
+enum Preset {
+  TOUCH, JUMP
 }

@@ -45,6 +45,17 @@ public class RecordController {
     } else {
       newRecord.duration = frameCount - newRecord.recordStartTime;
       records.add(newRecord);
+
+      int NUM_RECORD = 9;
+      int x = int(windows[4].pos.x);
+      int y = int(windows[4].pos.y);
+      int h = int(windows[4].size.y);
+      int w = int(windows[4].size.x);
+      int pd = 8;
+      int btSize = int((w - (pd * NUM_RECORD + 1)) / NUM_RECORD);
+      PVector pos = new PVector(x + pd + (btSize + pd) * (records.size() - 1), y + pd);
+      systemView.recordTitles.add(new Title(pos, "record " + newRecord.id));
+
       newRecord = null;
 
       updateRecordPlayToggle();
@@ -124,7 +135,7 @@ public class RecordController {
       playController.setPosition(pos.x, pos.y);
       deleteController.setPosition(pos.x, pos.y + btSize + 2);
       pos.add(btSize / 2, btSize / 2);
-      systemView.recordTitles.add(new Title(pos, "record " + records.get(i).id));
+      systemView.recordTitles.get(i+1).pos = pos;
     }
   }
 
