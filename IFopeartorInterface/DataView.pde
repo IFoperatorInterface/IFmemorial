@@ -4,6 +4,7 @@ public class DataView {
 
   private PVector[] prevPos;
   private int[] stopCount;
+  private int[] notJumpedCount;
 
 
   DataView() {
@@ -12,6 +13,7 @@ public class DataView {
       prevPos[i] = new PVector(0, 0);
 
     this.stopCount = new int[36];
+    this.notJumpedCount = new int[36];
   }
 
 
@@ -33,6 +35,15 @@ public class DataView {
 
       prevPos[i].x = mdata[i].barPos.x;
       prevPos[i].y = mdata[i].barPos.y;
+
+      if (mdata[i].isJumped) {
+        if (notJumpedCount[i] > 3)
+          presetController.trigger(Preset.JUMP, x, y);
+        notJumpedCount[i] = 0;
+      }
+      else {
+        notJumpedCount[i]++;
+      }
     }
   }
 }
