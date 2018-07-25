@@ -1,11 +1,14 @@
 public class FieldController {
   Integer btSize;
   PVector[] fieldBtsPos;
+  int lastTarget;
+
   FieldController() {
     int indx = 0;
     fieldBtsPos = new PVector[6 * 6];
     fieldBtsPos = setFieldPostion();
     btSize = (int) fieldBtsPos[36].x;
+    lastTarget = -1;
 
     for (int i = 0; i < 6; i++)
       for (int j = 0; j < 6; j++) {
@@ -22,22 +25,22 @@ public class FieldController {
 
 
   public void onDraw() {
-    if (!mousePressed)
-      return;
-
     int target = -1;
-    for (int i=0; i<36; i++){
-      if ((mouseX > fieldBtsPos[i].x)
-          && (mouseX < fieldBtsPos[i].x+btSize)
-          && (mouseY > fieldBtsPos[i].y)
-          && (mouseY < fieldBtsPos[i].y+btSize))
-        target = i;
+
+    if (mousePressed) {
+      for (int i=0; i<36; i++){
+        if ((mouseX > fieldBtsPos[i].x)
+            && (mouseX < fieldBtsPos[i].x+btSize)
+            && (mouseY > fieldBtsPos[i].y)
+            && (mouseY < fieldBtsPos[i].y+btSize))
+          target = i;
+      }
     }
 
-    if (target == -1)
-      return;
+    if (lastTarget != -1 && target != lastTarget)
+      fieldButton(lastTarget);
 
-    fieldButton(target);
+    lastTarget = target;
   }
 
 
