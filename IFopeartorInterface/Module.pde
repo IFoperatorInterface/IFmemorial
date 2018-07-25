@@ -1,7 +1,7 @@
 class Module {
   private int x, y;
   private Trigger trigger;
-  private static final int MAX_DURATION = 30;
+  private static final int MAX_DURATION = 90;
 
   private int barH;
   PVector pos, fieldPos;
