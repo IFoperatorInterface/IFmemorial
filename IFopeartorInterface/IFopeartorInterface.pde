@@ -15,6 +15,7 @@ PresetController presetController;
 ModuleView moduleView;
 FieldView fieldView;
 SystemView systemView;
+DataView dataView;
 
 PApplet sketch = this;
 
@@ -39,6 +40,7 @@ void setup() {
   presetController = new PresetController();
   moduleView = new ModuleView();
   fieldView = new FieldView();
+  dataView = new DataView();
   
 
 }
@@ -53,4 +55,5 @@ void draw() {
   moduleView.draw();
   fieldView.draw();
   systemView.draw();
+  dataView.draw();
 }
