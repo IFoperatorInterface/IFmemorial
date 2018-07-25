@@ -307,9 +307,9 @@ public class EffectController {
     sliderLastTime = frameCount;
 
     if (isNew) {
-      sliderTarget = -1;
-      for (int i = 0; i < 4; i++) {
-        if (adrPointers[i].pos.dist(position) < 50)
+      sliderTarget = 0;
+      for (int i = 1; i < 4; i++) {
+        if (position.x > (adrPointers[i-1].pos.x + adrPointers[i].pos.x) / 2)
           sliderTarget = i;
       }
     }
