@@ -3,7 +3,7 @@ Slider2D adrBt;
 
 public class EffectController {
   private Effect effect;
-  private controlP5.RadioButton b;
+  private controlP5.RadioButton sb, b;
   private int sliderLastTime;
   private int sliderTarget;
   private final Module previewModule;
@@ -23,11 +23,24 @@ public class EffectController {
     updatePreview();
     systemView.previewTitle = new Title(new PVector(x, y + pd*2), "effect preview");
 
+    x = int(windows[1].pos.x);
+    y = int(windows[1].pos.y);
+    h = int(windows[1].size.y);
+    int btSize = int(h / 3);
+    sb = controlP5.addRadioButton("soundModeRadioButton")
+      .setPosition(x, y)
+      .setSize(btSize, btSize)
+      .addItem(SoundMode.SINGLE.name(), SoundMode.SINGLE.ordinal())
+      .addItem(SoundMode.CHORD.name(), SoundMode.CHORD.ordinal())
+      .addItem(SoundMode.RANDOM.name(), SoundMode.RANDOM.ordinal())
+      .activate(effect.soundMode.ordinal())
+      .plugTo(this);
+
     x = int(windows[2].pos.x);
     y = int(windows[2].pos.y);
     h = int(windows[2].size.y);
 
-    int btSize = int(h / 3);
+    btSize = int(h / 3);
     String[] titles = {
       "Bounce",
       "Blink",
@@ -162,6 +175,17 @@ public class EffectController {
 
     controlP5.getController("fieldModeNoTitleToggle")
       .hide();
+  }
+
+
+
+  void soundModeRadioButton(int a) {
+    if (a == -1)
+      // Reactivate radio button if pressed same button
+      sb.activate(effect.soundMode.ordinal());
+    else
+      // Update soundMode
+      effect.soundMode = SoundMode.values()[a];
   }
 
 
