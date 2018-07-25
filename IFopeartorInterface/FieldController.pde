@@ -34,7 +34,7 @@ public class FieldController {
         target = i;
     }
 
-    println(target);
+    // println(target);
 
     if (target == -1)
       return;

@@ -16,10 +16,10 @@ public class EffectController {
     sliderLastTime = -1;
     sliderTarget = -1;
     previewModule = new Module(-1,
-                               (int)windows[1].pos.x + (int)windows[1].size.x - (int)windows[1].size.y/2,
-                               (int)windows[1].pos.y + (int)windows[1].size.y,
-                               (int)windows[1].size.y,
-                               null);
+      (int) windows[1].pos.x + (int) windows[1].size.x - (int) windows[1].size.y / 2,
+      (int) windows[1].pos.y + (int) windows[1].size.y,
+      (int) windows[1].size.y,
+      null);
     updatePreview();
 
     int x = int(windows[2].pos.x);
@@ -73,12 +73,12 @@ public class EffectController {
     pos = new PVector(x + btSize / 2, y + h / 2);
     systemView.sliderTitles[1] = new Title(pos, "position");
 
-    x = x + btSize + pd;
-    int w = width / 2 - pd - x - 4;
+    x = x + btSize + pd * 4;
+    int w = width / 2 - pd * 4 - x - 4;
     int _x = x;
-    int _y = y;
+    int _y = y + pd + pd;
     int _w = w;
-    int _h = h - pd - 11;
+    int _h = h - pd * 4;
     adrBt = controlP5.addSlider2D("adrBehaviorTransition")
       .setLabelVisible(false)
       .setPosition(_x, _y)
@@ -88,16 +88,24 @@ public class EffectController {
       .disableCrosshair()
       .plugTo(this, "adrGui");
 
-    adrPointers[0] = new ADRpointer(new PVector(map(0, 0, 100, _x, _x+_w),
-                                                map(0, 0, 100, _y+_h, _y)));
-    adrPointers[1] = new ADRpointer(new PVector(map(30, 0, 100, _x, _x+_w),
-                                                map(100, 0, 100, _y+_h, _y)));
-    adrPointers[2] = new ADRpointer(new PVector(map(70, 0, 100, _x, _x+_w),
-                                                map(100, 0, 100, _y+_h, _y)));
-    adrPointers[3] = new ADRpointer(new PVector(map(100, 0, 100, _x, _x+_w),
-                                                map(0, 0, 100, _y+_h, _y)));
+    adrPointers[0] = new ADRpointer(new PVector(
+      map(0, 0, 100, _x, _x + _w),
+      map(0, 0, 100, _y + _h, _y)
+    ));
+    adrPointers[1] = new ADRpointer(new PVector(
+      map(30, 0, 100, _x, _x + _w),
+      map(100, 0, 100, _y + _h, _y)
+    ));
+    adrPointers[2] = new ADRpointer(new PVector(
+      map(70, 0, 100, _x, _x + _w),
+      map(100, 0, 100, _y + _h, _y)
+    ));
+    adrPointers[3] = new ADRpointer(new PVector(
+      map(100, 0, 100, _x, _x + _w),
+      map(0, 0, 100, _y + _h, _y)
+    ));
 
-    for (ADRpointer a : adrPointers) {
+    for (ADRpointer a: adrPointers) {
       a.x = _x;
       a.y = _y;
       a.w = _w;
@@ -107,13 +115,17 @@ public class EffectController {
     adrBt.getValueLabel().setVisible(false);
     adrBt.getCaptionLabel().setVisible(false);
     String adrTitle = "adr behavior";
-    pos = new PVector(x + pd + textWidth(adrTitle) / 2, y + pd);
+    pos = new PVector(x + w / 2 , y + h/2);
     systemView.sliderTitles[2] = new Title(pos, adrTitle);
 
     x = int(windows[3].pos.x);
     y = int(windows[3].pos.y);
     color c = color(effect.colorRGB[0], effect.colorRGB[1], effect.colorRGB[2]);
-    controlP5.addColorWheel("ledColor", x, y, h).setRGB(c).plugTo(this).getCaptionLabel().setVisible(false);
+    controlP5.addColorWheel("ledColor", x, y, h)
+      .setRGB(c)
+      .plugTo(this)
+      .getCaptionLabel()
+      .setVisible(false);
 
     x = x + h + pd;
     y = y + btSize * 2;
@@ -142,10 +154,13 @@ public class EffectController {
         .setCaptionLabel(btTitle[i])
         .plugTo(this, "fieldModeToggle");
     }
-    for (int i = 0; i < btTitle.length; i++) 
-      controlP5.getController("fieldMode" +btTitle[i] + "Toggle").getCaptionLabel().setVisible(false);
-    
-    controlP5.getController("fieldModeNoTitleToggle").hide();
+    for (int i = 0; i < btTitle.length; i++)
+      controlP5.getController("fieldMode" + btTitle[i] + "Toggle")
+      .getCaptionLabel()
+      .setVisible(false);
+
+    controlP5.getController("fieldModeNoTitleToggle")
+      .hide();
   }
 
 
@@ -196,32 +211,33 @@ public class EffectController {
 
   void adrGui() {
     float[] values = adrBt.getArrayValue();
-    PVector position = new PVector(map(values[0], 0, 100, adrPointers[0].x, adrPointers[0].x+adrPointers[0].w),
-                                   map(values[1], 100, 0, adrPointers[0].y+adrPointers[0].h, adrPointers[0].y));
+    PVector position = new PVector(
+      map(values[0], 0, 100, adrPointers[0].x, adrPointers[0].x + adrPointers[0].w),
+      map(values[1], 100, 0, adrPointers[0].y + adrPointers[0].h, adrPointers[0].y)
+    );
 
     boolean isNew = (frameCount - sliderLastTime) > 2;
     sliderLastTime = frameCount;
 
     if (isNew) {
       sliderTarget = -1;
-      for (int i=0; i<4; i++) {
-        if (adrPointers[i].pos.dist(position) < 40)
+      for (int i = 0; i < 4; i++) {
+        if (adrPointers[i].pos.dist(position) < 50)
           sliderTarget = i;
       }
     }
-    
+
     if (sliderTarget != -1) {
-      if (sliderTarget != 0 && (position.x - adrPointers[sliderTarget-1].pos.x < 40))
+      if (sliderTarget != 0 && (position.x - adrPointers[sliderTarget - 1].pos.x < 40))
         return;
-      if (sliderTarget != 3 && (position.x - adrPointers[sliderTarget+1].pos.x > -40))
+      if (sliderTarget != 3 && (position.x - adrPointers[sliderTarget + 1].pos.x > -40))
         return;
-      
+
       if (sliderTarget == 1 || sliderTarget == 2) {
         adrPointers[sliderTarget].update(position);
         effect.brightness[sliderTarget][0] = (int) values[0];
         effect.brightness[sliderTarget][1] = 100 - (int) values[1];
-      }
-      else if (sliderTarget == 3) {
+      } else if (sliderTarget == 3) {
         adrPointers[sliderTarget].update(new PVector(position.x, adrPointers[sliderTarget].pos.y));
         effect.brightness[sliderTarget][0] = (int) values[0];
       }
@@ -254,17 +270,37 @@ public class EffectController {
 
 class ADRpointer {
   PVector pos;
-  int size = 20;
+  PVector size = new PVector(15, 15);
   int x, y, w, h;
+
   ADRpointer(PVector pos) {
     this.pos = pos;
   }
   void draw() {
+    boolean mouseOver = mouseIsOn();
+    color c = (mouseOver) ? color(0, 170, 255) : color(200);
     noStroke();
-    fill(200);
-    ellipse(pos.x, pos.y, size, size);
+    fill(c);
+    ellipse(pos.x, pos.y, size.x, size.y);
   }
   void update(PVector a) {
     pos = a;
+  }
+
+  boolean mouseIsOn() {
+    boolean result = false;
+    if (adrBt.isMouseOver())
+      if (getDist(mouseX, mouseY, pos.x, pos.y) < size.x + 20)
+        result = true;
+
+    return result;
+  }
+
+  float getDist(float px, float py, float bx, float by) {
+    float xDist = px - bx; // distance horiz
+    float yDist = py - by; // distance vert
+    float distance = sqrt(sq(xDist) + sq(yDist)); // diagonal distance
+
+    return distance;
   }
 }
