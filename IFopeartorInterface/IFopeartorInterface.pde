@@ -1,6 +1,5 @@
 import controlP5.*;
 import java.util.*;
-
 import processing.serial.*;
 import hypermedia.net.*;
 import processing.core.*;
