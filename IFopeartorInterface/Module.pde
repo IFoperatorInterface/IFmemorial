@@ -1,6 +1,6 @@
 class Module {
   private int x, y;
-  private Trigger trigger;
+  private List<Trigger> triggers;
   private static final int MAX_DURATION = 90;
 
   private int barH;
@@ -13,6 +13,7 @@ class Module {
     this.y = y;
     this.barH = barH;
     this.fieldPos = fieldPos;
+    this.triggers = new ArrayList<Trigger>();
     pos = new PVector(x, y);
     if (fieldPos != null)
       btSize = fieldController.btSize;
@@ -23,29 +24,31 @@ class Module {
   public void draw() {
     drawBar();
 
-    if (trigger == null)
-      return;
+    Iterator < Trigger > triggersIterator = triggers.iterator();
+    while (triggersIterator.hasNext()) {
+      Trigger trigger = triggersIterator.next();
 
-    if ((float)(frameCount - trigger.startTime) / MAX_DURATION * 100 > trigger.effect.brightness[3][0])
-      trigger = null;
-    else {
-      switch (trigger.effect.barMode) {
-        case BOUNCE:
-          bounce();
-          break;
-        case BLINK:
-          blink();
-          break;
-        case STRETCH:
-          stretch();
-          break;
+      if ((float)(frameCount - trigger.startTime) / MAX_DURATION * 100 > trigger.effect.brightness[3][0])
+        triggersIterator.remove();
+      else {
+        switch (trigger.effect.barMode) {
+          case BOUNCE:
+            bounce(trigger);
+            break;
+          case BLINK:
+            blink(trigger);
+            break;
+          case STRETCH:
+            stretch(trigger);
+            break;
+        }
       }
     }
   }
 
 
-  private void bounce() {
-    float ratio = getRatio();
+  private void bounce(Trigger trigger) {
+    float ratio = getRatio(trigger);
 
     float size = trigger.effect.size / 100.0;
     float start = (1 - size) * map(ratio, 0, 1, trigger.effect.position[0] / 100.0, trigger.effect.position[1] / 100.0);
@@ -55,8 +58,8 @@ class Module {
   }
 
 
-  private void blink() {
-    float ratio = getRatio();
+  private void blink(Trigger trigger) {
+    float ratio = getRatio(trigger);
 
     float start = trigger.effect.position[0] / 100.0;
     float end = trigger.effect.position[1] / 100.0;
@@ -65,8 +68,8 @@ class Module {
   }
 
 
-  private void stretch() {
-    float ratio = getRatio();
+  private void stretch(Trigger trigger) {
+    float ratio = getRatio(trigger);
 
     float start = 0;
     float end = map(ratio, 0, 1, trigger.effect.position[0] / 100.0, trigger.effect.position[1] / 100.0);
@@ -75,7 +78,7 @@ class Module {
   }
 
 
-  private float getRatio() {
+  private float getRatio(Trigger trigger) {
     float phase = (float)(frameCount - trigger.startTime) / MAX_DURATION * 100;
     float ratio = 100;
 
@@ -116,8 +119,8 @@ class Module {
   }
 
 
-  public void updateTrigger(Trigger trigger) {
-    this.trigger = trigger;
+  public void addTrigger(Trigger trigger) {
+    triggers.add(trigger);
   }
 
   void drawBar() {

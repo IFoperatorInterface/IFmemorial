@@ -373,7 +373,7 @@ public class EffectController {
 
 
   public void updatePreview() {
-    previewModule.updateTrigger(new Trigger(effect.copy(), -1, -1, frameCount));
+    previewModule.addTrigger(new Trigger(effect.copy(), -1, -1, frameCount));
     previewStartTime = frameCount;
   }
 
