@@ -11,8 +11,8 @@ class FieldView {
     }
     void update(int num, PVector[] loc, float[] weight) {
         riders.clear();
-        
-        for (int i=0; i<loc.length && i<weight.length; i++)
+
+        for (int i = 0; i < loc.length && i < weight.length; i++)
             riders.add(new Rider(loc[i], weight[i]));
 
         PEOPLE = num;

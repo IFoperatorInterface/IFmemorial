@@ -16,9 +16,14 @@ class Rider {
     }
 
     void draw() {
-        pushStyle();
-        fill(c);
-        ellipse(pos.x, pos.y, r * weight, r * weight);
-        popStyle();
+        // float x = map(pos.x, 0, 6, 0, fieldController.fieldBtsPos[0].x + fieldController.btSize.x);
+        // float y = map(pos.y, 0, 6, 0, fieldController.fieldBtsPos[30].y + fieldController.btSize.y);
+        // pushStyle();
+        // pushMatrix();
+        // translate(fieldController.fieldBtsPos[0].x, fieldController.fieldBtsPos[0].y);
+        // fill(c);
+        // ellipse(x, y, r * weight, r * weight);
+        // popMatrix();
+        // popStyle();
     }
 }
