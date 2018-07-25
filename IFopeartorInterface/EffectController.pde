@@ -325,8 +325,39 @@ public class EffectController {
         effect.brightness[sliderTarget][0] = (int) values[0];
         effect.brightness[sliderTarget][1] = 100 - (int) values[1];
       } else if (sliderTarget == 3) {
-        adrPointers[sliderTarget].update(new PVector(position.x, adrPointers[sliderTarget].pos.y));
-        effect.brightness[sliderTarget][0] = (int) values[0];
+        float newX;
+        int newValue;
+
+        newX = map(position.x,
+                   adrPointers[0].pos.x,
+                   adrPointers[3].pos.x,
+                   adrPointers[0].pos.x,
+                   adrPointers[1].pos.x);
+        newValue = (int) map(newX,
+                             adrPointers[0].x,
+                             adrPointers[0].x + adrPointers[0].w,
+                             0,
+                             100);
+        adrPointers[1].update(new PVector(newX, adrPointers[1].pos.y));
+        effect.brightness[1][0] = newValue;
+
+        newX = map(position.x,
+                   adrPointers[0].pos.x,
+                   adrPointers[3].pos.x,
+                   adrPointers[0].pos.x,
+                   adrPointers[2].pos.x);
+        newValue = (int) map(newX,
+                             adrPointers[0].x,
+                             adrPointers[0].x + adrPointers[0].w,
+                             0,
+                             100);
+        adrPointers[2].update(new PVector(newX, adrPointers[2].pos.y));
+        effect.brightness[2][0] = newValue;
+
+        newX = position.x;
+        newValue = (int) values[0];
+        adrPointers[3].update(new PVector(newX, adrPointers[sliderTarget].pos.y));
+        effect.brightness[3][0] = newValue;
       }
     }
   }
