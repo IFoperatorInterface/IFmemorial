@@ -1,3 +1,8 @@
+enum SoundMode {
+  SINGLE, CHORD, RANDOM
+}
+
+
 enum BarMode {
   BOUNCE, BLINK, STRETCH
 }

@@ -1,4 +1,6 @@
 class Effect {
+  public SoundMode soundMode;
+  public int note;
   public BarMode barMode;
   public int size;
   public int[] position;
@@ -8,6 +10,8 @@ class Effect {
 
 
   Effect() {
+    soundMode = SoundMode.SINGLE;
+    note = 60;
     barMode = BarMode.BOUNCE;
     size = 30;
     position = new int[2];
@@ -29,6 +33,8 @@ class Effect {
   Effect copy() {
     Effect newEffect = new Effect();
 
+    newEffect.soundMode = soundMode;
+    newEffect.note = note;
     newEffect.barMode = barMode;
     newEffect.size = size;
     newEffect.position[0] = position[0];
