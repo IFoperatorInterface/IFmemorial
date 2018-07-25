@@ -8,7 +8,7 @@ public class PresetController {
     int pd = 8;
     int h = int(windows[4].size.y);
     int btSize = int(h / 3);
-    int x = int(windows[4].pos.x) + btSize * 2 + pd;
+    int x = int(windows[4].pos.x) + btSize * 2 + pd * 3;
     int y = int(windows[4].pos.y) + h - btSize - pd;
 
     for (Preset p : Preset.values()) {
