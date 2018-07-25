@@ -19,6 +19,7 @@ public class EffectController {
     int x = (int) windows[1].pos.x + (int) windows[1].size.x - (int) windows[1].size.y / 2;
     int h = (int) windows[1].size.y - pd * 6;
     int y = (int) windows[1].pos.y + (int) + h + pd *2;
+    PVector pos;
     previewModule = new Module(-1, x, y, h, null);
     updatePreview();
     systemView.previewTitle = new Title(new PVector(x, y + pd*2), "effect preview");
@@ -36,7 +37,13 @@ public class EffectController {
       .activate(effect.soundMode.ordinal())
       .plugTo(this);
 
-    x += (btSize + pd) * 2;
+    for (int i = 0; i < SoundMode.values().length; i++) {
+      pos = new PVector(x + btSize / 2, y + btSize * i + btSize / 2);
+      systemView.soundModeTitles[i] = new Title(pos, SoundMode.values()[i].name());
+      sb.getController(SoundMode.values()[i].name()).getCaptionLabel().setVisible(false);
+    }
+
+    x += (btSize + pd);
     controlP5.addSlider("noteSlider")
       .setPosition(x, y)
       .setSize(btSize, h)
@@ -45,7 +52,7 @@ public class EffectController {
       .plugTo(this)
       .getCaptionLabel().setVisible(false);
     controlP5.getController("noteSlider").getValueLabel().setVisible(false);
-    PVector pos = new PVector(x + btSize / 2, y + h / 2);
+    pos = new PVector(x + btSize / 2, y + h / 2);
     systemView.sliderTitles[3] = new Title(pos, "note");
 
     x = int(windows[2].pos.x);

@@ -1,4 +1,5 @@
 class SystemView {
+    Title[] soundModeTitles = new Title[3];
     Title[] ledBehaviorTiltles = new Title[3];
     Title[] fieldDirectionTitles = new Title[6];
     Title[] sliderTitles = new Title[4];
@@ -10,6 +11,9 @@ class SystemView {
     void draw() {
 
         adrGUI();
+
+        for (Title t: soundModeTitles)
+            t.display();
 
         for (Title t: recordTitles)
             t.display();
