@@ -15,8 +15,8 @@ class Effect {
     barMode = BarMode.BOUNCE;
     size = 30;
     position = new int[2];
-    position[0] = 0;
-    position[1] = 100;
+    position[0] = 10;
+    position[1] = 90;
     fieldMode = new boolean[5];
     colorRGB = new int[3];
     colorRGB[0] = 128;
