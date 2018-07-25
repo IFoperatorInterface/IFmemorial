@@ -11,3 +11,8 @@ enum FieldMode {
 enum Rgb {
   RED, GREEN, BLUE
 }
+
+
+enum Preset {
+  TOUCH, PULL, JUMP
+}

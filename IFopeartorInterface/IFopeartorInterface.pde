@@ -11,6 +11,7 @@ ControlP5 controlP5;
 EffectController effectController;
 FieldController fieldController;
 RecordController recordController;
+PresetController presetController;
 ModuleView moduleView;
 FieldView fieldView;
 SystemView systemView;
@@ -35,6 +36,7 @@ void setup() {
   effectController = new EffectController();
   fieldController = new FieldController();
   recordController = new RecordController();
+  presetController = new PresetController();
   moduleView = new ModuleView();
   fieldView = new FieldView();
   
