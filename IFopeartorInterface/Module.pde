@@ -61,7 +61,7 @@ class Module {
     float start = trigger.effect.position[0] / 100.0;
     float end = trigger.effect.position[1] / 100.0;
 
-    drawLine(color(trigger.effect.colorRGB[0] * ratio, trigger.effect.colorRGB[1] * ratio, trigger.effect.colorRGB[2] * ratio), start, end);
+    drawLine(color(trigger.effect.colorRGB[0], trigger.effect.colorRGB[1], trigger.effect.colorRGB[2], ratio*255), start, end);
   }
 
 
