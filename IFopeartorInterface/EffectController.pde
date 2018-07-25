@@ -209,6 +209,13 @@ public class EffectController {
     else
       // Update soundMode
       effect.soundMode = SoundMode.values()[a];
+
+    if (effect.soundMode == SoundMode.RANDOM) {
+      controlP5.getController("noteSlider").hide();
+    }
+    else {
+      controlP5.getController("noteSlider").show();
+    }
   }
 
 
@@ -224,6 +231,13 @@ public class EffectController {
     else
       // Update barMode
       effect.barMode = BarMode.values()[a];
+
+    if (effect.barMode == BarMode.BOUNCE) {
+      controlP5.getController("sizeSlider").show();
+    }
+    else {
+      controlP5.getController("sizeSlider").hide();
+    }
   }
 
 
