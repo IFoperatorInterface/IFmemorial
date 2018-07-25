@@ -36,6 +36,18 @@ public class EffectController {
       .activate(effect.soundMode.ordinal())
       .plugTo(this);
 
+    x += (btSize + pd) * 2;
+    controlP5.addSlider("noteSlider")
+      .setPosition(x, y)
+      .setSize(btSize, h)
+      .setRange(1, 127)
+      .setValue(effect.note)
+      .plugTo(this)
+      .getCaptionLabel().setVisible(false);
+    controlP5.getController("noteSlider").getValueLabel().setVisible(false);
+    PVector pos = new PVector(x + btSize / 2, y + h / 2);
+    systemView.sliderTitles[3] = new Title(pos, "note");
+
     x = int(windows[2].pos.x);
     y = int(windows[2].pos.y);
     h = int(windows[2].size.y);
@@ -58,7 +70,7 @@ public class EffectController {
 
 
     for (int i = 0; i < titles.length; i++) {
-      PVector pos = new PVector(x + btSize / 2, y + btSize * i + btSize / 2);
+      pos = new PVector(x + btSize / 2, y + btSize * i + btSize / 2);
       systemView.ledBehaviorTiltles[i] = new Title(pos, titles[i]);
       b.getController(titles[i]).getCaptionLabel().setVisible(false);
     }
@@ -73,7 +85,7 @@ public class EffectController {
       .plugTo(this)
       .getCaptionLabel().setVisible(false);
     controlP5.getController("sizeSlider").getValueLabel().setVisible(false);
-    PVector pos = new PVector(x + btSize / 2, y + h / 2);
+    pos = new PVector(x + btSize / 2, y + h / 2);
     systemView.sliderTitles[0] = new Title(pos, "size");
 
     x = x + btSize + pd;
@@ -188,6 +200,10 @@ public class EffectController {
       effect.soundMode = SoundMode.values()[a];
   }
 
+
+  void noteSlider(int a) {
+    effect.note = a;
+  }
 
 
   void barModeRadioButton(int a) {
