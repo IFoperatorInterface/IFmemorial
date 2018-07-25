@@ -126,20 +126,20 @@ public class EffectController {
       .plugTo(this, "adrGui");
 
     adrPointers[0] = new ADRpointer(new PVector(
-      map(0, 0, 100, _x, _x + _w),
-      map(0, 0, 100, _y + _h, _y)
+      map(effect.brightness[0][0], 0, 100, _x, _x + _w),
+      map(effect.brightness[0][1], 0, 100, _y + _h, _y)
     ));
     adrPointers[1] = new ADRpointer(new PVector(
-      map(30, 0, 100, _x, _x + _w),
-      map(100, 0, 100, _y + _h, _y)
+      map(effect.brightness[1][0], 0, 100, _x, _x + _w),
+      map(effect.brightness[1][1], 0, 100, _y + _h, _y)
     ));
     adrPointers[2] = new ADRpointer(new PVector(
-      map(70, 0, 100, _x, _x + _w),
-      map(100, 0, 100, _y + _h, _y)
+      map(effect.brightness[2][0], 0, 100, _x, _x + _w),
+      map(effect.brightness[2][1], 0, 100, _y + _h, _y)
     ));
     adrPointers[3] = new ADRpointer(new PVector(
-      map(100, 0, 100, _x, _x + _w),
-      map(0, 0, 100, _y + _h, _y)
+      map(effect.brightness[3][0], 0, 100, _x, _x + _w),
+      map(effect.brightness[3][1], 0, 100, _y + _h, _y)
     ));
 
     for (ADRpointer a: adrPointers) {

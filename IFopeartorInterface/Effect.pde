@@ -25,8 +25,8 @@ class Effect {
     brightness = new int[4][2];
     brightness[0] = new int[]{0, 0};
     brightness[1] = new int[]{30, 100};
-    brightness[2] = new int[]{70, 100};
-    brightness[3] = new int[]{100, 0};
+    brightness[2] = new int[]{60, 100};
+    brightness[3] = new int[]{90, 0};
   }
 
 
