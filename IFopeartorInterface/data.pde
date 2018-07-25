@@ -80,34 +80,42 @@ void receive(byte[] data) {
     // printArray(tokens);
 
 
-    int size = int(tokens[0]) * 2 + NUM_MODULE_TOKENS;
+    int size = int(tokens[0]) * 3 + NUM_MODULE_TOKENS;
 
     if (tokens.length == size && dataController.runWithConnection) {
-        float[] a = new float[size];
+        float[] a = new float[tokens.length];
+        // a = float(tokens);
         for (int i = 0; i < a.length; i++) {
             a[i] = float(tokens[i]);
-
         }
-
-        // printArray(a);
-
-
+        // println(a);
         //================================module================================
         int numPerson = (int) a[0];
         int indx = (int) a[1];
         mdata[indx].update(a);
-
         //================================global================================
         if (numPerson != 0) {
+            // println(a[NUM_MODULE_TOKENS], a[NUM_MODULE_TOKENS + 1], a[NUM_MODULE_TOKENS + 2]);
+            // println(numPerson);
 
-            PVector[] pos = new PVector[numPerson];
-            float[] weight = new float[numPerson];
-            for (int i = 0; i < numPerson; i++) {
-                pos[i] = new PVector(a[NUM_MODULE_TOKENS + i], a[NUM_MODULE_TOKENS + 1 + i]);
-                weight[i] = a[NUM_MODULE_TOKENS + i + 2];
+            for (int i = 0; i < fieldView.riders2.length; i++) {
+                fieldView.riders2[i].reset();
             }
-            fieldView.update(numPerson, pos, weight);
+            int arrayLength = (size - NUM_MODULE_TOKENS) / 3;
+            PVector[] pos = new PVector[arrayLength];
+            float[] weight = new float[arrayLength];
+            for (int i = 0; i < arrayLength; i++) {
+                pos[i] = new PVector(a[NUM_MODULE_TOKENS + i * 3], a[NUM_MODULE_TOKENS + 1 + i * 3]);
+                weight[i] = (a[NUM_MODULE_TOKENS + i * 3 + 2] > 400) ? 400 : a[NUM_MODULE_TOKENS + i * 3 + 2];
+
+
+                fieldView.riders2[i].update(pos[i], weight[i]);
+            }
+            // printArray(pos);;
+            fieldView.update(arrayLength);
+
         }
+
     }
 }
 
@@ -336,14 +344,14 @@ public class OPC {
         }
         //============================window indicator============================
         rectMode(CORNERS);
-        float x1 = window.x ;
+        float x1 = window.x;
         float x2 = window.x + windowWidth - pd;
         float y1 = window.y + pd;
         float y2 = ENDPOINT - pd; // 88 
         noStroke();
         fill(0);
         rect(x1, 16, x2, y2 + pd);
-        rect(0, 0 , x2, 15);
+        rect(0, 0, x2, 15);
         stroke(255);
         noFill();
         rect(x1, y1 + indxFontSize, x2, y2);

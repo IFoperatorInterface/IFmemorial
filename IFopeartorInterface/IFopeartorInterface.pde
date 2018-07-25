@@ -28,7 +28,7 @@ public void settings() {
 
 void setup() {
   setting = new SETTING();
-  dataController = new DataController(true);
+  dataController = new DataController(false);
   systemView = new SystemView();
   controlP5 = new ControlP5(this);
   controlP5.setAutoDraw(false);
