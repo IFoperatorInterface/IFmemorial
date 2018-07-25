@@ -29,4 +29,10 @@ public class PresetController {
   void presetButton(int theValue) {
     effects[theValue] = effectController.getEffect();
   }
+
+
+  public void trigger(Preset preset, int x, int y) {
+    Trigger trigger = new Trigger(effects[preset.ordinal()], x, y, frameCount);
+    moduleView.addTrigger(trigger);
+  }
 }
