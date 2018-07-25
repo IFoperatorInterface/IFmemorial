@@ -2,13 +2,14 @@ class SystemView {
     Title[] ledBehaviorTiltles = new Title[3];
     Title[] fieldDirectionTitles = new Title[6];
     Title[] sliderTitles = new Title[3];
+    Title previewTitle;
     private List < Title > recordTitles;
     SystemView() {
         recordTitles = new ArrayList < Title > ();
     }
     void draw() {
 
-        adrWindow();
+        adrGUI();
 
         for (Title t: recordTitles)
             t.display();
@@ -22,14 +23,10 @@ class SystemView {
         for (Title t: ledBehaviorTiltles)
             t.display();
 
-        windowWindow();
+        windowGUI();
     }
-    void windowWindow() {
+    void windowGUI() {
         if (recordController.isRecording) {
-            // float x = fieldController.fieldBtsPos[0].x;
-            // float y = fieldController.fieldBtsPos[0].y;
-            // float w = fieldController.fieldBtsPos[5].x - fieldController.fieldBtsPos[0].x + fieldController.btSize;
-            // float h = fieldController.fieldBtsPos[30].y - fieldController.fieldBtsPos[0].y + fieldController.btSize;
             float x = windows[4].pos.x;
             float y = windows[4].pos.y;
             float w = windows[4].size.x;
@@ -40,17 +37,25 @@ class SystemView {
             noFill();
             strokeWeight(5);
             stroke(millis() % (scale * speed), 0, 0);
-
             rect(x, y, w, h);
             popStyle();
         }
+        PVector pos = effectController.previewModule.pos;
+        float pd = 10;
+        float w = 14;
+        float h = pos.y - windows[1].pos.y;
+        pushStyle();
+        noFill();
+        stroke(120);
+        rect(pos.x - w / 2, pos.y - h + pd, w, h, w / 2);
+        popStyle();
+        previewTitle.display();
 
-
-        for (Window w: windows)
-            w.display();
+        for (Window win: windows)
+            win.display();
 
     }
-    void adrWindow() {
+    void adrGUI() {
         int NUM_ADR = 3;
         int pd = 10;
         int h = int(windows[NUM_ADR - 1].size.y - pd);

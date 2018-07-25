@@ -8,6 +8,7 @@ public class EffectController {
   private int sliderTarget;
   private final Module previewModule;
   private int previewStartTime;
+  int pd = 10;
 
   private ADRpointer[] adrPointers = new ADRpointer[4];
 
@@ -15,17 +16,17 @@ public class EffectController {
     effect = new Effect();
     sliderLastTime = -1;
     sliderTarget = -1;
-    previewModule = new Module(-1,
-      (int) windows[1].pos.x + (int) windows[1].size.x - (int) windows[1].size.y / 2,
-      (int) windows[1].pos.y + (int) windows[1].size.y,
-      (int) windows[1].size.y,
-      null);
+    int x = (int) windows[1].pos.x + (int) windows[1].size.x - (int) windows[1].size.y / 2;
+    int h = (int) windows[1].size.y - pd * 6;
+    int y = (int) windows[1].pos.y + (int) + h + pd *2;
+    previewModule = new Module(-1, x, y, h, null);
     updatePreview();
+    systemView.previewTitle = new Title(new PVector(x, y + pd*2), "effect preview");
 
-    int x = int(windows[2].pos.x);
-    int y = int(windows[2].pos.y);
-    int h = int(windows[2].size.y);
-    int pd = 10;
+    x = int(windows[2].pos.x);
+    y = int(windows[2].pos.y);
+    h = int(windows[2].size.y);
+
     int btSize = int(h / 3);
     String[] titles = {
       "Bounce",
@@ -115,7 +116,7 @@ public class EffectController {
     adrBt.getValueLabel().setVisible(false);
     adrBt.getCaptionLabel().setVisible(false);
     String adrTitle = "adr behavior";
-    pos = new PVector(x + w / 2 , y + h/2);
+    pos = new PVector(x + w / 2, y + h / 2);
     systemView.sliderTitles[2] = new Title(pos, adrTitle);
 
     x = int(windows[3].pos.x);

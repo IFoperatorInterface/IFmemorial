@@ -4,7 +4,7 @@ class Module {
   private static final int MAX_DURATION = 30;
 
   private int barH;
-  PVector fieldBtsPos;
+  PVector pos, fieldPos;
   int btSize, indx;
 
   Module(int indx, int x, int y, int barH, PVector fieldPos) {
@@ -12,8 +12,9 @@ class Module {
     this.x = x;
     this.y = y;
     this.barH = barH;
-    fieldBtsPos = fieldPos;
-    if (fieldBtsPos != null)
+    this.fieldPos = fieldPos;
+    pos = new PVector(x, y);
+    if (fieldPos != null)
       btSize = fieldController.btSize;
 
   }
@@ -94,21 +95,23 @@ class Module {
 
 
   private void drawLine(color strokeColor, float start, float end) {
-    strokeWeight(1);
+    int strokeW = (fieldPos == null) ? 4 : 1;
+    pushStyle();
+    strokeWeight(strokeW);
     stroke(strokeColor);
-    // line((50+x*130+y*20)/SCALE, (150-end)/SCALE, (50+x*130+y*20)/SCALE, (150-start)/SCALE);
     line(x, y - end * barH, x, y - start * barH);
+    popStyle();
 
-    if (fieldBtsPos == null)
+    if (fieldPos == null)
       return;
 
+    pushStyle();
     pushMatrix();
     translate(fieldController.fieldBtsPos[indx].x + btSize, fieldController.fieldBtsPos[indx].y);
     strokeWeight(5);
     line(-4, (1 - start) * btSize, -4, (1 - end) * btSize);
     popMatrix();
-
-    strokeWeight(1);
+    popStyle();
   }
 
 
@@ -117,7 +120,7 @@ class Module {
   }
 
   void drawBar() {
-    if (fieldBtsPos == null)
+    if (fieldPos == null)
       return;
 
     float x = map(mdata[indx].barPos.x, -1, 1, -btSize / 2, btSize / 2);
