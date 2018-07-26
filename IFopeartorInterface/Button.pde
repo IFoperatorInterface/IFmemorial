@@ -4,6 +4,7 @@ class Button {
   private PVector size;
   private color backgroundColor;
   private String name;
+  private ButtonPressListener buttonPressListener;
 
 
   Button() {
@@ -11,6 +12,7 @@ class Button {
     this.size = new PVector(100, 100);
     this.backgroundColor = color(0, 45, 90);
     this.name = "Button";
+    this.buttonPressListener = null;
   }
 
 
@@ -37,6 +39,27 @@ class Button {
   }
 
 
+  public Button setPressListener(ButtonPressListener buttonPressListener) {
+    this.buttonPressListener = buttonPressListener;
+
+    return this;
+  }
+
+
+  private boolean isInside(int x, int y) {
+    if (x < this.pos.x)
+      return false;
+    if (x > this.pos.x + this.size.x)
+      return false;
+    if (y < this.pos.y)
+      return false;
+    if (y > this.pos.y + this.pos.y)
+      return false;
+
+    return true;
+  }
+
+
   public void draw() {
     pushStyle();
 
@@ -48,4 +71,22 @@ class Button {
 
     popStyle();
   }
+
+
+  public void press(int x, int y) {
+    if (buttonPressListener == null)
+      return;
+
+    if (!isInside(x, y))
+      return;
+
+    buttonPressListener.onPress();
+  }
+}
+
+
+
+
+interface ButtonPressListener {
+  public void onPress();
 }
