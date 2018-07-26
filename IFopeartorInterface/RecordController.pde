@@ -4,6 +4,8 @@ public class RecordController {
   private int newId;
   private Boolean isRecording;
 
+  private Button recordToggle;
+
 
   RecordController() {
     this.records = new ArrayList < Record > ();
@@ -17,19 +19,19 @@ public class RecordController {
     int y = int(windows[4].pos.y) + h - btSize - pd;
 
 
-    controlP5.addToggle("recordToggle")
-      .setPosition(x, y)
+    recordToggle = new Button()
+      .setPos(x, y)
       .setSize(btSize, btSize)
-      .setColorBackground(color(120, 20, 200))
-      .plugTo(this);
-
-    PVector pos = new PVector(x + btSize / 2, y + btSize / 2);
-    systemView.recordTitles.add(new Title(pos, "record"));
-
-
-    controlP5.getController("recordToggle")
-      .getCaptionLabel()
-      .setVisible(false);
+      .setName("record")
+      .setBackgroundColor(120, 20, 200)
+      .setPressListener(new ButtonPressListener() {
+        public void onPress() {
+          if (isRecording)
+            recordToggle(0);
+          else 
+            recordToggle(1);
+        }
+      });
   }
 
 
@@ -92,7 +94,7 @@ public class RecordController {
     controlP5.getController("recordPlay" + records.get(idx).id + "Toggle").hide();
     controlP5.getController("recordDelete" + records.get(idx).id + "Button").hide();
     records.remove(idx);
-    systemView.recordTitles.remove(idx + 1);
+    systemView.recordTitles.remove(idx);
     updateRecordPlayToggle();
   }
 
@@ -135,7 +137,7 @@ public class RecordController {
       playController.setPosition(pos.x, pos.y);
       deleteController.setPosition(pos.x, pos.y + btSize + 2);
       pos.add(btSize / 2, btSize / 2);
-      systemView.recordTitles.get(i+1).pos = pos;
+      systemView.recordTitles.get(i).pos = pos;
     }
   }
 
@@ -149,6 +151,9 @@ public class RecordController {
 
 
   public void onDraw() {
+    recordToggle.draw();
+
+
     for (Record r: records) {
       if (r.playStartTime == -1)
         continue;
@@ -159,5 +164,10 @@ public class RecordController {
         if (t.startTime - r.recordStartTime == phase)
           moduleView.addTrigger(t.copyWithStartTime(frameCount));
     }
+  }
+
+
+  public void press(int x, int y) {
+    recordToggle.press(x, y);
   }
 }

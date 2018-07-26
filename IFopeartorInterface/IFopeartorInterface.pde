@@ -54,5 +54,9 @@ void draw() {
   fieldView.draw();
   systemView.draw();
   dataView.draw();
+}
 
+
+void mouseClicked() {
+  recordController.press(mouseX, mouseY);
 }
