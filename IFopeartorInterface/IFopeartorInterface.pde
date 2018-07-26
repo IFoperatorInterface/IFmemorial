@@ -41,8 +41,6 @@ void setup() {
   moduleView = new ModuleView();
   fieldView = new FieldView();
   dataView = new DataView();
-  
-
 }
 
 
@@ -56,4 +54,5 @@ void draw() {
   fieldView.draw();
   systemView.draw();
   dataView.draw();
+
 }

@@ -15,7 +15,6 @@ class Data {
             prss = 0.0;
         }
         barPos = new PVector(0, 0);
-
     }
     void update(float[] a) {
         barPos = new PVector(a[2] * -1, a[3] * -1);
@@ -28,13 +27,24 @@ class Data {
 }
 
 class DataController {
+    private static final int sendingPort = 40001;
+    private static final String udpIP = "127.0.0.1";
+
     Boolean runWithConnection;
+
 
     DataController(boolean a) {
         runWithConnection = a;
         setUDP();
         setOPC();
         setModuleData();
+    }
+    void sendSoundData(int indx, int note) {
+        //String mssg = "abcd, 1, 24, 42,1000";
+        //udp_sending.send(mssg, udpIP, sendingPort );
+
+        String mssg = "abcd,1," + indx + "," + note + ",1000";
+        udp_sending.send(mssg, udpIP, sendingPort);
     }
 
     void setModuleData() {
@@ -46,7 +56,7 @@ class DataController {
 
     void setUDP() {
         int receivingPort = 40000;
-        int sendingPort = 40001;
+
         udp_receiving = new UDP(sketch, receivingPort);
         udp_sending = new UDP(sketch);
         udp_receiving.listen(runWithConnection);
@@ -66,7 +76,6 @@ class DataController {
         opc = new OPC(sketch, "192.168.7.2", opcPort, runWithConnection);
         opc.ledGrid(0, NUM_LED, 49, windowX, windowY, windowWidth, padding, stripSpacing, HALF_PI, true);
         opc.reIndx();
-
     }
 }
 
@@ -79,34 +88,27 @@ void receive(byte[] data) {
     String[] tokens = split(received, ',');
     // printArray(tokens);
 
-
-    int size = int(tokens[0]) * 2 + NUM_MODULE_TOKENS;
+    int size = tokens.length;
 
     if (tokens.length == size && dataController.runWithConnection) {
-        float[] a = new float[size];
+        float[] a = new float[tokens.length];
+        // a = float(tokens);
         for (int i = 0; i < a.length; i++) {
             a[i] = float(tokens[i]);
-
         }
 
-        // printArray(a);
-
-
-        //================================module================================
-        int numPerson = (int) a[0];
+        int arrayLength = (size - NUM_MODULE_TOKENS) / 3;
         int indx = (int) a[1];
         mdata[indx].update(a);
 
-        //================================global================================
-        if (numPerson != 0) {
-
-            PVector[] pos = new PVector[numPerson];
-            float[] weight = new float[numPerson];
-            for (int i = 0; i < numPerson; i++) {
-                pos[i] = new PVector(a[NUM_MODULE_TOKENS + i], a[NUM_MODULE_TOKENS + 1 + i]);
-                weight[i] = a[NUM_MODULE_TOKENS + i + 2];
+        if (arrayLength > 0) {
+            PVector[] pos = new PVector[arrayLength];
+            float[] weight = new float[arrayLength];
+            for (int i = 0; i < arrayLength; i++) {
+                pos[i] = new PVector(a[NUM_MODULE_TOKENS + i * 3], a[NUM_MODULE_TOKENS + 1 + i * 3]);
+                weight[i] = (a[NUM_MODULE_TOKENS + i * 3 + 2] > 400) ? 400 : a[NUM_MODULE_TOKENS + i * 3 + 2];
             }
-            fieldView.update(numPerson, pos, weight);
+            fieldView.update(arrayLength, pos, weight);
         }
     }
 }
@@ -137,7 +139,7 @@ public class OPC {
             this.host = host;
             this.port = port;
         }
-        this.enableShowLocations = true;
+        this.enableShowLocations = false; //true for default
         parent.registerMethod("draw", this);
         connection = runWithConnection;
     }
@@ -214,7 +216,6 @@ public class OPC {
                 (int)(x + (i - (count - 1) / 1.0) * spacing * c + 0.5),
                 (int)(y + (i - (count - 1) / 1.0) * spacing * s + 0.5));
         }
-
     }
 
     // Set the location of several LEDs arranged in a grid. The first strip is
@@ -265,10 +266,7 @@ public class OPC {
     // void setPixel(int numofPixelsUpdated){
     //   numStrips = numofPixelsUpdated;
     // }
-    void setup() {
-
-
-    }
+    void setup() {}
     void draw() {
         if (dataController.runWithConnection) {
             if (pixelLocations == null) {
@@ -315,7 +313,7 @@ public class OPC {
                 updatePixels();
             }
         }
-        gui();
+        // gui();`11
     }
 
     void gui() {
@@ -336,14 +334,14 @@ public class OPC {
         }
         //============================window indicator============================
         rectMode(CORNERS);
-        float x1 = window.x ;
+        float x1 = window.x;
         float x2 = window.x + windowWidth - pd;
         float y1 = window.y + pd;
         float y2 = ENDPOINT - pd; // 88 
         noStroke();
         fill(0);
         rect(x1, 16, x2, y2 + pd);
-        rect(0, 0 , x2, 15);
+        rect(0, 0, x2, 15);
         stroke(255);
         noFill();
         rect(x1, y1 + indxFontSize, x2, y2);
