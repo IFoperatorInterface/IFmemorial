@@ -1,53 +1,34 @@
 class FieldView {
     PVector winPos, winSize;
     private List < Rider > riders;
-    private float weight;
-    int num;
-    Rider[] riders2;
+    int NUM_CUR_P, NUM_PRE_P;
 
     FieldView() {
         this.winPos = windows[5].pos;
         this.winSize = windows[5].size;
         riders = new ArrayList < Rider > ();
-        riders2 = new Rider[5];
-        // for (Rider r: riders2) {
-        //     PVector pos = new PVector(0, 0);
-        //     r = new Rider(pos, 0);
-        // }
-        for (int i = 0; i < riders2.length; i++) {
-            riders2[i] = new Rider(new PVector(0, 0), 0, i);
-        }
     }
-    void update(int num) {
 
-        // for (int i = 0; i < riders2.length; i++) {
-        //     riders2[i].update(loc[i], weight[i]);
-        // }
-        // riders.clear();
-        // printArray(loc);
-        // for (int i = 0; i < loc.length; i++) {
-            // riders.add(new Rider(loc[i], weight[i], i));
-        // }
-        // this.num = num;
-        // println(num, loc[0], weight[0]);
-        // riders.clear();
-        // riders.add(new Rider(loc[num], weight[num]));
+    void update(int num, PVector[] pos, float[] weight) {
+        NUM_CUR_P = num;
 
-        // for (int i = 0; i < loc.length && i < weight.length; i++)
-        //     riders.add(new Rider(loc[i], weight[i]));
-        this.num = num;
-        // PEOPLE = num;
-        // PEOPLE_ = PEOPLE;
-        // print(num, "/");
-        // printArray(loc);
+        if (NUM_CUR_P > NUM_PRE_P)
+            for (int i = 0; i < NUM_CUR_P - NUM_PRE_P; i++)
+                riders.add(new Rider(pos[i], weight[i], i));
+
+        for (int i = 0; i < riders.size(); i++)
+            riders.get(i).update(pos[i], weight[i]);
+
+        NUM_PRE_P = riders.size();
     }
+    
     public void draw() {
-        if (num > 0)
-            for (int i = 0; i < riders2.length; i++)
-                riders2[i].draw();
-        // for (Rider r: riders) {
-        //     r.draw();
-        // }
-
+        if (riders.size() > 0) {
+            for (int i = 0; i < riders.size(); i++) {
+                riders.get(i).draw();
+                if (!riders.get(i).checkStateRiderIsOn())
+                    riders.remove(i);
+            }
+        }
     }
 }

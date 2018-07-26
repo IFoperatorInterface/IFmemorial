@@ -1,7 +1,7 @@
 class SystemView {
     Title[] soundModeTitles = new Title[3];
     Title[] ledBehaviorTiltles = new Title[3];
-    Title[] fieldDirectionTitles = new Title[6];
+    Title[] fieldDirectionTitles = new Title[7];
     Title[] sliderTitles = new Title[4];
     Title previewTitle;
     private List < Title > recordTitles;

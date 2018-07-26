@@ -30,7 +30,7 @@ public void settings() {
 
 void setup() {
   setting = new SETTING();
-  dataController = new DataController(false);
+  dataController = new DataController(true);
   systemView = new SystemView();
   controlP5 = new ControlP5(this);
   controlP5.setAutoDraw(false);
@@ -41,8 +41,6 @@ void setup() {
   moduleView = new ModuleView();
   fieldView = new FieldView();
   dataView = new DataView();
-  
-
 }
 
 
@@ -56,4 +54,5 @@ void draw() {
   fieldView.draw();
   systemView.draw();
   dataView.draw();
+
 }

@@ -22,11 +22,11 @@ public class EffectController {
     positionTarget = -1;
     int x = (int) windows[1].pos.x + (int) windows[1].size.x - (int) windows[1].size.y / 2;
     int h = (int) windows[1].size.y - pd * 6;
-    int y = (int) windows[1].pos.y + (int) + h + pd *2;
+    int y = (int) windows[1].pos.y + (int) + h + pd * 2;
     PVector pos;
     previewModule = new Module(-1, x, y, h, null);
     updatePreview();
-    systemView.previewTitle = new Title(new PVector(x, y + pd*2), "effect preview");
+    systemView.previewTitle = new Title(new PVector(x, y + pd * 2), "effect preview");
 
     x = int(windows[1].pos.x);
     y = int(windows[1].pos.y);
@@ -170,7 +170,7 @@ public class EffectController {
     String[] btTitle = {
       "NoTitle",
       "Up",
-      "Ellipse",
+      "NoTitle",
       "Left",
       "Down",
       "Right"
@@ -180,9 +180,9 @@ public class EffectController {
       if (btTitle[i] == null)
         continue;
       int baseX = int(windows[3].pos.x) + h + (pd + btSize) * 3;
-      int baseY = int(windows[3].pos.y);
+      int baseY = int(windows[3].pos.y) + pd;
       x = baseX + (btSize + pd) * (i % 3);
-      y = baseY + (btSize + 1) * (i / 3);
+      y = baseY + (btSize + pd) * (i / 3);
       pos = new PVector(x + btSize / 2, y + btSize / 2);
       systemView.fieldDirectionTitles[i] = new Title(pos, btTitle[i]);
       controlP5.addToggle("fieldMode" + btTitle[i] + "Toggle")
@@ -198,6 +198,20 @@ public class EffectController {
 
     controlP5.getController("fieldModeNoTitleToggle")
       .hide();
+
+    x = int(windows[3].pos.x) + h + (pd + btSize) * 1;
+    y = int(windows[3].pos.y) + pd + (btSize + pd) * (5 / 3);
+    pos = new PVector(x + btSize / 2, y + btSize / 2);
+    systemView.fieldDirectionTitles[systemView.fieldDirectionTitles.length-1] = new Title(pos, "Ellipse");
+    controlP5.addToggle("fieldModeEllipseToggle")
+      .setPosition(x, y)
+      .setSize(btSize, btSize)
+      .setCaptionLabel("Ellipse")
+      .plugTo(this, "fieldModeToggle");
+
+    controlP5.getController("fieldModeEllipseToggle")
+      .getCaptionLabel()
+      .setVisible(false);
   }
 
 
@@ -212,8 +226,7 @@ public class EffectController {
 
     if (effect.soundMode == SoundMode.RANDOM) {
       controlP5.getController("noteSlider").hide();
-    }
-    else {
+    } else {
       controlP5.getController("noteSlider").show();
     }
   }
@@ -234,8 +247,7 @@ public class EffectController {
 
     if (effect.barMode == BarMode.BOUNCE) {
       controlP5.getController("sizeSlider").show();
-    }
-    else {
+    } else {
       controlP5.getController("sizeSlider").hide();
     }
   }
@@ -309,7 +321,7 @@ public class EffectController {
     if (isNew) {
       sliderTarget = 0;
       for (int i = 1; i < 4; i++) {
-        if (position.x > (adrPointers[i-1].pos.x + adrPointers[i].pos.x) / 2)
+        if (position.x > (adrPointers[i - 1].pos.x + adrPointers[i].pos.x) / 2)
           sliderTarget = i;
       }
     }
@@ -329,28 +341,28 @@ public class EffectController {
         int newValue;
 
         newX = map(position.x,
-                   adrPointers[0].pos.x,
-                   adrPointers[3].pos.x,
-                   adrPointers[0].pos.x,
-                   adrPointers[1].pos.x);
+          adrPointers[0].pos.x,
+          adrPointers[3].pos.x,
+          adrPointers[0].pos.x,
+          adrPointers[1].pos.x);
         newValue = (int) map(newX,
-                             adrPointers[0].x,
-                             adrPointers[0].x + adrPointers[0].w,
-                             0,
-                             100);
+          adrPointers[0].x,
+          adrPointers[0].x + adrPointers[0].w,
+          0,
+          100);
         adrPointers[1].update(new PVector(newX, adrPointers[1].pos.y));
         effect.brightness[1][0] = newValue;
 
         newX = map(position.x,
-                   adrPointers[0].pos.x,
-                   adrPointers[3].pos.x,
-                   adrPointers[0].pos.x,
-                   adrPointers[2].pos.x);
+          adrPointers[0].pos.x,
+          adrPointers[3].pos.x,
+          adrPointers[0].pos.x,
+          adrPointers[2].pos.x);
         newValue = (int) map(newX,
-                             adrPointers[0].x,
-                             adrPointers[0].x + adrPointers[0].w,
-                             0,
-                             100);
+          adrPointers[0].x,
+          adrPointers[0].x + adrPointers[0].w,
+          0,
+          100);
         adrPointers[2].update(new PVector(newX, adrPointers[2].pos.y));
         effect.brightness[2][0] = newValue;
 
@@ -389,16 +401,16 @@ public class EffectController {
     int x = int(windows[2].pos.x + (btSize + pd) * 2);
     int y = int(windows[2].pos.y);
 
-    int start = (int) map(effect.position[0], 0, 100, y+h, y);
-    int end = (int) map(effect.position[1], 0, 100, y+h, y);
+    int start = (int) map(effect.position[0], 0, 100, y + h, y);
+    int end = (int) map(effect.position[1], 0, 100, y + h, y);
 
     pushStyle();
     strokeWeight(0);
     rectMode(CORNERS);
     fill(0, 45, 90);
-    rect(x, y, x+btSize, y+h);
+    rect(x, y, x + btSize, y + h);
     fill(0, 116, 217);
-    rect(x, end, x+btSize, start);
+    rect(x, end, x + btSize, start);
     popStyle();
   }
 }

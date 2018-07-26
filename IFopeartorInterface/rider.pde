@@ -3,13 +3,13 @@ class Rider {
     private int r;
     private float weight;
     private int indx;
-    private color [] c;
+    private color[] c;
     Rider(PVector pos, float weight, int indx) {
         this.pos = pos;
-        r = 40;
+        r = 80;
         this.weight = weight;
         this.indx = indx;
-        c = new color [5];
+        c = new color[5];
         c[0] = color(200, 0, 10);
         c[1] = color(10, 200, 10);
         c[2] = color(10, 10, 100);
@@ -37,8 +37,11 @@ class Rider {
         popMatrix();
         popStyle();
     }
-    void reset(){
-        pos = new PVector(0,0);
-        weight = 0;
+
+    boolean checkStateRiderIsOn() {
+        boolean result;
+        if (weight == 0) result = false;
+        else result = true;
+        return result;
     }
 }
