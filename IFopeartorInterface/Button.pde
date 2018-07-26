@@ -39,6 +39,13 @@ class Button {
   }
 
 
+  public Button setName(String name) {
+    this.name = name;
+
+    return this;
+  }
+
+
   public Button setPressListener(ButtonPressListener buttonPressListener) {
     this.buttonPressListener = buttonPressListener;
 
@@ -68,6 +75,12 @@ class Button {
     noStroke();
 
     rect(pos.x, pos.y, size.x, size.y);
+
+    fill(255);
+    textAlign(CENTER, CENTER);
+    textFont(titleFont);
+
+    text(name.toUpperCase(), pos.x + size.x / 2, pos.y + size.y / 2);
 
     popStyle();
   }
