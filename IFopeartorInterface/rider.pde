@@ -10,9 +10,9 @@ class Rider {
         this.weight = weight;
         this.indx = indx;
         c = new color [5];
-        c[0] = color(128, 129, 255);
-        c[1] = color(255, 231, 116);
-        c[2] = color(255, 113, 113);
+        c[0] = color(200, 0, 10);
+        c[1] = color(10, 200, 10);
+        c[2] = color(10, 10, 100);
         c[3] = color(207, 255, 51);
         c[4] = color(255, 113, 113);
     }
@@ -32,6 +32,7 @@ class Rider {
         float y = map(pos.y, 0, 6, 0, h);
         float scale = norm(weight, 0, 400);
         fill(c[indx]);
+        noStroke();
         ellipse(x, y, r * scale, r * scale);
         popMatrix();
         popStyle();
