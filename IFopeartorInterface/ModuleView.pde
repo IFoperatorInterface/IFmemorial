@@ -45,6 +45,7 @@ class ModuleView {
         modules[t.y][t.x].addTrigger(t.copyWithStartTime(frameCount));
 
         println(getNote(t.effect, phase));
+        
       }
 
       if (phase % DELAY == 1) {
@@ -79,15 +80,21 @@ class ModuleView {
             || t.effect.fieldMode[FieldMode.LEFT.ordinal()]
             || t.effect.fieldMode[FieldMode.RIGHT.ordinal()]) {
           println(getNote(t.effect, phase));
+          // dataController.sendSoundData()
+
         }
       }
 
       if (t.effect.fieldMode[FieldMode.ELLIPSE.ordinal()]) {
+        int indx = 0;
         for (int x = 0; x < COLUMNS; x++)
           for (int y = 0; y < ROWS; y++)
-            if ((int) (sqrt((x - t.x) * (x - t.x) + (y - t.y) * (y - t.y)) * DELAY) == phase + 1)
+            if ((int) (sqrt((x - t.x) * (x - t.x) + (y - t.y) * (y - t.y)) * DELAY) == phase + 1){
               modules[y][x].addTrigger(t.copyWithStartTime(frameCount));
+              indx++;
+            }
         println(getNote(t.effect, phase));
+        dataController.sendSoundData(indx, getNote(t.effect, phase));
       }
     }
   }
