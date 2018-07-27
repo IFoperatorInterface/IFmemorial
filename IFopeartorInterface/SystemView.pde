@@ -76,8 +76,14 @@ class SystemView {
         rect(x, y, w, h);
         popStyle();
 
-        for (ADRpointer p: effectController.adrPointers)
+        int indx = 0;
+
+        for (ADRpointer p: effectController.adrPointers) {
             p.draw();
+            if (indx == 2)
+                p.test();
+            indx++;
+        }
 
         for (int i = 0; i < effectController.adrPointers.length - 1; i++) {
             stroke(255);
@@ -98,7 +104,7 @@ class Title {
         fill(255);
         textAlign(CENTER, CENTER);
         textFont(titleFont);
-        if (title != "NoTitle")
+        if (!title.contains("NoTitle"))
             text(title.toUpperCase(), pos.x, pos.y);
 
         popStyle();

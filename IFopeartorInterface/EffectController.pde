@@ -149,6 +149,15 @@ public class EffectController {
       a.h = _h;
     }
 
+    adrPointers[0].clickAreaL = 0.0;
+    adrPointers[0].clickAreaR = (adrPointers[1].pos.x - adrPointers[0].pos.x) / 2;
+    adrPointers[1].clickAreaL = (adrPointers[1].pos.x - adrPointers[0].pos.x) / 2;
+    adrPointers[1].clickAreaR = (adrPointers[2].pos.x - adrPointers[1].pos.x) / 2;
+    adrPointers[2].clickAreaL = (adrPointers[2].pos.x - adrPointers[1].pos.x) / 2;
+    adrPointers[2].clickAreaR = (adrPointers[3].pos.x - adrPointers[2].pos.x) / 2;
+    adrPointers[3].clickAreaL = (adrPointers[3].pos.x - adrPointers[2].pos.x) / 2;
+    adrPointers[3].clickAreaR = 0.0;
+
     adrBt.getValueLabel().setVisible(false);
     adrBt.getCaptionLabel().setVisible(false);
     String adrTitle = "adr behavior";
@@ -166,11 +175,10 @@ public class EffectController {
 
     x = x + h + pd;
     y = y + btSize * 2;
-
     String[] btTitle = {
       "NoTitle",
       "Up",
-      "NoTitle",
+      "NoTitle2",
       "Left",
       "Down",
       "Right"
@@ -198,11 +206,13 @@ public class EffectController {
 
     controlP5.getController("fieldModeNoTitleToggle")
       .hide();
+    controlP5.getController("fieldModeNoTitle2Toggle")
+      .hide();
 
     x = int(windows[3].pos.x) + h + (pd + btSize) * 1;
     y = int(windows[3].pos.y) + pd + (btSize + pd) * (5 / 3);
     pos = new PVector(x + btSize / 2, y + btSize / 2);
-    systemView.fieldDirectionTitles[systemView.fieldDirectionTitles.length-1] = new Title(pos, "Ellipse");
+    systemView.fieldDirectionTitles[systemView.fieldDirectionTitles.length - 1] = new Title(pos, "Ellipse");
     controlP5.addToggle("fieldModeEllipseToggle")
       .setPosition(x, y)
       .setSize(btSize, btSize)
@@ -372,6 +382,14 @@ public class EffectController {
         effect.brightness[3][0] = newValue;
       }
     }
+    adrPointers[0].clickAreaL = 0.0;
+    adrPointers[0].clickAreaR = (adrPointers[1].pos.x - adrPointers[0].pos.x) / 2;
+    adrPointers[1].clickAreaL = (adrPointers[1].pos.x - adrPointers[0].pos.x) / 2;
+    adrPointers[1].clickAreaR = (adrPointers[2].pos.x - adrPointers[1].pos.x) / 2;
+    adrPointers[2].clickAreaL = (adrPointers[2].pos.x - adrPointers[1].pos.x) / 2;
+    adrPointers[2].clickAreaR = (adrPointers[3].pos.x - adrPointers[2].pos.x) / 2;
+    adrPointers[3].clickAreaL = (adrPointers[3].pos.x - adrPointers[2].pos.x) / 2;
+    adrPointers[3].clickAreaR = 0.0;
   }
 
 
@@ -418,14 +436,21 @@ public class EffectController {
 class ADRpointer {
   PVector pos;
   PVector size = new PVector(15, 15);
+  Float clickAreaL, clickAreaR;
+  Boolean mouseOver = false;
   int x, y, w, h;
 
   ADRpointer(PVector pos) {
     this.pos = pos;
   }
   void draw() {
-    boolean mouseOver = mouseIsOn();
+    mouseOver = mouseIsOn();
     color c = (mouseOver) ? color(0, 170, 255) : color(200);
+    // stroke(255);
+    // line(pos.x - clickAreaL, 0, pos.x - clickAreaL, height);
+    // stroke(255,0,0);
+    // line(pos.x + clickAreaR, 0, pos.x + clickAreaR, height);
+
     noStroke();
     fill(c);
     ellipse(pos.x, pos.y, size.x, size.y);
@@ -434,13 +459,27 @@ class ADRpointer {
     pos = a;
   }
 
+  void test() {
+    stroke(255);
+    line(pos.x - clickAreaL, 0, pos.x - clickAreaL, height);
+    stroke(255, 0, 0);
+    line(pos.x + clickAreaR, 0, pos.x + clickAreaR, height);
+    
+    text(mouseX, width / 2, height / 2);
+    text(pos.x - clickAreaL, width / 2, height / 2 + 15);
+    text(pos.x + clickAreaR, width / 2, height / 2 + 30);
+  }
+
   boolean mouseIsOn() {
     boolean result = false;
     if (adrBt.isMouseOver())
-      if (getDist(mouseX, mouseY, pos.x, pos.y) < size.x + 20)
+      // if (getDist(mouseX, mouseY, pos.x, pos.y) < size.x + 20)
+
+      if (pos.x - clickAreaL > mouseX && mouseX < pos.x + clickAreaR)
         result = true;
 
     return result;
+
   }
 
   float getDist(float px, float py, float bx, float by) {
