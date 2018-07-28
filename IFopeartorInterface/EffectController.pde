@@ -127,20 +127,16 @@ public class EffectController {
 
     adrPointers[0] = new ADRpointer(new PVector(
       map(effect.brightness[0][0], 0, 100, _x, _x + _w),
-      map(effect.brightness[0][1], 0, 100, _y + _h, _y)
-    ));
+      map(effect.brightness[0][1], 0, 100, _y + _h, _y)), 0);
     adrPointers[1] = new ADRpointer(new PVector(
       map(effect.brightness[1][0], 0, 100, _x, _x + _w),
-      map(effect.brightness[1][1], 0, 100, _y + _h, _y)
-    ));
+      map(effect.brightness[1][1], 0, 100, _y + _h, _y)), 1);
     adrPointers[2] = new ADRpointer(new PVector(
       map(effect.brightness[2][0], 0, 100, _x, _x + _w),
-      map(effect.brightness[2][1], 0, 100, _y + _h, _y)
-    ));
+      map(effect.brightness[2][1], 0, 100, _y + _h, _y)), 2);
     adrPointers[3] = new ADRpointer(new PVector(
       map(effect.brightness[3][0], 0, 100, _x, _x + _w),
-      map(effect.brightness[3][1], 0, 100, _y + _h, _y)
-    ));
+      map(effect.brightness[3][1], 0, 100, _y + _h, _y)), 3);
 
     for (ADRpointer a: adrPointers) {
       a.x = _x;
@@ -156,7 +152,7 @@ public class EffectController {
     adrPointers[2].clickAreaL = (adrPointers[2].pos.x - adrPointers[1].pos.x) / 2;
     adrPointers[2].clickAreaR = (adrPointers[3].pos.x - adrPointers[2].pos.x) / 2;
     adrPointers[3].clickAreaL = (adrPointers[3].pos.x - adrPointers[2].pos.x) / 2;
-    adrPointers[3].clickAreaR = 0.0;
+    adrPointers[3].clickAreaR = _x + _w - adrPointers[3].pos.x;
 
     adrBt.getValueLabel().setVisible(false);
     adrBt.getCaptionLabel().setVisible(false);
@@ -382,14 +378,14 @@ public class EffectController {
         effect.brightness[3][0] = newValue;
       }
     }
-    adrPointers[0].clickAreaL = 0.0;
+    adrPointers[0].clickAreaL = adrBt.getPosition()[0] - adrPointers[0].pos.x;
     adrPointers[0].clickAreaR = (adrPointers[1].pos.x - adrPointers[0].pos.x) / 2;
     adrPointers[1].clickAreaL = (adrPointers[1].pos.x - adrPointers[0].pos.x) / 2;
     adrPointers[1].clickAreaR = (adrPointers[2].pos.x - adrPointers[1].pos.x) / 2;
     adrPointers[2].clickAreaL = (adrPointers[2].pos.x - adrPointers[1].pos.x) / 2;
     adrPointers[2].clickAreaR = (adrPointers[3].pos.x - adrPointers[2].pos.x) / 2;
     adrPointers[3].clickAreaL = (adrPointers[3].pos.x - adrPointers[2].pos.x) / 2;
-    adrPointers[3].clickAreaR = 0.0;
+    adrPointers[3].clickAreaR = adrBt.getPosition()[0] + adrBt.getWidth() - adrPointers[3].pos.x;
   }
 
 
@@ -439,54 +435,33 @@ class ADRpointer {
   Float clickAreaL, clickAreaR;
   Boolean mouseOver = false;
   int x, y, w, h;
+  int indx;
 
-  ADRpointer(PVector pos) {
+  ADRpointer(PVector pos, int indx) {
     this.pos = pos;
+    this.indx = indx;
   }
   void draw() {
     mouseOver = mouseIsOn();
-    color c = (mouseOver) ? color(0, 170, 255) : color(200);
-    // stroke(255);
-    // line(pos.x - clickAreaL, 0, pos.x - clickAreaL, height);
-    // stroke(255,0,0);
-    // line(pos.x + clickAreaR, 0, pos.x + clickAreaR, height);
-
+    color c = (mouseOver) ? color(0, 170, 255) : color(180);
+    pushStyle();
     noStroke();
     fill(c);
     ellipse(pos.x, pos.y, size.x, size.y);
+    stroke(100);
+    noFill();
+    rectMode(CORNERS);
+    rect(pos.x - clickAreaL, y, pos.x + clickAreaR, y + h);
+    popStyle();
   }
   void update(PVector a) {
     pos = a;
   }
 
-  void test() {
-    stroke(255);
-    line(pos.x - clickAreaL, 0, pos.x - clickAreaL, height);
-    stroke(255, 0, 0);
-    line(pos.x + clickAreaR, 0, pos.x + clickAreaR, height);
-    
-    text(mouseX, width / 2, height / 2);
-    text(pos.x - clickAreaL, width / 2, height / 2 + 15);
-    text(pos.x + clickAreaR, width / 2, height / 2 + 30);
-  }
-
   boolean mouseIsOn() {
     boolean result = false;
-    if (adrBt.isMouseOver())
-      // if (getDist(mouseX, mouseY, pos.x, pos.y) < size.x + 20)
-
-      if (pos.x - clickAreaL > mouseX && mouseX < pos.x + clickAreaR)
-        result = true;
-
+    if (pos.x - clickAreaL > mouseX && pos.x + clickAreaR < mouseX && mouseY > y && mouseY < y + h)
+      result = true;
     return result;
-
-  }
-
-  float getDist(float px, float py, float bx, float by) {
-    float xDist = px - bx; // distance horiz
-    float yDist = py - by; // distance vert
-    float distance = sqrt(sq(xDist) + sq(yDist)); // diagonal distance
-
-    return distance;
   }
 }

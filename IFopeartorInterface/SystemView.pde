@@ -68,22 +68,17 @@ class SystemView {
         int x = int(windows[NUM_ADR - 1].pos.x) + (btSize + pd) * NUM_ADR + pd * 3 / 2;
         int y = int(windows[NUM_ADR - 1].pos.y + pd / 2);
         int w = width / 2 - 15 - x - pd / 2;
-        color c = (!adrBt.isMouseOver()) ? color(0, 55, 110) : color(0, 116, 180);
+        // color c = (!adrBt.isMouseOver()) ? color(0, 55, 110) : color(0, 116, 180);
+        color c = color(0, 45, 90);
         pushStyle();
         stroke(c);
         strokeWeight(pd);
-        fill(color(0, 45, 90));
+        fill(c);
         rect(x, y, w, h);
         popStyle();
 
-        int indx = 0;
-
-        for (ADRpointer p: effectController.adrPointers) {
+        for (ADRpointer p: effectController.adrPointers)
             p.draw();
-            if (indx == 2)
-                p.test();
-            indx++;
-        }
 
         for (int i = 0; i < effectController.adrPointers.length - 1; i++) {
             stroke(255);
