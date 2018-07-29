@@ -1,5 +1,4 @@
 class SystemView {
-    Title[] soundModeTitles = new Title[3];
     Title[] sliderTitles = new Title[4];
     Title previewTitle;
     private List < Title > recordTitles;
@@ -9,9 +8,6 @@ class SystemView {
     void draw() {
 
         adrGUI();
-
-        for (Title t: soundModeTitles)
-            t.display();
 
         for (Title t: recordTitles)
             t.display();

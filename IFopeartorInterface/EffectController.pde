@@ -3,7 +3,6 @@ Slider2D adrBt;
 
 public class EffectController {
   private Effect effect;
-  private controlP5.RadioButton sb;
   private int sliderLastTime;
   private int sliderTarget;
   private int positionLastTime;
@@ -14,6 +13,7 @@ public class EffectController {
 
   private ADRpointer[] adrPointers = new ADRpointer[4];
 
+  private Button[] soundModeRadioButtons;
   private Button[] barModeRadioButtons;
   private Button[] fieldModeToggles;
 
@@ -31,24 +31,24 @@ public class EffectController {
     updatePreview();
     systemView.previewTitle = new Title(new PVector(x, y + pd * 2), "effect preview");
 
+    soundModeRadioButtons = new Button[SoundMode.values().length];
     x = int(windows[1].pos.x);
     y = int(windows[1].pos.y);
     h = int(windows[1].size.y);
     int btSize = int(h / 3);
-    sb = controlP5.addRadioButton("soundModeRadioButton")
-      .setPosition(x, y)
-      .setSize(btSize, btSize)
-      .addItem(SoundMode.SINGLE.name(), SoundMode.SINGLE.ordinal())
-      .addItem(SoundMode.CHORD.name(), SoundMode.CHORD.ordinal())
-      .addItem(SoundMode.RANDOM.name(), SoundMode.RANDOM.ordinal())
-      .activate(effect.soundMode.ordinal())
-      .plugTo(this);
-
-    for (int i = 0; i < SoundMode.values().length; i++) {
-      pos = new PVector(x + btSize / 2, y + btSize * i + btSize / 2);
-      systemView.soundModeTitles[i] = new Title(pos, SoundMode.values()[i].name());
-      sb.getController(SoundMode.values()[i].name()).getCaptionLabel().setVisible(false);
+    for (final SoundMode s : SoundMode.values()) {
+      soundModeRadioButtons[s.ordinal()] = new Button()
+        .setPosition(x, y + btSize * s.ordinal())
+        .setSize(btSize, btSize)
+        .setBackgroundColor(0, 45, 90)
+        .setName(s.name())
+        .setPressListener(new ButtonPressListener() {
+          public void onPress() {
+            soundModeRadioButton(s.ordinal());
+          }
+        });
     }
+    soundModeRadioButtons[effect.soundMode.ordinal()].setBackgroundColor(0, 170, 255);
 
     x += (btSize + pd);
     controlP5.addSlider("noteSlider")
@@ -215,12 +215,11 @@ public class EffectController {
 
 
   void soundModeRadioButton(int a) {
-    if (a == -1)
-      // Reactivate radio button if pressed same button
-      sb.activate(effect.soundMode.ordinal());
-    else
-      // Update soundMode
-      effect.soundMode = SoundMode.values()[a];
+    for (Button b : soundModeRadioButtons)
+      b.setBackgroundColor(0, 45, 90);
+    soundModeRadioButtons[a].setBackgroundColor(0, 170, 255);
+
+    effect.soundMode = SoundMode.values()[a];
 
     if (effect.soundMode == SoundMode.RANDOM) {
       controlP5.getController("noteSlider").hide();
@@ -389,6 +388,8 @@ public class EffectController {
 
 
   public void onDraw() {
+    for (Button b : soundModeRadioButtons)
+      b.draw();
     for (Button b : fieldModeToggles)
       b.draw();
     for (Button b : barModeRadioButtons)
@@ -420,6 +421,8 @@ public class EffectController {
 
 
   public void press(int x, int y) {
+    for (Button b : soundModeRadioButtons)
+      b.press(x, y);
     for (Button b : fieldModeToggles)
       b.press(x, y);
     for (Button b : barModeRadioButtons)
