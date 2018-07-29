@@ -1,6 +1,5 @@
 class SystemView {
     Title[] soundModeTitles = new Title[3];
-    Title[] ledBehaviorTiltles = new Title[3];
     Title[] sliderTitles = new Title[4];
     Title previewTitle;
     private List < Title > recordTitles;
@@ -18,9 +17,6 @@ class SystemView {
             t.display();
 
         for (Title t: sliderTitles)
-            t.display();
-
-        for (Title t: ledBehaviorTiltles)
             t.display();
 
         windowGUI();

@@ -3,7 +3,7 @@ Slider2D adrBt;
 
 public class EffectController {
   private Effect effect;
-  private controlP5.RadioButton sb, b;
+  private controlP5.RadioButton sb;
   private int sliderLastTime;
   private int sliderTarget;
   private int positionLastTime;
@@ -14,6 +14,7 @@ public class EffectController {
 
   private ADRpointer[] adrPointers = new ADRpointer[4];
 
+  private Button[] barModeRadioButtons;
   private Button[] fieldModeToggles;
 
   EffectController() {
@@ -61,32 +62,24 @@ public class EffectController {
     pos = new PVector(x + btSize / 2, y + h / 2);
     systemView.sliderTitles[3] = new Title(pos, "note");
 
+    barModeRadioButtons = new Button[BarMode.values().length];
     x = int(windows[2].pos.x);
     y = int(windows[2].pos.y);
     h = int(windows[2].size.y);
-
     btSize = int(h / 3);
-    String[] titles = {
-      "Bounce",
-      "Blink",
-      "Stretch"
-    };
-    b = controlP5.addRadioButton("barModeRadioButton")
-      .setPosition(x, y)
-      .setSize(btSize, btSize)
-      .addItem(titles[0], BarMode.BOUNCE.ordinal())
-      .addItem(titles[1], BarMode.BLINK.ordinal())
-      .addItem(titles[2], BarMode.STRETCH.ordinal())
-      .activate(effect.barMode.ordinal())
-      .plugTo(this);
-
-
-
-    for (int i = 0; i < titles.length; i++) {
-      pos = new PVector(x + btSize / 2, y + btSize * i + btSize / 2);
-      systemView.ledBehaviorTiltles[i] = new Title(pos, titles[i]);
-      b.getController(titles[i]).getCaptionLabel().setVisible(false);
+    for (final BarMode b : BarMode.values()) {
+      barModeRadioButtons[b.ordinal()] = new Button()
+        .setPosition(x, y + btSize * b.ordinal())
+        .setSize(btSize, btSize)
+        .setBackgroundColor(0, 45, 90)
+        .setName(b.name())
+        .setPressListener(new ButtonPressListener() {
+          public void onPress() {
+            barModeRadioButton(b.ordinal());
+          }
+        });
     }
+    barModeRadioButtons[effect.barMode.ordinal()].setBackgroundColor(0, 170, 255);
 
 
     x = x + btSize + pd;
@@ -243,12 +236,11 @@ public class EffectController {
 
 
   void barModeRadioButton(int a) {
-    if (a == -1)
-      // Reactivate radio button if pressed same button
-      b.activate(effect.barMode.ordinal());
-    else
-      // Update barMode
-      effect.barMode = BarMode.values()[a];
+    for (Button b : barModeRadioButtons)
+      b.setBackgroundColor(0, 45, 90);
+    barModeRadioButtons[a].setBackgroundColor(0, 170, 255);
+
+    effect.barMode = BarMode.values()[a];
 
     if (effect.barMode == BarMode.BOUNCE) {
       controlP5.getController("sizeSlider").show();
@@ -399,6 +391,8 @@ public class EffectController {
   public void onDraw() {
     for (Button b : fieldModeToggles)
       b.draw();
+    for (Button b : barModeRadioButtons)
+      b.draw();
 
 
     if (frameCount >= previewStartTime + Module.MAX_DURATION * effect.brightness[3][0] / 100 + Module.MAX_DURATION)
@@ -427,6 +421,8 @@ public class EffectController {
 
   public void press(int x, int y) {
     for (Button b : fieldModeToggles)
+      b.press(x, y);
+    for (Button b : barModeRadioButtons)
       b.press(x, y);
   }
 }
