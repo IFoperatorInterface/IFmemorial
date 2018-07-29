@@ -428,6 +428,16 @@ public class EffectController {
     for (Button b : barModeRadioButtons)
       b.press(x, y);
   }
+
+
+  public void press(int x1, int y1, int x2, int y2) {
+    for (Button b : soundModeRadioButtons)
+      b.press(x1, y1, x2, y2);
+    for (Button b : fieldModeToggles)
+      b.press(x1, y1, x2, y2);
+    for (Button b : barModeRadioButtons)
+      b.press(x1, y1, x2, y2);
+  }
 }
 
 class ADRpointer {

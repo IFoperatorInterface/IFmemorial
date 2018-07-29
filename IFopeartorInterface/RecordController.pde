@@ -183,4 +183,17 @@ public class RecordController {
         break;
     }
   }
+
+
+  public void press(int x1, int y1, int x2, int y2) {
+    recordToggle.press(x1, y1, x2, y2);
+    for (Button b : recordPlayToggles)
+      b.press(x1, y1, x2, y2);
+    int listSize = recordDeleteButtons.size();
+    for (Button b : recordDeleteButtons) {
+      b.press(x1, y1, x2, y2);
+      if (recordDeleteButtons.size() != listSize)
+        break;
+    }
+  }
 }

@@ -95,6 +95,19 @@ class Button {
 
     buttonPressListener.onPress();
   }
+
+
+  public void press(int x1, int y1, int x2, int y2) {
+    if (buttonPressListener == null)
+      return;
+
+    if (!isInside(x1, y1))
+      return;
+    if (!isInside(x2, y2))
+      return;
+
+    buttonPressListener.onPress();
+  }
 }
 
 

@@ -23,6 +23,9 @@ DataController dataController;
 Data mdata[];
 SETTING setting;
 
+int mouseStartX, mouseStartY;
+final int mouseMode = 1;
+
 public void settings() {
   // size(1920, 1080);
   fullScreen();
@@ -58,6 +61,27 @@ void draw() {
 
 
 void mouseClicked() {
+  if (mouseMode != 0)
+    return;
+
   effectController.press(mouseX, mouseY);
   recordController.press(mouseX, mouseY);
+}
+
+
+void mousePressed() {
+  if (mouseMode != 1)
+    return;
+
+  mouseStartX = mouseX;
+  mouseStartY = mouseY;
+}
+
+
+void mouseReleased() {
+  if (mouseMode != 1)
+    return;
+
+  effectController.press(mouseStartX, mouseStartY, mouseX, mouseY);
+  recordController.press(mouseStartX, mouseStartY, mouseX, mouseY);
 }
