@@ -16,7 +16,7 @@ class Button {
   }
 
 
-  public Button setPos(int x, int y) {
+  public Button setPosition(int x, int y) {
     this.pos.x = x;
     this.pos.y = y;
 

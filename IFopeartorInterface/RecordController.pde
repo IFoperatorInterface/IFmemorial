@@ -20,7 +20,7 @@ public class RecordController {
 
 
     recordToggle = new Button()
-      .setPos(x, y)
+      .setPosition(x, y)
       .setSize(btSize, btSize)
       .setName("record")
       .setBackgroundColor(120, 20, 200)
