@@ -58,5 +58,6 @@ void draw() {
 
 
 void mouseClicked() {
+  effectController.press(mouseX, mouseY);
   recordController.press(mouseX, mouseY);
 }

@@ -14,6 +14,8 @@ public class EffectController {
 
   private ADRpointer[] adrPointers = new ADRpointer[4];
 
+  private Button[] fieldModeToggles;
+
   EffectController() {
     effect = new Effect();
     sliderLastTime = -1;
@@ -169,55 +171,52 @@ public class EffectController {
       .getCaptionLabel()
       .setVisible(false);
 
+    fieldModeToggles = new Button[FieldMode.values().length];
+
     x = x + h + pd;
     y = y + btSize * 2;
-    String[] btTitle = {
-      "NoTitle",
-      "Up",
-      "NoTitle2",
-      "Left",
-      "Down",
-      "Right"
+    FieldMode[] fieldModePosition = {
+      null,
+      FieldMode.UP,
+      null,
+      FieldMode.LEFT,
+      FieldMode.DOWN,
+      FieldMode.RIGHT
     };
-
-    for (int i = 5; i >= 0; i--) {
-      if (btTitle[i] == null)
+    for (int i = 0; i < 6; i++) {
+      final FieldMode f = fieldModePosition[i];
+      if (f == null)
         continue;
       int baseX = int(windows[3].pos.x) + h + (pd + btSize) * 3;
       int baseY = int(windows[3].pos.y) + pd;
       x = baseX + (btSize + pd) * (i % 3);
       y = baseY + (btSize + pd) * (i / 3);
       pos = new PVector(x + btSize / 2, y + btSize / 2);
-      systemView.fieldDirectionTitles[i] = new Title(pos, btTitle[i]);
-      controlP5.addToggle("fieldMode" + btTitle[i] + "Toggle")
+      fieldModeToggles[f.ordinal()] = new Button()
         .setPosition(x, y)
         .setSize(btSize, btSize)
-        .setCaptionLabel(btTitle[i])
-        .plugTo(this, "fieldModeToggle");
+        .setBackgroundColor(0, 45, 90)
+        .setName(f.name())
+        .setPressListener(new ButtonPressListener() {
+          public void onPress() {
+            fieldModeToggle(f.ordinal());
+          }
+        });
     }
-    for (int i = 0; i < btTitle.length; i++)
-      controlP5.getController("fieldMode" + btTitle[i] + "Toggle")
-      .getCaptionLabel()
-      .setVisible(false);
-
-    controlP5.getController("fieldModeNoTitleToggle")
-      .hide();
-    controlP5.getController("fieldModeNoTitle2Toggle")
-      .hide();
 
     x = int(windows[3].pos.x) + h + (pd + btSize) * 1;
     y = int(windows[3].pos.y) + pd + (btSize + pd) * (5 / 3);
     pos = new PVector(x + btSize / 2, y + btSize / 2);
-    systemView.fieldDirectionTitles[systemView.fieldDirectionTitles.length - 1] = new Title(pos, "Ellipse");
-    controlP5.addToggle("fieldModeEllipseToggle")
+    fieldModeToggles[FieldMode.ELLIPSE.ordinal()] = new Button()
       .setPosition(x, y)
       .setSize(btSize, btSize)
-      .setCaptionLabel("Ellipse")
-      .plugTo(this, "fieldModeToggle");
-
-    controlP5.getController("fieldModeEllipseToggle")
-      .getCaptionLabel()
-      .setVisible(false);
+      .setBackgroundColor(0, 45, 90)
+      .setName(FieldMode.ELLIPSE.name())
+      .setPressListener(new ButtonPressListener() {
+        public void onPress() {
+          fieldModeToggle(FieldMode.ELLIPSE.ordinal());
+        }
+      });
   }
 
 
@@ -291,22 +290,15 @@ public class EffectController {
   }
 
 
-  void fieldModeToggle(ControlEvent theEvent) {
-    int idx = -1;
+  void fieldModeToggle(int idx) {
+    boolean newMode = !effect.fieldMode[idx];
 
-    if (theEvent.isFrom("fieldModeUpToggle"))
-      idx = FieldMode.UP.ordinal();
-    else if (theEvent.isFrom("fieldModeDownToggle"))
-      idx = FieldMode.DOWN.ordinal();
-    else if (theEvent.isFrom("fieldModeLeftToggle"))
-      idx = FieldMode.LEFT.ordinal();
-    else if (theEvent.isFrom("fieldModeRightToggle"))
-      idx = FieldMode.RIGHT.ordinal();
-    else if (theEvent.isFrom("fieldModeEllipseToggle"))
-      idx = FieldMode.ELLIPSE.ordinal();
+    if (newMode == true)
+      fieldModeToggles[idx].setBackgroundColor(0, 170, 255);
+    else
+      fieldModeToggles[idx].setBackgroundColor(0, 45, 90);
 
-    if (idx != -1)
-      effect.fieldMode[idx] = theEvent.getValue() != 0.0;
+    effect.fieldMode[idx] = newMode;
   }
 
 
@@ -405,6 +397,10 @@ public class EffectController {
 
 
   public void onDraw() {
+    for (Button b : fieldModeToggles)
+      b.draw();
+
+
     if (frameCount >= previewStartTime + Module.MAX_DURATION * effect.brightness[3][0] / 100 + Module.MAX_DURATION)
       updatePreview();
 
@@ -426,6 +422,12 @@ public class EffectController {
     fill(0, 116, 217);
     rect(x, end, x + btSize, start);
     popStyle();
+  }
+
+
+  public void press(int x, int y) {
+    for (Button b : fieldModeToggles)
+      b.press(x, y);
   }
 }
 
