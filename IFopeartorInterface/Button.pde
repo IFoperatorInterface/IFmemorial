@@ -60,7 +60,7 @@ class Button {
       return false;
     if (y < this.pos.y)
       return false;
-    if (y > this.pos.y + this.pos.y)
+    if (y > this.pos.y + this.size.y)
       return false;
 
     return true;
