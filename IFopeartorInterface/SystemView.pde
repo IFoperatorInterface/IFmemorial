@@ -1,16 +1,11 @@
 class SystemView {
     Title[] sliderTitles = new Title[4];
     Title previewTitle;
-    private List < Title > recordTitles;
     SystemView() {
-        recordTitles = new ArrayList < Title > ();
     }
     void draw() {
 
         adrGUI();
-
-        for (Title t: recordTitles)
-            t.display();
 
         for (Title t: sliderTitles)
             t.display();

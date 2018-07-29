@@ -5,6 +5,8 @@ public class RecordController {
   private Boolean isRecording;
 
   private Button recordToggle;
+  private List<Button> recordPlayToggles;
+  private List<Button> recordDeleteButtons;
 
 
   RecordController() {
@@ -32,6 +34,9 @@ public class RecordController {
             recordToggle(1);
         }
       });
+
+      this.recordPlayToggles = new ArrayList<Button>();
+      this.recordDeleteButtons = new ArrayList<Button>();
   }
 
 
@@ -48,16 +53,6 @@ public class RecordController {
       newRecord.duration = frameCount - newRecord.recordStartTime;
       records.add(newRecord);
 
-      int NUM_RECORD = 9;
-      int x = int(windows[4].pos.x);
-      int y = int(windows[4].pos.y);
-      int h = int(windows[4].size.y);
-      int w = int(windows[4].size.x);
-      int pd = 8;
-      int btSize = int((w - (pd * NUM_RECORD + 1)) / NUM_RECORD);
-      PVector pos = new PVector(x + pd + (btSize + pd) * (records.size() - 1), y + pd);
-      systemView.recordTitles.add(new Title(pos, "record " + newRecord.id));
-
       newRecord = null;
 
       updateRecordPlayToggle();
@@ -65,19 +60,26 @@ public class RecordController {
   }
 
 
-  void recordPlayToggle(ControlEvent theEvent) {
-    Record targetRecord = null;
-    for (Record r: records)
-      if (theEvent.isFrom("recordPlay" + r.id + "Toggle"))
-        targetRecord = r;
+  void recordPlayToggle(int theValue) {
+    int idx = -1;
 
-    if (targetRecord == null)
+    for (int i = 0; i < records.size(); i++)
+      if (records.get(i).id == theValue)
+        idx = i;
+
+    if (idx == -1)
       return;
 
-    if (theEvent.getValue() != 0.0)
+    Record targetRecord = records.get(idx);
+
+    if (targetRecord.playStartTime == -1){
       targetRecord.playStartTime = frameCount;
-    else
+      recordPlayToggles.get(idx).setBackgroundColor(0, 170, 255);
+    }
+    else {
       targetRecord.playStartTime = -1;
+      recordPlayToggles.get(idx).setBackgroundColor(0, 45, 90);
+    }
   }
 
 
@@ -91,10 +93,9 @@ public class RecordController {
     if (idx == -1)
       return;
 
-    controlP5.getController("recordPlay" + records.get(idx).id + "Toggle").hide();
-    controlP5.getController("recordDelete" + records.get(idx).id + "Button").hide();
     records.remove(idx);
-    systemView.recordTitles.remove(idx);
+    recordPlayToggles.remove(idx);
+    recordDeleteButtons.remove(idx);
     updateRecordPlayToggle();
   }
 
@@ -108,36 +109,36 @@ public class RecordController {
       int w = int(windows[4].size.x);
       int pd = 8;
       int btSize = int((w - (pd * NUM_RECORD + 1)) / NUM_RECORD);
-
-
-      String playName = "recordPlay" + records.get(i).id + "Toggle";
-      String deleteName = "recordDelete" + records.get(i).id + "Button";
-
-      Controller playController = controlP5.getController(playName);
-      Controller deleteController = controlP5.getController(deleteName);
-
-      if (playController == null) {
-        playController = controlP5.addToggle(playName)
-          .setSize(btSize, btSize)
-          .plugTo(this, "recordPlayToggle");
-      }
-
-      controlP5.getController(playName)
-        .getCaptionLabel()
-        .setVisible(false);
-
-      if (deleteController == null) {
-        deleteController = controlP5.addButton(deleteName)
-          .setSize(btSize, btSize / 2)
-          .setValue(records.get(i).id)
-          .setCaptionLabel("clear")
-          .plugTo(this, "recordDeleteButton");
-      }
       PVector pos = new PVector(x + pd + (btSize + pd) * i, y + pd);
-      playController.setPosition(pos.x, pos.y);
-      deleteController.setPosition(pos.x, pos.y + btSize + 2);
-      pos.add(btSize / 2, btSize / 2);
-      systemView.recordTitles.get(i).pos = pos;
+      final Record targetRecord = records.get(i);
+
+      if (i >= recordPlayToggles.size()) {
+        recordPlayToggles.add(new Button()
+          .setSize(btSize, btSize)
+          .setBackgroundColor(0, 45, 90)
+          .setName("Record "+targetRecord.id)
+          .setPressListener(new ButtonPressListener() {
+            public void onPress() {
+              recordPlayToggle(targetRecord.id);
+            }
+          })
+        );
+      }
+      recordPlayToggles.get(i).setPosition((int) pos.x, (int) pos.y);
+
+      if (i >= recordDeleteButtons.size()) {
+        recordDeleteButtons.add(new Button()
+          .setSize(btSize, btSize / 2)
+          .setBackgroundColor(0, 45, 90)
+          .setName("Clear")
+          .setPressListener(new ButtonPressListener() {
+            public void onPress() {
+              recordDeleteButton(targetRecord.id);
+            }
+          })
+        );
+      }
+      recordDeleteButtons.get(i).setPosition((int) pos.x, (int) pos.y + btSize + 2);
     }
   }
 
@@ -152,6 +153,10 @@ public class RecordController {
 
   public void onDraw() {
     recordToggle.draw();
+    for (Button b : recordPlayToggles)
+      b.draw();
+    for (Button b : recordDeleteButtons)
+      b.draw();
 
 
     for (Record r: records) {
@@ -169,5 +174,13 @@ public class RecordController {
 
   public void press(int x, int y) {
     recordToggle.press(x, y);
+    for (Button b : recordPlayToggles)
+      b.press(x, y);
+    int listSize = recordDeleteButtons.size();
+    for (Button b : recordDeleteButtons) {
+      b.press(x, y);
+      if (recordDeleteButtons.size() != listSize)
+        break;
+    }
   }
 }
