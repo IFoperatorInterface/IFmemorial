@@ -77,6 +77,8 @@ void mousePressed() {
 
   mouseStartX = mouseX;
   mouseStartY = mouseY;
+
+  effectController.mousePressed();
 }
 
 
@@ -88,4 +90,6 @@ void mouseReleased() {
 
   effectController.press(mouseStartX, mouseStartY, mouseX, mouseY);
   recordController.press(mouseStartX, mouseStartY, mouseX, mouseY);
+  
+  effectController.mouseReleased();
 }

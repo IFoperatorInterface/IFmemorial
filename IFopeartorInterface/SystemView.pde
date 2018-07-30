@@ -1,5 +1,5 @@
 class SystemView {
-    Title[] sliderTitles = new Title[4];
+    Title[] sliderTitles = new Title[2];
     Title previewTitle;
     SystemView() {
     }

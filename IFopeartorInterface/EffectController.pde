@@ -16,6 +16,9 @@ public class EffectController {
   private Button[] soundModeRadioButtons;
   private Button[] barModeRadioButtons;
   private Button[] fieldModeToggles;
+  private Slider noteSlider;
+  private Slider sizeSlider;
+  private Slider positionSlider;
 
   EffectController() {
     effect = new Effect();
@@ -51,16 +54,16 @@ public class EffectController {
     soundModeRadioButtons[effect.soundMode.ordinal()].setBackgroundColor(0, 170, 255);
 
     x += (btSize + pd);
-    controlP5.addSlider("noteSlider")
+    noteSlider = new Slider()
       .setPosition(x, y)
       .setSize(btSize, h)
       .setRange(1, 127)
       .setValue(effect.note)
-      .plugTo(this)
-      .getCaptionLabel().setVisible(false);
-    controlP5.getController("noteSlider").getValueLabel().setVisible(false);
-    pos = new PVector(x + btSize / 2, y + h / 2);
-    systemView.sliderTitles[3] = new Title(pos, "note");
+      .setChangeListener(new SliderChangeListener() {
+        public void onChange(int value) {
+          noteSlider(value);
+        }
+      });
 
     barModeRadioButtons = new Button[BarMode.values().length];
     x = int(windows[2].pos.x);
@@ -83,27 +86,29 @@ public class EffectController {
 
 
     x = x + btSize + pd;
-    controlP5.addSlider("sizeSlider")
+    sizeSlider = new Slider()
       .setPosition(x, y)
       .setSize(btSize, h)
       .setRange(0, 100)
       .setValue(effect.size)
-      .plugTo(this)
-      .getCaptionLabel().setVisible(false);
-    controlP5.getController("sizeSlider").getValueLabel().setVisible(false);
-    pos = new PVector(x + btSize / 2, y + h / 2);
-    systemView.sliderTitles[0] = new Title(pos, "size");
+      .setChangeListener(new SliderChangeListener() {
+        public void onChange(int value) {
+          sizeSlider(value);
+        }
+      });
 
     x = x + btSize + pd;
-    controlP5.addSlider("positionSlider")
+    positionSlider = new Slider()
       .setPosition(x, y)
       .setSize(btSize, h)
       .setRange(0, 100)
-      .plugTo(this)
-      .getCaptionLabel().setVisible(false);
-    controlP5.getController("positionSlider").getValueLabel().setVisible(false);
+      .setChangeListener(new SliderChangeListener() {
+        public void onChange(int value) {
+          positionSlider(value);
+        }
+      });
     pos = new PVector(x + btSize / 2, y + h / 2);
-    systemView.sliderTitles[1] = new Title(pos, "position");
+    systemView.sliderTitles[0] = new Title(pos, "position");
 
     x = x + btSize + pd * 4;
     int w = width / 2 - pd * 4 - x - 4;
@@ -153,7 +158,7 @@ public class EffectController {
     adrBt.getCaptionLabel().setVisible(false);
     String adrTitle = "adr behavior";
     pos = new PVector(x + w / 2, y + h / 2);
-    systemView.sliderTitles[2] = new Title(pos, adrTitle);
+    systemView.sliderTitles[1] = new Title(pos, adrTitle);
 
     x = int(windows[3].pos.x);
     y = int(windows[3].pos.y);
@@ -395,6 +400,10 @@ public class EffectController {
     for (Button b : barModeRadioButtons)
       b.draw();
 
+    noteSlider.draw();
+    sizeSlider.draw();
+    positionSlider.draw();
+
 
     if (frameCount >= previewStartTime + Module.MAX_DURATION * effect.brightness[3][0] / 100 + Module.MAX_DURATION)
       updatePreview();
@@ -417,6 +426,20 @@ public class EffectController {
     fill(0, 116, 217);
     rect(x, end, x + btSize, start);
     popStyle();
+  }
+
+
+  public void mousePressed() {
+    noteSlider.mousePressed();
+    sizeSlider.mousePressed();
+    positionSlider.mousePressed();
+  }
+
+
+  public void mouseReleased() {
+    noteSlider.mouseReleased();
+    sizeSlider.mouseReleased();
+    positionSlider.mouseReleased();
   }
 
 
