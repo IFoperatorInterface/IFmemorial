@@ -97,8 +97,6 @@ class ModuleView {
         int x = t.x + round(displacement.x);
         int y = t.y + round(displacement.y);
 
-        println(round(displacement.x), round(prevDisplacement.x), round(displacement.y), round(prevDisplacement.y));
-
         if ((round(displacement.x) != round(prevDisplacement.x) || round(displacement.y) != round(prevDisplacement.y))
             && !(x < 0 || x >= 6 || y < 0 || y >= 6)
             && !(x == t.x && y == t.y)) {

@@ -159,7 +159,6 @@ class Graph {
 
   private void change(int xValue, int yValue) {
     setValue(xValue, yValue);
-    println(xValue, yValue);
 
     if (graphChangeListener != null)
       graphChangeListener.onChange(this.xValue, this.yValue);
