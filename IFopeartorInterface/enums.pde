@@ -19,5 +19,5 @@ enum Rgb {
 
 
 enum Preset {
-  TOUCH, JUMP
+  TOUCH, PULL, JUMP
 }
