@@ -111,17 +111,13 @@ class ModuleView {
   private int getNote(Effect effect, int phase) {
     switch (effect.soundMode) {
       case SINGLE:
-        if (phase == 1)
-          return effect.note;
-        else
-          return -1;
+        return effect.note;
       case CHORD:
         return effect.note + (phase - 1) * 3 / DELAY;
       case RANDOM:
         if (phase == 1)
-          return (int) random(1, 128);
-        else
-          return -1;
+          effect.note = (int) random(1, 128);
+        return effect.note;
     }
     return -1;
   } 

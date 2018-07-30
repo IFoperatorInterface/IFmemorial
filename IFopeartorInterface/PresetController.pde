@@ -42,6 +42,7 @@ public class PresetController {
     jumpEndEffect.brightness[3] = new int[]{100, 0};
 
     jumpFieldEffect = new Effect();
+    jumpFieldEffect.note = -1;
     jumpFieldEffect.barMode = BarMode.STRETCH;
     jumpFieldEffect.fieldMode[FieldMode.ELLIPSE.ordinal()] = true;
     jumpFieldEffect.position[0] = 0;
