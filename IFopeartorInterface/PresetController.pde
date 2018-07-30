@@ -23,7 +23,6 @@ public class PresetController {
     pullEndEffect.soundMode = SoundMode.CHORD;
     pullEndEffect.note = 75;
     pullEndEffect.barMode = BarMode.BLINK;
-    pullEndEffect.fieldMode[FieldMode.DOWN.ordinal()] = true;
     pullEndEffect.position[0] = 0;
     pullEndEffect.position[1] = 100;
     pullEndEffect.noCenter = true;
@@ -73,7 +72,8 @@ public class PresetController {
   }
 
 
-  public void triggerPullEnd(int x, int y, float angle) {
+  public void triggerPullEnd(int x, int y, PVector direction) {
+    pullEndEffect.direction = new PVector(-direction.x, -direction.y);
     Trigger trigger = new Trigger(pullEndEffect, x, y, frameCount);
     moduleView.addTrigger(trigger);
   }

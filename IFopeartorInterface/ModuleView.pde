@@ -89,6 +89,23 @@ class ModuleView {
               dataController.sendSoundData(y * COLUMNS + x, getNote(t.effect, phase));
             }
       }
+
+      if (t.effect.direction != null) {
+        PVector displacement = t.effect.direction.setMag(null, 1).mult((phase - 1.0) / DELAY);
+        PVector prevDisplacement = t.effect.direction.setMag(null, 1).mult((phase - 2.0) / DELAY);
+
+        int x = t.x + round(displacement.x);
+        int y = t.y + round(displacement.y);
+
+        println(round(displacement.x), round(prevDisplacement.x), round(displacement.y), round(prevDisplacement.y));
+
+        if ((round(displacement.x) != round(prevDisplacement.x) || round(displacement.y) != round(prevDisplacement.y))
+            && !(x < 0 || x >= 6 || y < 0 || y >= 6)
+            && !(x == t.x && y == t.y)) {
+          modules[y][x].addTrigger(t.copyWithStartTime(frameCount));
+          dataController.sendSoundData(y * COLUMNS + x, getNote(t.effect, phase));
+        }
+      }
     }
   }
 

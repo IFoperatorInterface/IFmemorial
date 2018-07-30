@@ -5,6 +5,7 @@ class Effect {
   public int size;
   public int[] position;
   public boolean[] fieldMode;
+  public PVector direction;
   public int[] colorRGB;
   public int[][] brightness;
   public boolean noCenter;
@@ -19,6 +20,7 @@ class Effect {
     position[0] = 10;
     position[1] = 90;
     fieldMode = new boolean[5];
+    direction = null;
     colorRGB = new int[3];
     colorRGB[0] = 128;
     colorRGB[1] = 0;
@@ -46,6 +48,7 @@ class Effect {
     newEffect.fieldMode[2] = fieldMode[2];
     newEffect.fieldMode[3] = fieldMode[3];
     newEffect.fieldMode[4] = fieldMode[4];
+    newEffect.direction = direction;
     newEffect.colorRGB[0] = colorRGB[0];
     newEffect.colorRGB[1] = colorRGB[1];
     newEffect.colorRGB[2] = colorRGB[2];

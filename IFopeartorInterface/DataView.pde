@@ -65,7 +65,7 @@ public class DataView {
       else if (curPos[i].mag() < 0.2) {
         if (frameCount - pullEndTime[i] < 5
             && pullCount[i] > 10)
-          presetController.triggerPullEnd(x, y, 0);
+          presetController.triggerPullEnd(x, y, curPos[i]);
         pullCount[i] = 0;
       }
 
