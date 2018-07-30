@@ -6,6 +6,7 @@ class Slider {
   private int minValue, maxValue;
   private int value;
   private String name;
+  private boolean active;
   private SliderChangeListener sliderChangeListener;
   private boolean isTargeted;
 
@@ -19,6 +20,7 @@ class Slider {
     this.maxValue = 100;
     this.value = 50;
     this.name = "Slider";
+    this.active = true;
     this.sliderChangeListener = null;
     this.isTargeted = false;
   }
@@ -81,6 +83,13 @@ class Slider {
   }
 
 
+  public Slider setActive(boolean active) {
+    this.active = active;
+
+    return this;
+  }
+
+
   public Slider setChangeListener(SliderChangeListener sliderChangeListener) {
     this.sliderChangeListener = sliderChangeListener;
 
@@ -118,16 +127,18 @@ class Slider {
 
     pushStyle();
 
-    rectMode(CORNER);
-    fill(backgroundColor);
-    noStroke();
+    if (active) {
+      rectMode(CORNER);
+      fill(backgroundColor);
+      noStroke();
 
-    rect(pos.x, pos.y, size.x, size.y);
+      rect(pos.x, pos.y, size.x, size.y);
 
-    rectMode(CORNERS);
-    fill(foregroundColor);
+      rectMode(CORNERS);
+      fill(foregroundColor);
 
-    rect(pos.x, valueToY(value), pos.x + size.x, pos.y + size.y);
+      rect(pos.x, valueToY(value), pos.x + size.x, pos.y + size.y);
+    }
 
     fill(255);
     textAlign(CENTER, CENTER);
@@ -153,6 +164,9 @@ class Slider {
 
 
   private void change(int value) {
+    if (!active)
+      return;
+
     setValue(value);
 
     if (sliderChangeListener != null)
