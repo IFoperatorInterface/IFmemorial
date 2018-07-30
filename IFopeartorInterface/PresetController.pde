@@ -23,6 +23,7 @@ public class PresetController {
     pullEndEffect.fieldMode[FieldMode.DOWN.ordinal()] = true;
     pullEndEffect.position[0] = 0;
     pullEndEffect.position[1] = 100;
+    pullEndEffect.noCenter = true;
 
     jumpStartEffect = new Effect();
     jumpStartEffect.barMode = BarMode.BOUNCE;
@@ -39,6 +40,7 @@ public class PresetController {
     jumpFieldEffect.fieldMode[FieldMode.ELLIPSE.ordinal()] = true;
     jumpFieldEffect.position[0] = 0;
     jumpFieldEffect.position[1] = 100;
+    jumpFieldEffect.noCenter = true;
   }
 
 

@@ -7,6 +7,7 @@ class Effect {
   public boolean[] fieldMode;
   public int[] colorRGB;
   public int[][] brightness;
+  public boolean noCenter;
 
 
   Effect() {
@@ -27,6 +28,7 @@ class Effect {
     brightness[1] = new int[]{30, 100};
     brightness[2] = new int[]{60, 100};
     brightness[3] = new int[]{90, 0};
+    noCenter = false;
   }
 
 
@@ -55,6 +57,7 @@ class Effect {
     newEffect.brightness[2][1] = brightness[2][1];
     newEffect.brightness[3][0] = brightness[3][0];
     newEffect.brightness[3][1] = brightness[3][1];
+    newEffect.noCenter = noCenter;
 
     return newEffect;
   }

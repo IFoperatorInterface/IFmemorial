@@ -41,14 +41,14 @@ class ModuleView {
         (phase > DELAY * COLUMNS))
         triggersIterator.remove();
 
-      if (phase == 1) {
+      if (phase == 1 && !(t.effect.noCenter)) {
         modules[t.y][t.x].addTrigger(t.copyWithStartTime(frameCount));
 
         dataController.sendSoundData(t.y*COLUMNS+t.x, getNote(t.effect, phase));
         
       }
 
-      if (phase % DELAY == 1) {
+      if (phase % DELAY == 1 && phase > 1) {
         int distance = (frameCount - t.startTime) / DELAY;
 
         if (t.effect.fieldMode[FieldMode.UP.ordinal()]) {
@@ -83,7 +83,8 @@ class ModuleView {
       if (t.effect.fieldMode[FieldMode.ELLIPSE.ordinal()]) {
         for (int x = 0; x < COLUMNS; x++)
           for (int y = 0; y < ROWS; y++)
-            if ((int) (sqrt((x - t.x) * (x - t.x) + (y - t.y) * (y - t.y)) * DELAY) == phase + 1){
+            if ((int) (sqrt((x - t.x) * (x - t.x) + (y - t.y) * (y - t.y)) * DELAY) == phase + 1
+                && !(x == t.x && y == t.y)) {
               modules[y][x].addTrigger(t.copyWithStartTime(frameCount));
               dataController.sendSoundData(y * COLUMNS + x, getNote(t.effect, phase));
             }
