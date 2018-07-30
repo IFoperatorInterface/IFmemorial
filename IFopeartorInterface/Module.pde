@@ -24,6 +24,9 @@ class Module {
   public void draw() {
     drawBar();
 
+    if (indx != -1)
+      drawLine(color(128, 0, 255, mdata[indx].barPos.mag() * 255), 0, 1);
+
     Iterator < Trigger > triggersIterator = triggers.iterator();
     while (triggersIterator.hasNext()) {
       Trigger trigger = triggersIterator.next();

@@ -1,12 +1,9 @@
 public class PresetController {
-  private Effect touchEffect;
   private Effect pullStartEffect, pullEndEffect;
   private Effect jumpStartEffect, jumpEndEffect, jumpFieldEffect;
 
 
   PresetController() {
-    touchEffect = new Effect();
-
     pullStartEffect = new Effect();
     pullStartEffect.note = -1;
     pullStartEffect.barMode = BarMode.BLINK;
@@ -53,12 +50,6 @@ public class PresetController {
     jumpFieldEffect.brightness[1] = new int[]{10, 100};
     jumpFieldEffect.brightness[2] = new int[]{35, 30};
     jumpFieldEffect.brightness[3] = new int[]{60, 0};
-  }
-
-
-  public void triggerTouch(int x, int y, float size) {
-    Trigger trigger = new Trigger(touchEffect.copy(), x, y, frameCount);
-    moduleView.addTrigger(trigger);
   }
 
 
