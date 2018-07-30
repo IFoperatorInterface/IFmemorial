@@ -24,8 +24,10 @@ class Module {
   public void draw() {
     drawBar();
 
-    if (indx != -1)
-      drawLine(color(128, 0, 255, mdata[indx].barPos.mag() * 255), 0, 1);
+    if (indx != -1) {
+      float alpha = constrain(mdata[indx].barPos.mag() * 2, 0, 0.5);
+      drawLine(color(128, 0, 255, alpha * 255), 0, 1);
+    }
 
     Iterator < Trigger > triggersIterator = triggers.iterator();
     while (triggersIterator.hasNext()) {
