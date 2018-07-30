@@ -40,6 +40,8 @@ class DataController {
         setModuleData();
     }
     void sendSoundData(int indx, int note) {
+        if (note == -1)
+            return;
         //String mssg = "abcd, 1, 24, 42,1000";
         //udp_sending.send(mssg, udpIP, sendingPort );
 
