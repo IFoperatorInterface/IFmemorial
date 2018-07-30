@@ -70,6 +70,8 @@ void mouseClicked() {
 
 
 void mousePressed() {
+  fieldController.onMousePressed();
+
   if (MOUSE_MODE != 1)
     return;
 
@@ -79,6 +81,8 @@ void mousePressed() {
 
 
 void mouseReleased() {
+  fieldController.onMouseReleased();
+
   if (MOUSE_MODE != 1)
     return;
 

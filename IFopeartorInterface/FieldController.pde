@@ -2,6 +2,7 @@ public class FieldController {
   Integer btSize;
   PVector[] fieldBtsPos;
   int lastTarget;
+  boolean mousePressed2;
 
   FieldController() {
     int indx = 0;
@@ -9,6 +10,7 @@ public class FieldController {
     fieldBtsPos = setFieldPostion();
     btSize = (int) fieldBtsPos[36].x;
     lastTarget = -1;
+    mousePressed2 = false;
 
     for (int i = 0; i < 6; i++)
       for (int j = 0; j < 6; j++) {
@@ -24,10 +26,10 @@ public class FieldController {
   }
 
 
-  public void onDraw() {
+  public void checkMouse() {
     int target = -1;
 
-    if (mousePressed) {
+    if (mousePressed2) {
       for (int i=0; i<36; i++){
         if ((mouseX > fieldBtsPos[i].x)
             && (mouseX < fieldBtsPos[i].x+btSize)
@@ -41,6 +43,23 @@ public class FieldController {
       fieldButton(lastTarget);
 
     lastTarget = target;
+  }
+
+
+  public void onDraw() {
+    checkMouse();
+  }
+
+
+  public void onMousePressed() {
+    mousePressed2 = true;
+  }
+
+
+  public void onMouseReleased() {
+    checkMouse();
+
+    mousePressed2 = false;
   }
 
 
