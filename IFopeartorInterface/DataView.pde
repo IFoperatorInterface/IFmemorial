@@ -57,13 +57,15 @@ public class DataView {
       }
 
       if (curPos[i].mag() > 0.4) {
+        if (pullCount[i] > 10)
+          presetController.triggerPullStart(x, y, (curPos[i].mag() - 0.4) * 2);
         pullEndTime[i] = frameCount;
         pullCount[i]++;
       }
       else if (curPos[i].mag() < 0.2) {
         if (frameCount - pullEndTime[i] < 5
             && pullCount[i] > 10)
-          presetController.trigger(Preset.PULL, x, y);
+          presetController.triggerPullEnd(x, y, 0);
         pullCount[i] = 0;
       }
 
