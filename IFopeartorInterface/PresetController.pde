@@ -12,6 +12,7 @@ public class PresetController {
     }
 
     pullStartEffect = new Effect();
+    pullStartEffect.note = -1;
     pullStartEffect.barMode = BarMode.BLINK;
     pullStartEffect.position[0] = 0;
     pullStartEffect.brightness[1] = new int[]{0, 100};
@@ -19,21 +20,34 @@ public class PresetController {
     pullStartEffect.brightness[3] = new int[]{2, 0};
 
     pullEndEffect = new Effect();
+    pullEndEffect.soundMode = SoundMode.CHORD;
+    pullEndEffect.note = 75;
     pullEndEffect.barMode = BarMode.BLINK;
     pullEndEffect.fieldMode[FieldMode.DOWN.ordinal()] = true;
     pullEndEffect.position[0] = 0;
     pullEndEffect.position[1] = 100;
     pullEndEffect.noCenter = true;
+    pullEndEffect.brightness[1] = new int[]{10, 100};
+    pullEndEffect.brightness[2] = new int[]{55, 30};
+    pullEndEffect.brightness[3] = new int[]{100, 0};
 
     jumpStartEffect = new Effect();
+    jumpStartEffect.note = 85;
     jumpStartEffect.barMode = BarMode.BOUNCE;
     jumpStartEffect.position[0] = 0;
     jumpStartEffect.position[1] = 100;
+    jumpStartEffect.brightness[1] = new int[]{20, 75};
+    jumpStartEffect.brightness[2] = new int[]{60, 100};
+    jumpStartEffect.brightness[3] = new int[]{65, 0};
 
     jumpEndEffect = new Effect();
+    jumpEndEffect.note = 40;
     jumpEndEffect.barMode = BarMode.BLINK;
     jumpEndEffect.position[0] = 0;
     jumpEndEffect.position[1] = 100;
+    jumpEndEffect.brightness[1] = new int[]{10, 100};
+    jumpEndEffect.brightness[2] = new int[]{60, 100};
+    jumpEndEffect.brightness[3] = new int[]{100, 0};
 
     jumpFieldEffect = new Effect();
     jumpFieldEffect.barMode = BarMode.STRETCH;
@@ -41,6 +55,9 @@ public class PresetController {
     jumpFieldEffect.position[0] = 0;
     jumpFieldEffect.position[1] = 100;
     jumpFieldEffect.noCenter = true;
+    jumpFieldEffect.brightness[1] = new int[]{10, 100};
+    jumpFieldEffect.brightness[2] = new int[]{35, 30};
+    jumpFieldEffect.brightness[3] = new int[]{60, 0};
   }
 
 
@@ -64,8 +81,8 @@ public class PresetController {
 
   public void triggerJump(int x, int y) {
     Trigger startTrigger = new Trigger(jumpStartEffect, x, y, frameCount);
-    Trigger endTrigger = new Trigger(jumpEndEffect, x, y, frameCount + 80);
-    Trigger fieldTrigger = new Trigger(jumpFieldEffect, x, y, frameCount + 80);
+    Trigger endTrigger = new Trigger(jumpEndEffect, x, y, frameCount + 58);
+    Trigger fieldTrigger = new Trigger(jumpFieldEffect, x, y, frameCount + 58);
     moduleView.addTrigger(startTrigger);
     moduleView.addTrigger(endTrigger);
     moduleView.addTrigger(fieldTrigger);
