@@ -1,15 +1,11 @@
 public class PresetController {
-  private Effect[] effects;
+  private Effect touchEffect;
   private Effect pullStartEffect, pullEndEffect;
   private Effect jumpStartEffect, jumpEndEffect, jumpFieldEffect;
 
 
   PresetController() {
-    effects = new Effect[Preset.values().length];
-
-    for (Preset p : Preset.values()) {
-      effects[p.ordinal()] = new Effect();
-    }
+    touchEffect = new Effect();
 
     pullStartEffect = new Effect();
     pullStartEffect.note = -1;
@@ -60,6 +56,12 @@ public class PresetController {
   }
 
 
+  public void triggerTouch(int x, int y, float size) {
+    Trigger trigger = new Trigger(touchEffect.copy(), x, y, frameCount);
+    moduleView.addTrigger(trigger);
+  }
+
+
   public void triggerPullStart(int x, int y, float size) {
     int barSize = (int) (size * 100);
     if (barSize > 100)
@@ -86,11 +88,5 @@ public class PresetController {
     moduleView.addTrigger(startTrigger);
     moduleView.addTrigger(endTrigger);
     moduleView.addTrigger(fieldTrigger);
-  }
-
-
-  public void trigger(Preset preset, int x, int y) {
-    Trigger trigger = new Trigger(effects[preset.ordinal()].copy(), x, y, frameCount);
-    moduleView.addTrigger(trigger);
   }
 }

@@ -46,7 +46,7 @@ public class DataView {
           if (maxPos[i].dist(newMaxPos) > 0.05
               && maxPos[i].dist(PVector.mult(newMaxPos, -1)) > 0.05
               && newMaxPos.mag() < 0.4)
-            presetController.trigger(Preset.TOUCH, x, y);
+            presetController.triggerTouch(x, y, newMaxPos.mag());
 
           maxPos[i] = newMaxPos;
         }
