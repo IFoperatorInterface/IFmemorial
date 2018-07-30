@@ -60,8 +60,7 @@ class Graph {
     this.maxXValue = maxXValue;
     this.maxYValue = maxYValue;
 
-    this.xValue = constrain(xValue, minXValue, maxXValue);
-    this.yValue = constrain(yValue, minYValue, maxYValue);
+    setValue(xValue, yValue);
 
     return this;
   }

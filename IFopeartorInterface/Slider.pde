@@ -61,7 +61,7 @@ class Slider {
     this.minValue = minValue;
     this.maxValue = maxValue;
 
-    this.value = constrain(value, minValue, maxValue);
+    setValue(value);
 
     return this;
   }
