@@ -74,7 +74,7 @@ public class DataView {
 
       if (mdata[i].isJumped) {
         if (notJumpedCount[i] > 3)
-          presetController.trigger(Preset.JUMP, x, y);
+          presetController.triggerJump(x, y);
         notJumpedCount[i] = 0;
       }
       else {

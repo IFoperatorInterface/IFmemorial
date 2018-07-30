@@ -1,6 +1,7 @@
 public class PresetController {
   private Effect[] effects;
   private Effect pullStartEffect, pullEndEffect;
+  private Effect jumpStartEffect, jumpEndEffect, jumpFieldEffect;
 
 
   PresetController() {
@@ -22,6 +23,22 @@ public class PresetController {
     pullEndEffect.fieldMode[FieldMode.DOWN.ordinal()] = true;
     pullEndEffect.position[0] = 0;
     pullEndEffect.position[1] = 100;
+
+    jumpStartEffect = new Effect();
+    jumpStartEffect.barMode = BarMode.BOUNCE;
+    jumpStartEffect.position[0] = 0;
+    jumpStartEffect.position[1] = 100;
+
+    jumpEndEffect = new Effect();
+    jumpEndEffect.barMode = BarMode.BLINK;
+    jumpEndEffect.position[0] = 0;
+    jumpEndEffect.position[1] = 100;
+
+    jumpFieldEffect = new Effect();
+    jumpFieldEffect.barMode = BarMode.STRETCH;
+    jumpFieldEffect.fieldMode[FieldMode.ELLIPSE.ordinal()] = true;
+    jumpFieldEffect.position[0] = 0;
+    jumpFieldEffect.position[1] = 100;
   }
 
 
@@ -40,6 +57,16 @@ public class PresetController {
   public void triggerPullEnd(int x, int y, float angle) {
     Trigger trigger = new Trigger(pullEndEffect, x, y, frameCount);
     moduleView.addTrigger(trigger);
+  }
+
+
+  public void triggerJump(int x, int y) {
+    Trigger startTrigger = new Trigger(jumpStartEffect, x, y, frameCount);
+    Trigger endTrigger = new Trigger(jumpEndEffect, x, y, frameCount + 80);
+    Trigger fieldTrigger = new Trigger(jumpFieldEffect, x, y, frameCount + 80);
+    moduleView.addTrigger(startTrigger);
+    moduleView.addTrigger(endTrigger);
+    moduleView.addTrigger(fieldTrigger);
   }
 
 
