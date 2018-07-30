@@ -1,6 +1,7 @@
 public class DataView {
   private static final float SPEED_THRESHOLD = 0.03;
 
+  private PVector[] curPos;
   private PVector[] prevPos;
   private int[] stopCount;
   private int[] notJumpedCount;
@@ -8,6 +9,10 @@ public class DataView {
 
 
   DataView() {
+    this.curPos = new PVector[36];
+    for (int i=0; i<curPos.length; i++)
+      curPos[i] = new PVector(0, 0);
+
     this.prevPos = new PVector[36];
     for (int i=0; i<prevPos.length; i++)
       prevPos[i] = new PVector(0, 0);
@@ -26,9 +31,12 @@ public class DataView {
       int y = i / 6;
       int x = i % 6;
 
-      if (mdata[i].barPos.dist(prevPos[i]) < SPEED_THRESHOLD) {
+      curPos[i].x = mdata[i].barPos.x * 0.2 + curPos[i].x * 0.8;
+      curPos[i].y = mdata[i].barPos.y * 0.2 + curPos[i].y * 0.8;
+
+      if (curPos[i].dist(prevPos[i]) < curPos[i].mag() * 0.1) {
         if (stopCount[i] == 0) {
-          PVector newMaxPos = new PVector(mdata[i].barPos.x, mdata[i].barPos.y);
+          PVector newMaxPos = new PVector(curPos[i].x, curPos[i].y);
 
           if (maxPos[i].dist(newMaxPos) > 0.05
               && maxPos[i].dist(PVector.mult(newMaxPos, -1)) > 0.05)
@@ -42,8 +50,8 @@ public class DataView {
         stopCount[i] = 0;
       }
 
-      prevPos[i].x = mdata[i].barPos.x;
-      prevPos[i].y = mdata[i].barPos.y;
+      prevPos[i].x = curPos[i].x;
+      prevPos[i].y = curPos[i].y;
 
       if (mdata[i].isJumped) {
         if (notJumpedCount[i] > 3)
