@@ -24,7 +24,7 @@ Data mdata[];
 SETTING setting;
 
 int mouseStartX, mouseStartY;
-final int mouseMode = 1;
+final int MOUSE_MODE = 1;
 
 public void settings() {
   // size(1920, 1080);
@@ -61,7 +61,7 @@ void draw() {
 
 
 void mouseClicked() {
-  if (mouseMode != 0)
+  if (MOUSE_MODE != 0)
     return;
 
   effectController.press(mouseX, mouseY);
@@ -70,7 +70,7 @@ void mouseClicked() {
 
 
 void mousePressed() {
-  if (mouseMode != 1)
+  if (MOUSE_MODE != 1)
     return;
 
   mouseStartX = mouseX;
@@ -79,7 +79,7 @@ void mousePressed() {
 
 
 void mouseReleased() {
-  if (mouseMode != 1)
+  if (MOUSE_MODE != 1)
     return;
 
   effectController.press(mouseStartX, mouseStartY, mouseX, mouseY);
