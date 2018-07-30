@@ -1,10 +1,10 @@
 public class DataView {
   private static final float SPEED_THRESHOLD = 0.03;
-  private static final float SIZE_THRESHOLD = 0.1;
 
   private PVector[] prevPos;
   private int[] stopCount;
   private int[] notJumpedCount;
+  private PVector[] maxPos;
 
 
   DataView() {
@@ -14,6 +14,10 @@ public class DataView {
 
     this.stopCount = new int[36];
     this.notJumpedCount = new int[36];
+
+    this.maxPos = new PVector[36];
+    for (int i=0; i<36; i++)
+      maxPos[i] = new PVector(0, 0);
   }
 
 
@@ -23,14 +27,19 @@ public class DataView {
       int x = i % 6;
 
       if (mdata[i].barPos.dist(prevPos[i]) < SPEED_THRESHOLD) {
-        if (mdata[i].barPos.mag() > SIZE_THRESHOLD) {
-          if (stopCount[i] > 30)
+        if (stopCount[i] == 0) {
+          PVector newMaxPos = new PVector(mdata[i].barPos.x, mdata[i].barPos.y);
+
+          if (maxPos[i].dist(newMaxPos) > 0.05
+              && maxPos[i].dist(PVector.mult(newMaxPos, -1)) > 0.05)
             presetController.trigger(Preset.TOUCH, x, y);
-          stopCount[i] = 0;
+
+          maxPos[i] = newMaxPos;
         }
-        else {
-          stopCount[i]++;
-        }
+        stopCount[i]++;
+      }
+      else {
+        stopCount[i] = 0;
       }
 
       prevPos[i].x = mdata[i].barPos.x;
