@@ -67,22 +67,22 @@ public class PresetController {
 
     pullStartEffect.position[1] = barSize;
 
-    Trigger trigger = new Trigger(pullStartEffect, x, y, frameCount);
+    Trigger trigger = new Trigger(pullStartEffect.copy(), x, y, frameCount);
     moduleView.addTrigger(trigger);
   }
 
 
   public void triggerPullEnd(int x, int y, PVector direction) {
     pullEndEffect.direction = new PVector(-direction.x, -direction.y);
-    Trigger trigger = new Trigger(pullEndEffect, x, y, frameCount);
+    Trigger trigger = new Trigger(pullEndEffect.copy(), x, y, frameCount);
     moduleView.addTrigger(trigger);
   }
 
 
   public void triggerJump(int x, int y) {
-    Trigger startTrigger = new Trigger(jumpStartEffect, x, y, frameCount);
-    Trigger endTrigger = new Trigger(jumpEndEffect, x, y, frameCount + 58);
-    Trigger fieldTrigger = new Trigger(jumpFieldEffect, x, y, frameCount + 58);
+    Trigger startTrigger = new Trigger(jumpStartEffect.copy(), x, y, frameCount);
+    Trigger endTrigger = new Trigger(jumpEndEffect.copy(), x, y, frameCount + 58);
+    Trigger fieldTrigger = new Trigger(jumpFieldEffect.copy(), x, y, frameCount + 58);
     moduleView.addTrigger(startTrigger);
     moduleView.addTrigger(endTrigger);
     moduleView.addTrigger(fieldTrigger);
@@ -90,7 +90,7 @@ public class PresetController {
 
 
   public void trigger(Preset preset, int x, int y) {
-    Trigger trigger = new Trigger(effects[preset.ordinal()], x, y, frameCount);
+    Trigger trigger = new Trigger(effects[preset.ordinal()].copy(), x, y, frameCount);
     moduleView.addTrigger(trigger);
   }
 }
