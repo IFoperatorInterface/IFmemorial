@@ -6,6 +6,8 @@ public class DataView {
   private int[] stopCount;
   private int[] notJumpedCount;
   private PVector[] maxPos;
+  private int[] pullEndTime;
+  private int[] pullCount;
 
 
   DataView() {
@@ -23,6 +25,9 @@ public class DataView {
     this.maxPos = new PVector[36];
     for (int i=0; i<36; i++)
       maxPos[i] = new PVector(0, 0);
+
+    this.pullEndTime = new int[36];
+    this.pullCount = new int[36];
   }
 
 
@@ -39,7 +44,8 @@ public class DataView {
           PVector newMaxPos = new PVector(curPos[i].x, curPos[i].y);
 
           if (maxPos[i].dist(newMaxPos) > 0.05
-              && maxPos[i].dist(PVector.mult(newMaxPos, -1)) > 0.05)
+              && maxPos[i].dist(PVector.mult(newMaxPos, -1)) > 0.05
+              && newMaxPos.mag() < 0.4)
             presetController.trigger(Preset.TOUCH, x, y);
 
           maxPos[i] = newMaxPos;
@@ -48,6 +54,17 @@ public class DataView {
       }
       else {
         stopCount[i] = 0;
+      }
+
+      if (curPos[i].mag() > 0.4) {
+        pullEndTime[i] = frameCount;
+        pullCount[i]++;
+      }
+      else if (curPos[i].mag() < 0.2) {
+        if (frameCount - pullEndTime[i] < 5
+            && pullCount[i] > 10)
+          presetController.trigger(Preset.PULL, x, y);
+        pullCount[i] = 0;
       }
 
       prevPos[i].x = curPos[i].x;
