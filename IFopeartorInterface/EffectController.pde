@@ -19,6 +19,7 @@ public class EffectController {
   private Slider noteSlider;
   private Slider sizeSlider;
   private Slider positionSlider;
+  private Graph adrGraph;
 
   EffectController() {
     effect = new Effect();
@@ -116,14 +117,16 @@ public class EffectController {
     int _y = y + pd + pd;
     int _w = w;
     int _h = h - pd * 4;
-    adrBt = controlP5.addSlider2D("adrBehaviorTransition")
-      .setLabelVisible(false)
+    adrGraph = new Graph()
       .setPosition(_x, _y)
       .setSize(_w, _h)
       .setMinMax(0, 0, 100, 100)
       .setValue(50, 0)
-      .disableCrosshair()
-      .plugTo(this, "adrGui");
+      .setChangeListener(new GraphChangeListener() {
+        public void onChange(int xValue, int yValue) {
+          adrGui(xValue, yValue);
+        }
+      });
 
     adrPointers[0] = new ADRpointer(new PVector(
       map(effect.brightness[0][0], 0, 100, _x, _x + _w),
@@ -154,8 +157,6 @@ public class EffectController {
     adrPointers[3].clickAreaL = (adrPointers[3].pos.x - adrPointers[2].pos.x) / 2;
     adrPointers[3].clickAreaR = _x + _w - adrPointers[3].pos.x;
 
-    adrBt.getValueLabel().setVisible(false);
-    adrBt.getCaptionLabel().setVisible(false);
     String adrTitle = "adr behavior";
     pos = new PVector(x + w / 2, y + h / 2);
     systemView.sliderTitles[1] = new Title(pos, adrTitle);
@@ -302,8 +303,8 @@ public class EffectController {
     return effect.copy();
   }
 
-  void adrGui() {
-    float[] values = adrBt.getArrayValue();
+  void adrGui(int xValue, int yValue) {
+    float[] values = new float[]{xValue, 100 - yValue};
     PVector position = new PVector(
       map(values[0], 0, 100, adrPointers[0].x, adrPointers[0].x + adrPointers[0].w),
       map(values[1], 100, 0, adrPointers[0].y + adrPointers[0].h, adrPointers[0].y)
@@ -366,14 +367,14 @@ public class EffectController {
         effect.brightness[3][0] = newValue;
       }
     }
-    adrPointers[0].clickAreaL = adrBt.getPosition()[0] - adrPointers[0].pos.x;
+    adrPointers[0].clickAreaL = adrGraph.pos.x - adrPointers[0].pos.x;
     adrPointers[0].clickAreaR = (adrPointers[1].pos.x - adrPointers[0].pos.x) / 2;
     adrPointers[1].clickAreaL = (adrPointers[1].pos.x - adrPointers[0].pos.x) / 2;
     adrPointers[1].clickAreaR = (adrPointers[2].pos.x - adrPointers[1].pos.x) / 2;
     adrPointers[2].clickAreaL = (adrPointers[2].pos.x - adrPointers[1].pos.x) / 2;
     adrPointers[2].clickAreaR = (adrPointers[3].pos.x - adrPointers[2].pos.x) / 2;
     adrPointers[3].clickAreaL = (adrPointers[3].pos.x - adrPointers[2].pos.x) / 2;
-    adrPointers[3].clickAreaR = adrBt.getPosition()[0] + adrBt.getWidth() - adrPointers[3].pos.x;
+    adrPointers[3].clickAreaR = adrGraph.pos.x + adrGraph.size.x - adrPointers[3].pos.x;
   }
 
 
@@ -404,6 +405,8 @@ public class EffectController {
     sizeSlider.draw();
     positionSlider.draw();
 
+    adrGraph.draw();
+
 
     if (frameCount >= previewStartTime + Module.MAX_DURATION * effect.brightness[3][0] / 100 + Module.MAX_DURATION)
       updatePreview();
@@ -433,6 +436,8 @@ public class EffectController {
     noteSlider.mousePressed();
     sizeSlider.mousePressed();
     positionSlider.mousePressed();
+
+    adrGraph.mousePressed();
   }
 
 
@@ -440,6 +445,8 @@ public class EffectController {
     noteSlider.mouseReleased();
     sizeSlider.mouseReleased();
     positionSlider.mouseReleased();
+
+    adrGraph.mouseReleased();
   }
 
 
