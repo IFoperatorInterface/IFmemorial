@@ -76,7 +76,7 @@ public class PresetController {
   public void triggerJump(int x, int y) {
     Trigger startTrigger = new Trigger(jumpStartEffect.copy(), x, y, frameCount);
     Trigger endTrigger = new Trigger(jumpEndEffect.copy(), x, y, frameCount + 58);
-    Trigger fieldTrigger = new Trigger(jumpFieldEffect.copy(), x, y, frameCount + 58);
+    Trigger fieldTrigger = new Trigger(jumpFieldEffect.copy(), x, y, frameCount + 54);
     moduleView.addTrigger(startTrigger);
     moduleView.addTrigger(endTrigger);
     moduleView.addTrigger(fieldTrigger);
