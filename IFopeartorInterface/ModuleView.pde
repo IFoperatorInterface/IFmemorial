@@ -37,8 +37,7 @@ class ModuleView {
 
       int phase = frameCount - t.startTime;
 
-      if ((phase > DELAY * ROWS) &&
-        (phase > DELAY * COLUMNS))
+      if (phase > DELAY * (sqrt(sq(ROWS)+sq(COLUMNS)) + 1))
         triggersIterator.remove();
 
       if (phase == 1 && !(t.effect.noCenter)) {
