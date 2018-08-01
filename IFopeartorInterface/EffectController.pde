@@ -60,6 +60,7 @@ public class EffectController {
       .setSize(btSize, h)
       .setRange(1, 127)
       .setValue(effect.note)
+      .setName("Note")
       .setChangeListener(new SliderChangeListener() {
         public void onChange(int value) {
           noteSlider(value);
@@ -100,6 +101,7 @@ public class EffectController {
       .setSize(btSize, h)
       .setRange(0, 100)
       .setValue(effect.size)
+      .setName("Size")
       .setChangeListener(new SliderChangeListener() {
         public void onChange(int value) {
           sizeSlider(value);
@@ -111,6 +113,7 @@ public class EffectController {
       .setPosition(x, y)
       .setSize(btSize, h)
       .setRange(0, 100)
+      .setName("Position")
       .setChangeListener(new SliderChangeListener() {
         public void onChange(int value) {
           positionSlider(value);
