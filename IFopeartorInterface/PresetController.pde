@@ -63,6 +63,29 @@ public class PresetController {
 
 
   public void onDraw() {
+    int pd = 5;
+    int h = int(windows[1].size.y);
+    int size = h / 10;
+    int x = int(windows[1].pos.x) + size * 22 + pd;
+    int y = int(windows[1].pos.y) + h - size;
+
+    pushStyle();
+    rectMode(CORNER);
+    noStroke();
+
+    fill(touchColor[0], touchColor[1], touchColor[2]);
+    rect(x, y, size, size);
+
+    x += size + pd;
+    fill(pullStartEffect.colorRGB[0], pullStartEffect.colorRGB[1], pullStartEffect.colorRGB[2]);
+    rect(x, y, size, size);
+
+    x += size + pd;
+    fill(jumpStartEffect.colorRGB[0], jumpStartEffect.colorRGB[1], jumpStartEffect.colorRGB[2]);
+    rect(x, y, size, size);
+
+    popStyle();
+
     if (frameCount % (COLOR_PERIOD / COLOR_STEPS) != 0)
       return;
 
