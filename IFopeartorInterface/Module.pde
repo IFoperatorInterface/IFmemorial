@@ -3,6 +3,7 @@ class Module {
   private List<Trigger> triggers;
   private static final int MAX_DURATION = 90;
   private float alpha;
+  private float maxSize;
 
   private int barH;
   PVector pos, fieldPos;
@@ -27,9 +28,10 @@ class Module {
 
     if (indx != -1) {
       float size = constrain(mdata[indx].barPos.mag() * 2, 0, 0.5);
-      alpha = alpha * 0.998;
-      if (size > alpha)
-        alpha = size;
+      maxSize = maxSize * 0.99;
+      if (size > maxSize)
+        maxSize = size;
+      alpha = maxSize * 0.1 + alpha * 0.9;
       drawLine(color(presetController.touchColor[0], presetController.touchColor[1], presetController.touchColor[2], alpha * 255), 0, 1);
     }
 
