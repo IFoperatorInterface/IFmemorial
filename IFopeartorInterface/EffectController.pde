@@ -185,6 +185,7 @@ public class EffectController {
       .setRange(0, 100)
       .setValue(effect.spread)
       .setName("Spread")
+      .setActive(false)
       .setChangeListener(new SliderChangeListener() {
         public void onChange(int value) {
           spreadSlider(value);
@@ -246,6 +247,7 @@ public class EffectController {
       .setRange(0, 100)
       .setValue(effect.diameter)
       .setName("Diameter")
+      .setActive(false)
       .setChangeListener(new SliderChangeListener() {
         public void onChange(int value) {
           diameterSlider(value);
@@ -345,6 +347,14 @@ public class EffectController {
         effect.fieldMode[FieldMode.ELLIPSE.ordinal()] = false;
       }
     }
+
+    boolean fieldModeOn = false;
+    for (FieldMode f : FieldMode.values())
+      if (effect.fieldMode[f.ordinal()])
+        fieldModeOn = true;
+    spreadSlider.setActive(fieldModeOn);
+
+    diameterSlider.setActive(effect.fieldMode[FieldMode.ELLIPSE.ordinal()]);
   }
 
 
