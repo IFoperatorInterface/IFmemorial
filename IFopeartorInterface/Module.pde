@@ -129,6 +129,9 @@ class Module {
 
 
   public void addTrigger(Trigger trigger) {
+    if (indx == -1)
+      triggers.clear();
+
     triggers.add(trigger);
   }
 
