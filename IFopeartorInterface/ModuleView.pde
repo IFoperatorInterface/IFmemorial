@@ -3,7 +3,8 @@ class ModuleView {
   private Module modules[][];
   private static final int ROWS = 6;
   private static final int COLUMNS = 6;
-  private static final int DELAY = 20;
+  private static final int MIN_DELAY = 1;
+  private static final int MAX_DELAY = 30;
 
   ModuleView() {
     triggers = new ArrayList < Trigger > ();
@@ -36,62 +37,63 @@ class ModuleView {
       Trigger t = triggersIterator.next();
 
       int phase = frameCount - t.startTime;
+      int delay = (int) map(t.effect.spread, 0, 100, MAX_DELAY, MIN_DELAY);
 
-      if (phase > DELAY * (sqrt(sq(ROWS)+sq(COLUMNS)) + 1))
+      if (phase > delay * (sqrt(sq(ROWS)+sq(COLUMNS)) + 1))
         triggersIterator.remove();
 
       if (phase == 1 && !(t.effect.noCenter)) {
         modules[t.y][t.x].addTrigger(t.copyWithStartTime(frameCount));
 
-        dataController.sendSoundData(t.y*COLUMNS+t.x, getNote(t.effect, phase));
+        dataController.sendSoundData(t.y*COLUMNS+t.x, getNote(t.effect, phase, delay));
         
       }
 
-      if (phase % DELAY == 1 && phase > 1) {
-        int distance = (frameCount - t.startTime) / DELAY;
+      if (phase % delay == 1 && phase > 1) {
+        int distance = (frameCount - t.startTime) / delay;
 
         if (t.effect.fieldMode[FieldMode.UP.ordinal()]) {
           int y = t.y - distance;
           if (y >= 0)
             modules[y][t.x].addTrigger(t.copyWithStartTime(frameCount));
-          dataController.sendSoundData(y * COLUMNS + t.x, getNote(t.effect, phase));
+          dataController.sendSoundData(y * COLUMNS + t.x, getNote(t.effect, phase, delay));
         }
 
         if (t.effect.fieldMode[FieldMode.DOWN.ordinal()]) {
           int y = t.y + distance;
           if (y < ROWS)
             modules[y][t.x].addTrigger(t.copyWithStartTime(frameCount));
-          dataController.sendSoundData(y * COLUMNS + t.x, getNote(t.effect, phase));
+          dataController.sendSoundData(y * COLUMNS + t.x, getNote(t.effect, phase, delay));
         }
 
         if (t.effect.fieldMode[FieldMode.LEFT.ordinal()]) {
           int x = t.x - distance;
           if (x >= 0)
             modules[t.y][x].addTrigger(t.copyWithStartTime(frameCount));
-          dataController.sendSoundData(t.y * COLUMNS + x, getNote(t.effect, phase));
+          dataController.sendSoundData(t.y * COLUMNS + x, getNote(t.effect, phase, delay));
         }
 
         if (t.effect.fieldMode[FieldMode.RIGHT.ordinal()]) {
           int x = t.x + distance;
           if (x < COLUMNS)
             modules[t.y][x].addTrigger(t.copyWithStartTime(frameCount));
-          dataController.sendSoundData(t.y * COLUMNS + x, getNote(t.effect, phase));
+          dataController.sendSoundData(t.y * COLUMNS + x, getNote(t.effect, phase, delay));
         }
       }
 
       if (t.effect.fieldMode[FieldMode.ELLIPSE.ordinal()]) {
         for (int x = 0; x < COLUMNS; x++)
           for (int y = 0; y < ROWS; y++)
-            if ((int) (sqrt((x - t.x) * (x - t.x) + (y - t.y) * (y - t.y)) * DELAY) == phase + 1
+            if ((int) (sqrt((x - t.x) * (x - t.x) + (y - t.y) * (y - t.y)) * delay) == phase + 1
                 && !(x == t.x && y == t.y)) {
               modules[y][x].addTrigger(t.copyWithStartTime(frameCount));
-              dataController.sendSoundData(y * COLUMNS + x, getNote(t.effect, phase));
+              dataController.sendSoundData(y * COLUMNS + x, getNote(t.effect, phase, delay));
             }
       }
 
       if (t.effect.direction != null) {
-        PVector displacement = t.effect.direction.setMag(null, 1).mult((phase - 1.0) / DELAY);
-        PVector prevDisplacement = t.effect.direction.setMag(null, 1).mult((phase - 2.0) / DELAY);
+        PVector displacement = t.effect.direction.setMag(null, 1).mult((phase - 1.0) / delay);
+        PVector prevDisplacement = t.effect.direction.setMag(null, 1).mult((phase - 2.0) / delay);
 
         int x = t.x + round(displacement.x);
         int y = t.y + round(displacement.y);
@@ -100,19 +102,19 @@ class ModuleView {
             && !(x < 0 || x >= 6 || y < 0 || y >= 6)
             && !(x == t.x && y == t.y)) {
           modules[y][x].addTrigger(t.copyWithStartTime(frameCount));
-          dataController.sendSoundData(y * COLUMNS + x, getNote(t.effect, phase));
+          dataController.sendSoundData(y * COLUMNS + x, getNote(t.effect, phase, delay));
         }
       }
     }
   }
 
 
-  private int getNote(Effect effect, int phase) {
+  private int getNote(Effect effect, int phase, int delay) {
     switch (effect.soundMode) {
       case SINGLE:
         return effect.note;
       case CHORD:
-        return effect.note + (phase - 1) * 3 / DELAY;
+        return effect.note + (phase - 1) * 3 / delay;
       case RANDOM:
         if (phase == 1)
           effect.note = (int) random(1, 128);
