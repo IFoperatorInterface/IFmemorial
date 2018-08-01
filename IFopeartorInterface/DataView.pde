@@ -9,6 +9,7 @@ public class DataView {
   private int[] notJumpedCount;
   private int[] pullEndTime;
   private int[] pullCount;
+  private PVector[] pullDirection;
 
 
   DataView() {
@@ -16,6 +17,9 @@ public class DataView {
 
     this.pullEndTime = new int[36];
     this.pullCount = new int[36];
+    this.pullDirection = new PVector[36];
+    for (int i = 0; i < pullDirection.length; i++)
+      pullDirection[i] = new PVector();
   }
 
 
@@ -33,10 +37,14 @@ public class DataView {
         pullEndTime[i] = frameCount;
         pullCount[i]++;
       }
-      else if (mdata[i].barPos.mag() < PULL_INNER_SIZE_THRESHOLD) {
+      else if (mdata[i].barPos.mag() > PULL_INNER_SIZE_THRESHOLD) {
+        if (frameCount - pullEndTime[i] == 1)
+          pullDirection[i].set(mdata[i].barPos);
+      }
+      else {
         if (frameCount - pullEndTime[i] < PULL_RELEASE_COUNT_THRESHOLD
             && pullCount[i] > PULL_CHARGE_COUNT_THRESHOLD)
-          presetController.triggerPullEnd(x, y, mdata[i].barPos);
+          presetController.triggerPullEnd(x, y, pullDirection[i]);
         pullCount[i] = 0;
       }
 
