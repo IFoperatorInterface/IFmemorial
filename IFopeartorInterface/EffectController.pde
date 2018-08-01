@@ -19,6 +19,8 @@ public class EffectController {
   private Slider noteSlider;
   private Slider sizeSlider;
   private Slider positionSlider;
+  private Slider spreadSlider;
+  private Slider diameterSlider;
   private Graph adrGraph;
 
   EffectController() {
@@ -174,6 +176,20 @@ public class EffectController {
 
     x = int(windows[3].pos.x);
     y = int(windows[3].pos.y);
+    h = int(windows[3].size.y);
+    btSize = h / 3;
+
+    spreadSlider = new Slider()
+      .setPosition(x, y)
+      .setSize(btSize, h)
+      .setRange(0, 100)
+      .setValue(effect.spread)
+      .setName("Spread")
+      .setChangeListener(new SliderChangeListener() {
+        public void onChange(int value) {
+          spreadSlider(value);
+        }
+      });
 
     fieldModeToggles = new Button[FieldMode.values().length];
 
@@ -219,6 +235,20 @@ public class EffectController {
       .setPressListener(new ButtonPressListener() {
         public void onPress() {
           fieldModeToggle(FieldMode.ELLIPSE.ordinal());
+        }
+      });
+
+    x += (pd + btSize);
+    y = int(windows[3].pos.y);
+    diameterSlider = new Slider()
+      .setPosition(x, y)
+      .setSize(btSize, h)
+      .setRange(0, 100)
+      .setValue(effect.diameter)
+      .setName("Diameter")
+      .setChangeListener(new SliderChangeListener() {
+        public void onChange(int value) {
+          diameterSlider(value);
         }
       });
   }
@@ -406,6 +436,16 @@ public class EffectController {
   }
 
 
+  void spreadSlider(int value) {
+    effect.spread = value;
+  }
+
+
+  void diameterSlider(int value) {
+    effect.diameter = value;
+  }
+
+
   public void updatePreview() {
     previewModule.addTrigger(new Trigger(effect.copy(), -1, -1, frameCount));
     previewStartTime = frameCount;
@@ -423,6 +463,8 @@ public class EffectController {
     noteSlider.draw();
     sizeSlider.draw();
     positionSlider.draw();
+    spreadSlider.draw();
+    diameterSlider.draw();
 
     adrGraph.draw();
 
@@ -455,6 +497,8 @@ public class EffectController {
     noteSlider.mousePressed();
     sizeSlider.mousePressed();
     positionSlider.mousePressed();
+    spreadSlider.mousePressed();
+    diameterSlider.mousePressed();
 
     adrGraph.mousePressed();
   }
@@ -464,6 +508,8 @@ public class EffectController {
     noteSlider.mouseReleased();
     sizeSlider.mouseReleased();
     positionSlider.mouseReleased();
+    spreadSlider.mouseReleased();
+    diameterSlider.mouseReleased();
 
     adrGraph.mouseReleased();
   }
