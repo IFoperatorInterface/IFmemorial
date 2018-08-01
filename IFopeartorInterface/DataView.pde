@@ -33,14 +33,17 @@ public class DataView {
       curPos[i].y = mdata[i].barPos.y * 0.2 + curPos[i].y * 0.8;
 
       if (curPos[i].mag() > 0.3) {
-        if (pullCount[i] > 7)
-          presetController.triggerPullStart(x, y, (curPos[i].mag() - 0.3) * 4);
+        if (pullCount[i] > 7) {
+          float size = map(pullCount[i], 7, 52, 0, 1);
+          size = constrain(size, 0, 1);
+          presetController.triggerPullStart(x, y, size);
+        }
         pullEndTime[i] = frameCount;
         pullCount[i]++;
       }
       else if (curPos[i].mag() < 0.15) {
         if (frameCount - pullEndTime[i] < 5
-            && pullCount[i] > 7)
+            && pullCount[i] > 52)
           presetController.triggerPullEnd(x, y, curPos[i]);
         pullCount[i] = 0;
       }
