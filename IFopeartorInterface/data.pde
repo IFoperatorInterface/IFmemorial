@@ -42,10 +42,7 @@ class DataController {
     void sendSoundData(int indx, int note) {
         if (note == -1)
             return;
-        //String mssg = "abcd, 1, 24, 42,1000";
-        //udp_sending.send(mssg, udpIP, sendingPort );
-
-        String mssg = "abcd,1," + indx + "," + note + ",1000" + ",1,120";
+        String mssg = "abcd,1," + indx + "," + note + ",100" + ",0,100";
         println(mssg);
         udp_sending.send(mssg, udpIP, sendingPort);
     }

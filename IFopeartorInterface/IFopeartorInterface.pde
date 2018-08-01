@@ -92,17 +92,4 @@ void mouseReleased() {
   recordController.press(mouseStartX, mouseStartY, mouseX, mouseY);
 
   effectController.mouseReleased();
-
-  removeThis();
-
-
-}
-void removeThis() {
-  String mssg = "abcd,1,30,42,1000,0,100";
-  udp_sending.send(mssg, "127.0.0.1", 40001);
-  println(mssg);
-
-  // String mssg = "abcd,1," + indx + "," + note + ",1000" + ",1,120";
-  // println(mssg);
-  // udp_sending.send(mssg, udpIP, sendingPort);
 }
