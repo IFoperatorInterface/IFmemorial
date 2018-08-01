@@ -18,6 +18,7 @@ public class PresetController {
     pullEndEffect.barMode = BarMode.BLINK;
     pullEndEffect.position[0] = 0;
     pullEndEffect.position[1] = 100;
+    pullEndEffect.spread = 75;
     pullEndEffect.noCenter = true;
     pullEndEffect.brightness[1] = new int[]{10, 100};
     pullEndEffect.brightness[2] = new int[]{55, 30};
