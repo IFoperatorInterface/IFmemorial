@@ -298,6 +298,20 @@ public class EffectController {
       fieldModeToggles[idx].setBackgroundColor(0, 45, 90);
 
     effect.fieldMode[idx] = newMode;
+
+    if (newMode == true) {
+      if (idx == FieldMode.ELLIPSE.ordinal()) {
+        for (FieldMode f : FieldMode.values())
+          if (f != FieldMode.ELLIPSE) {
+            fieldModeToggles[f.ordinal()].setBackgroundColor(0, 45, 90);
+            effect.fieldMode[f.ordinal()] = false;
+          }
+      }
+      else {
+        fieldModeToggles[FieldMode.ELLIPSE.ordinal()].setBackgroundColor(0, 45, 90);
+        effect.fieldMode[FieldMode.ELLIPSE.ordinal()] = false;
+      }
+    }
   }
 
 
