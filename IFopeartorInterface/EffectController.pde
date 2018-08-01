@@ -487,7 +487,7 @@ public class EffectController {
     adrGraph.draw();
 
 
-    if (frameCount >= previewStartTime + Module.MAX_DURATION * effect.brightness[3][0] / 100 + Module.MAX_DURATION)
+    if (frameCount >= previewStartTime + Module.MAX_DURATION * effect.brightness[3][0] / 100 + 15)
       updatePreview();
 
     previewModule.draw();
