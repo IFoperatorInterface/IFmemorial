@@ -4,7 +4,7 @@ class ModuleView {
   private static final int ROWS = 6;
   private static final int COLUMNS = 6;
   private static final int MIN_DELAY = 1;
-  private static final int MAX_DELAY = 30;
+  private static final int MAX_DELAY = 40;
 
   ModuleView() {
     triggers = new ArrayList < Trigger > ();
@@ -37,7 +37,7 @@ class ModuleView {
       Trigger t = triggersIterator.next();
 
       int phase = frameCount - t.startTime;
-      int delay = (int) map(t.effect.spread, 0, 100, MAX_DELAY, MIN_DELAY);
+      int delay = (int) map(sq(140 - t.effect.spread), sq(140), sq(40), MAX_DELAY, MIN_DELAY);
 
       if (phase > delay * (sqrt(sq(ROWS)+sq(COLUMNS)) + 1))
         triggersIterator.remove();
