@@ -1,5 +1,11 @@
 public class DataView {
   private static final float SPEED_THRESHOLD = 0.03;
+  private static final float PULL_OUTER_SIZE_THRESHOLD = 0.3;
+  private static final float PULL_INNER_SIZE_THRESHOLD = 0.15;
+  private static final int PULL_START_COUNT_THRESHOLD = 7;
+  private static final int PULL_CHARGE_COUNT_THRESHOLD = 52;
+  private static final int PULL_RELEASE_COUNT_THRESHOLD = 5;
+  private static final int NOT_JUMPED_COUNT_THRESHOLD = 5;
 
   private PVector[] curPos;
   private PVector[] prevPos;
@@ -32,18 +38,18 @@ public class DataView {
       curPos[i].x = mdata[i].barPos.x * 0.2 + curPos[i].x * 0.8;
       curPos[i].y = mdata[i].barPos.y * 0.2 + curPos[i].y * 0.8;
 
-      if (curPos[i].mag() > 0.3) {
-        if (pullCount[i] > 7) {
-          float size = map(pullCount[i], 7, 52, 0, 1);
+      if (curPos[i].mag() > PULL_OUTER_SIZE_THRESHOLD) {
+        if (pullCount[i] > PULL_START_COUNT_THRESHOLD) {
+          float size = map(pullCount[i], PULL_START_COUNT_THRESHOLD, PULL_CHARGE_COUNT_THRESHOLD, 0, 1);
           size = constrain(size, 0, 1);
           presetController.triggerPullStart(x, y, size);
         }
         pullEndTime[i] = frameCount;
         pullCount[i]++;
       }
-      else if (curPos[i].mag() < 0.15) {
-        if (frameCount - pullEndTime[i] < 5
-            && pullCount[i] > 52)
+      else if (curPos[i].mag() < PULL_INNER_SIZE_THRESHOLD) {
+        if (frameCount - pullEndTime[i] < PULL_RELEASE_COUNT_THRESHOLD
+            && pullCount[i] > PULL_CHARGE_COUNT_THRESHOLD)
           presetController.triggerPullEnd(x, y, curPos[i]);
         pullCount[i] = 0;
       }
@@ -52,7 +58,7 @@ public class DataView {
       prevPos[i].y = curPos[i].y;
 
       if (mdata[i].isJumped) {
-        if (notJumpedCount[i] > 3)
+        if (notJumpedCount[i] > NOT_JUMPED_COUNT_THRESHOLD)
           presetController.triggerJump(x, y);
         notJumpedCount[i] = 0;
       }
