@@ -14,7 +14,7 @@ class FieldView {
 
         if (NUM_CUR_P > NUM_PRE_P)
             for (int i = 0; i < NUM_CUR_P - NUM_PRE_P; i++)
-                riders.add(new Rider(pos[i], weight[i], i));
+                riders.add(new Rider(pos[i], weight[i], riders.size()));
 
         for (int i = 0; i < riders.size(); i++)
             riders.get(i).update(pos[i], weight[i]);

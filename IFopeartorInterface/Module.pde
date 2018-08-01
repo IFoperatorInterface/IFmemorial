@@ -138,6 +138,7 @@ class Module {
     pushMatrix();
     translate(fieldController.fieldBtsPos[indx].x + btSize / 2, fieldController.fieldBtsPos[indx].y + btSize / 2);
     stroke(255);
+    strokeWeight(2);
     line(0, 0, x, y);
     popMatrix();
   }

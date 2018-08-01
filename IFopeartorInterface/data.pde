@@ -45,7 +45,8 @@ class DataController {
         //String mssg = "abcd, 1, 24, 42,1000";
         //udp_sending.send(mssg, udpIP, sendingPort );
 
-        String mssg = "abcd,1," + indx + "," + note + ",1000";
+        String mssg = "abcd,1," + indx + "," + note + ",1000" + ",1,120";
+        println(mssg);
         udp_sending.send(mssg, udpIP, sendingPort);
     }
 
