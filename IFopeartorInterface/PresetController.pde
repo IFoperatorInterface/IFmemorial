@@ -1,9 +1,14 @@
 public class PresetController {
+  private int[] touchColor;
   private Effect pullStartEffect, pullEndEffect;
   private Effect jumpStartEffect, jumpEndEffect, jumpFieldEffect;
+  private static final int COLOR_PERIOD = 30 * 60 * 8;
+  private static final int COLOR_STEPS = 60;
 
 
   PresetController() {
+    touchColor = new int[]{255, 0, 0};
+
     pullStartEffect = new Effect();
     pullStartEffect.note = -1;
     pullStartEffect.barMode = BarMode.BLINK;
@@ -52,6 +57,46 @@ public class PresetController {
     jumpFieldEffect.brightness[1] = new int[]{10, 100};
     jumpFieldEffect.brightness[2] = new int[]{35, 30};
     jumpFieldEffect.brightness[3] = new int[]{60, 0};
+
+    updateColor(0);
+  }
+
+
+  public void onDraw() {
+    if (frameCount % (COLOR_PERIOD / COLOR_STEPS) != 0)
+      return;
+
+    int step = (frameCount / (COLOR_PERIOD / COLOR_STEPS)) % COLOR_STEPS;
+
+    updateColor(step);
+  }
+
+
+  private void updateColor(int step) {
+    color c = Color.HSBtoRGB((float)step / COLOR_STEPS, 1, 1);
+    touchColor[0] = (int) red(c) + 1;
+    touchColor[1] = (int) green(c) + 1;
+    touchColor[2] = (int) blue(c) + 1;
+
+    c = Color.HSBtoRGB((float)step / COLOR_STEPS + 0.03, 1, 1);
+    pullStartEffect.colorRGB[0] = (int) red(c) + 1;
+    pullStartEffect.colorRGB[1] = (int) green(c) + 1;
+    pullStartEffect.colorRGB[2] = (int) blue(c) + 1;
+    pullEndEffect.colorRGB[0] = (int) red(c) + 1;
+    pullEndEffect.colorRGB[1] = (int) green(c) + 1;
+    pullEndEffect.colorRGB[2] = (int) blue(c) + 1;
+
+
+    c = Color.HSBtoRGB((float)step / COLOR_STEPS + 0.06, 1, 1);
+    jumpStartEffect.colorRGB[0] = (int) red(c) + 1;
+    jumpStartEffect.colorRGB[1] = (int) green(c) + 1;
+    jumpStartEffect.colorRGB[2] = (int) blue(c) + 1;
+    jumpEndEffect.colorRGB[0] = (int) red(c) + 1;
+    jumpEndEffect.colorRGB[1] = (int) green(c) + 1;
+    jumpEndEffect.colorRGB[2] = (int) blue(c) + 1;
+    jumpFieldEffect.colorRGB[0] = (int) red(c) + 1;
+    jumpFieldEffect.colorRGB[1] = (int) green(c) + 1;
+    jumpFieldEffect.colorRGB[2] = (int) blue(c) + 1;
   }
 
 

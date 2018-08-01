@@ -30,7 +30,7 @@ class Module {
       alpha = alpha * 0.998;
       if (size > alpha)
         alpha = size;
-      drawLine(color(128, 0, 255, alpha * 255), 0, 1);
+      drawLine(color(presetController.touchColor[0], presetController.touchColor[1], presetController.touchColor[2], alpha * 255), 0, 1);
     }
 
     Iterator < Trigger > triggersIterator = triggers.iterator();
