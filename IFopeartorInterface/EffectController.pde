@@ -289,11 +289,15 @@ public class EffectController {
     } else {
       sizeSlider.setActive(false);
     }
+
+    updatePreview();
   }
 
 
   void sizeSlider(int a) {
     effect.size = a;
+
+    updatePreview();
   }
 
 
@@ -321,6 +325,8 @@ public class EffectController {
           effect.position[1] = a;
       }
     }
+
+    updatePreview();
   }
 
 
@@ -434,6 +440,8 @@ public class EffectController {
     adrPointers[2].clickAreaR = (adrPointers[3].pos.x - adrPointers[2].pos.x) / 2;
     adrPointers[3].clickAreaL = (adrPointers[3].pos.x - adrPointers[2].pos.x) / 2;
     adrPointers[3].clickAreaR = adrGraph.pos.x + adrGraph.size.x - adrPointers[3].pos.x;
+
+    updatePreview();
   }
 
 
