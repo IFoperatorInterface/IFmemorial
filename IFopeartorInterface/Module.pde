@@ -2,6 +2,7 @@ class Module {
   private int x, y;
   private List<Trigger> triggers;
   private static final int MAX_DURATION = 90;
+  private float alpha;
 
   private int barH;
   PVector pos, fieldPos;
@@ -25,7 +26,10 @@ class Module {
     drawBar();
 
     if (indx != -1) {
-      float alpha = constrain(mdata[indx].barPos.mag() * 2, 0, 0.5);
+      float size = constrain(mdata[indx].barPos.mag() * 2, 0, 0.5);
+      alpha = alpha * 0.998;
+      if (size > alpha)
+        alpha = size;
       drawLine(color(128, 0, 255, alpha * 255), 0, 1);
     }
 
