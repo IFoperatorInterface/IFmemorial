@@ -66,6 +66,14 @@ public class EffectController {
         }
       });
 
+    x += (btSize + pd) * 2;
+    color c = color(effect.colorRGB[0], effect.colorRGB[1], effect.colorRGB[2]);
+    controlP5.addColorWheel("ledColor", x, y, h)
+      .setRGB(c)
+      .plugTo(this)
+      .getCaptionLabel()
+      .setVisible(false);
+
     barModeRadioButtons = new Button[BarMode.values().length];
     x = int(windows[2].pos.x);
     y = int(windows[2].pos.y);
@@ -163,12 +171,6 @@ public class EffectController {
 
     x = int(windows[3].pos.x);
     y = int(windows[3].pos.y);
-    color c = color(effect.colorRGB[0], effect.colorRGB[1], effect.colorRGB[2]);
-    controlP5.addColorWheel("ledColor", x, y, h)
-      .setRGB(c)
-      .plugTo(this)
-      .getCaptionLabel()
-      .setVisible(false);
 
     fieldModeToggles = new Button[FieldMode.values().length];
 
@@ -186,7 +188,7 @@ public class EffectController {
       final FieldMode f = fieldModePosition[i];
       if (f == null)
         continue;
-      int baseX = int(windows[3].pos.x) + h + (pd + btSize) * 3;
+      int baseX = int(windows[3].pos.x) + (pd + btSize) * 2;
       int baseY = int(windows[3].pos.y) + pd;
       x = baseX + (btSize + pd) * (i % 3);
       y = baseY + (btSize + pd) * (i / 3);
@@ -203,7 +205,7 @@ public class EffectController {
         });
     }
 
-    x = int(windows[3].pos.x) + h + (pd + btSize) * 1;
+    x = int(windows[3].pos.x) + (pd + btSize) * 6;
     y = int(windows[3].pos.y) + pd + (btSize + pd) * (5 / 3);
     pos = new PVector(x + btSize / 2, y + btSize / 2);
     fieldModeToggles[FieldMode.ELLIPSE.ordinal()] = new Button()
