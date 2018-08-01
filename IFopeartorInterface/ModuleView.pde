@@ -82,9 +82,11 @@ class ModuleView {
       }
 
       if (t.effect.fieldMode[FieldMode.ELLIPSE.ordinal()]) {
+        float diameter = map(t.effect.diameter, 0, 100, 1, getDistance(1, 1, ROWS, COLUMNS));
         for (int x = 0; x < COLUMNS; x++)
           for (int y = 0; y < ROWS; y++)
-            if ((int) (sqrt((x - t.x) * (x - t.x) + (y - t.y) * (y - t.y)) * delay) == phase + 1
+            if ((int) (getDistance(t.x, t.y, x, y) * delay) == phase + 1
+                && getDistance(t.x, t.y, x, y) <= diameter
                 && !(x == t.x && y == t.y)) {
               modules[y][x].addTrigger(t.copyWithStartTime(frameCount));
               dataController.sendSoundData(y * COLUMNS + x, getNote(t.effect, phase, delay));
@@ -106,6 +108,11 @@ class ModuleView {
         }
       }
     }
+  }
+
+
+  private float getDistance(int x1, int y1, int x2, int y2) {
+    return sqrt(sq(x1 - x2) + sq(y1 - y2));
   }
 
 
