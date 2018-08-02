@@ -54,30 +54,34 @@ class ModuleView {
 
         if (t.effect.fieldMode[FieldMode.UP.ordinal()]) {
           int y = t.y - distance;
-          if (y >= 0)
+          if (y >= 0) {
             modules[y][t.x].addTrigger(t.copyWithStartTime(frameCount));
-          dataController.sendSoundData(y * COLUMNS + t.x, getNote(t.effect, phase, delay));
+            dataController.sendSoundData(y * COLUMNS + t.x, getNote(t.effect, phase, delay));
+          }
         }
 
         if (t.effect.fieldMode[FieldMode.DOWN.ordinal()]) {
           int y = t.y + distance;
-          if (y < ROWS)
+          if (y < ROWS) {
             modules[y][t.x].addTrigger(t.copyWithStartTime(frameCount));
-          dataController.sendSoundData(y * COLUMNS + t.x, getNote(t.effect, phase, delay));
+            dataController.sendSoundData(y * COLUMNS + t.x, getNote(t.effect, phase, delay));
+          }
         }
 
         if (t.effect.fieldMode[FieldMode.LEFT.ordinal()]) {
           int x = t.x - distance;
-          if (x >= 0)
+          if (x >= 0) {
             modules[t.y][x].addTrigger(t.copyWithStartTime(frameCount));
-          dataController.sendSoundData(t.y * COLUMNS + x, getNote(t.effect, phase, delay));
+            dataController.sendSoundData(t.y * COLUMNS + x, getNote(t.effect, phase, delay));
+          }
         }
 
         if (t.effect.fieldMode[FieldMode.RIGHT.ordinal()]) {
           int x = t.x + distance;
-          if (x < COLUMNS)
+          if (x < COLUMNS) {
             modules[t.y][x].addTrigger(t.copyWithStartTime(frameCount));
-          dataController.sendSoundData(t.y * COLUMNS + x, getNote(t.effect, phase, delay));
+            dataController.sendSoundData(t.y * COLUMNS + x, getNote(t.effect, phase, delay));
+          }
         }
       }
 
