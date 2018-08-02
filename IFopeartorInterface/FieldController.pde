@@ -3,6 +3,7 @@ public class FieldController {
   PVector[] fieldBtsPos;
   int lastTarget;
   boolean mousePressed2;
+  int order;
 
   FieldController() {
     int indx = 0;
@@ -11,6 +12,7 @@ public class FieldController {
     btSize = (int) fieldBtsPos[36].x;
     lastTarget = -1;
     mousePressed2 = false;
+    order = 0;
 
     for (int i = 0; i < 6; i++)
       for (int j = 0; j < 6; j++) {
@@ -52,6 +54,7 @@ public class FieldController {
 
 
   public void onMousePressed() {
+    order = 0;
     mousePressed2 = true;
   }
 
@@ -64,10 +67,16 @@ public class FieldController {
 
 
   void fieldButton(int a) {
-    Trigger trigger = new Trigger(effectController.getEffect(), a % 6, a / 6, frameCount);
+    Effect effect = effectController.getEffect();
+    if (effect.soundMode == SoundMode.CHORD)
+      effect.note += order * 3;
+
+    Trigger trigger = new Trigger(effect, a % 6, a / 6, frameCount);
 
     moduleView.addTrigger(trigger);
     recordController.addTrigger(trigger);
+
+    order++;
   }
 
    PVector[] setFieldPostion() {
