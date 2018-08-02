@@ -2,7 +2,7 @@ public class PresetController {
   private int[] touchColor;
   private Effect pullStartEffect, pullEndEffect;
   private Effect jumpStartEffect, jumpEndEffect, jumpFieldEffect;
-  private static final int COLOR_PERIOD = 30 * 60 * 8;
+  private static final int COLOR_PERIOD = 30 * 60 * 16;
   private static final int COLOR_STEPS = 360;
 
 
