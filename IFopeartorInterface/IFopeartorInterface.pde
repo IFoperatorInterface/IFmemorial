@@ -53,6 +53,7 @@ void draw() {
   effectController.onDraw();
   fieldController.onDraw();
   recordController.onDraw();
+  presetController.onDraw();
   moduleView.draw();
   fieldView.draw();
   systemView.draw();
