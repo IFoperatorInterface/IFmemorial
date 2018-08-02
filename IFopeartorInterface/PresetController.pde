@@ -135,8 +135,10 @@ public class PresetController {
   }
 
 
-  public void triggerPullEnd(int x, int y, PVector direction) {
+  public void triggerPullEnd(int x, int y, PVector direction, float size) {
     pullEndEffect.direction = new PVector(-direction.x, -direction.y);
+    pullEndEffect.position[1] = (int) constrain(size * 100, 0, 100);
+
     Trigger trigger = new Trigger(pullEndEffect.copy(), x, y, frameCount);
     moduleView.addTrigger(trigger);
   }
