@@ -40,7 +40,7 @@ class DataController {
         setModuleData();
     }
     void sendSoundData(int indx, int note) {
-        if (note == -1)
+        if (note < 1 || note > 127)
             return;
         String mssg = "abcd,1," + indx + "," + note + ",100" + ",0,100";
         println(mssg);
