@@ -86,7 +86,7 @@ class ModuleView {
       }
 
       if (t.effect.fieldMode[FieldMode.ELLIPSE.ordinal()]) {
-        float diameter = map(t.effect.diameter, 0, 100, 1, getDistance(1, 1, ROWS, COLUMNS));
+        float diameter = map(pow(t.effect.diameter, 1.5), 0, pow(100, 1.5), 1, getDistance(1, 1, ROWS, COLUMNS));
         for (int x = 0; x < COLUMNS; x++)
           for (int y = 0; y < ROWS; y++)
             if ((int) (getDistance(t.x, t.y, x, y) * delay) == phase + 1
