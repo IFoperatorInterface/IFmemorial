@@ -45,7 +45,7 @@ class ModuleView {
       if (phase == 1 && !(t.effect.noCenter)) {
         modules[t.y][t.x].addTrigger(t.copyWithStartTime(frameCount));
 
-        dataController.sendSoundData(t.y*COLUMNS+t.x, getNote(t.effect, phase, delay));
+        dataController.sendSoundData(t.y*COLUMNS+t.x, getNote(t.effect, phase, delay), 100);
         
       }
 
@@ -56,7 +56,7 @@ class ModuleView {
           int y = t.y - distance;
           if (y >= 0) {
             modules[y][t.x].addTrigger(t.copyWithStartTime(frameCount));
-            dataController.sendSoundData(y * COLUMNS + t.x, getNote(t.effect, phase, delay));
+            dataController.sendSoundData(y * COLUMNS + t.x, getNote(t.effect, phase, delay), 100);
           }
         }
 
@@ -64,7 +64,7 @@ class ModuleView {
           int y = t.y + distance;
           if (y < ROWS) {
             modules[y][t.x].addTrigger(t.copyWithStartTime(frameCount));
-            dataController.sendSoundData(y * COLUMNS + t.x, getNote(t.effect, phase, delay));
+            dataController.sendSoundData(y * COLUMNS + t.x, getNote(t.effect, phase, delay), 100);
           }
         }
 
@@ -72,7 +72,7 @@ class ModuleView {
           int x = t.x - distance;
           if (x >= 0) {
             modules[t.y][x].addTrigger(t.copyWithStartTime(frameCount));
-            dataController.sendSoundData(t.y * COLUMNS + x, getNote(t.effect, phase, delay));
+            dataController.sendSoundData(t.y * COLUMNS + x, getNote(t.effect, phase, delay), 100);
           }
         }
 
@@ -80,7 +80,7 @@ class ModuleView {
           int x = t.x + distance;
           if (x < COLUMNS) {
             modules[t.y][x].addTrigger(t.copyWithStartTime(frameCount));
-            dataController.sendSoundData(t.y * COLUMNS + x, getNote(t.effect, phase, delay));
+            dataController.sendSoundData(t.y * COLUMNS + x, getNote(t.effect, phase, delay), 100);
           }
         }
       }
@@ -93,7 +93,7 @@ class ModuleView {
                 && getDistance(t.x, t.y, x, y) <= diameter
                 && !(x == t.x && y == t.y)) {
               modules[y][x].addTrigger(t.copyWithStartTime(frameCount));
-              dataController.sendSoundData(y * COLUMNS + x, getNote(t.effect, phase, delay));
+              dataController.sendSoundData(y * COLUMNS + x, getNote(t.effect, phase, delay), 100);
             }
       }
 
@@ -108,7 +108,7 @@ class ModuleView {
             && !(x < 0 || x >= 6 || y < 0 || y >= 6)
             && !(x == t.x && y == t.y)) {
           modules[y][x].addTrigger(t.copyWithStartTime(frameCount));
-          dataController.sendSoundData(y * COLUMNS + x, getNote(t.effect, phase, delay));
+          dataController.sendSoundData(y * COLUMNS + x, getNote(t.effect, phase, delay), 100);
         }
       }
     }
