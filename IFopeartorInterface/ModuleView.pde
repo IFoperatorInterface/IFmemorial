@@ -49,8 +49,8 @@ class ModuleView {
         
       }
 
-      if (phase % delay == 1 && phase > 1) {
-        int distance = (frameCount - t.startTime) / delay;
+      if ((phase - 1) % delay == 0 && phase > 1) {
+        int distance = (frameCount - t.startTime - 1) / delay;
 
         if (t.effect.fieldMode[FieldMode.UP.ordinal()]) {
           int y = t.y - distance;
