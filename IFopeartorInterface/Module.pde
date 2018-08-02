@@ -27,7 +27,7 @@ class Module {
     drawBar();
 
     if (indx != -1) {
-      float size = constrain(mdata[indx].barPos.mag() * 2, 0, 0.5);
+      float size = constrain(mdata[indx].barPos.mag() * 4 - 0.3, 0, 0.5);
       maxSize = maxSize * 0.99;
       if (size > maxSize)
         maxSize = size;
