@@ -125,9 +125,9 @@ class Slider {
     if (isTargeted)
       change(yToValue(mouseY));
 
-    pushStyle();
 
     if (active) {
+      pushStyle();
       rectMode(CORNER);
       fill(backgroundColor);
       noStroke();
@@ -138,15 +138,15 @@ class Slider {
       fill(foregroundColor);
 
       rect(pos.x, valueToY(value), pos.x + size.x, pos.y + size.y);
-    }
 
-    fill(255);
-    textAlign(CENTER, CENTER);
-    textFont(titleFont);
 
-    text(name.toUpperCase(), pos.x + size.x / 2, pos.y + size.y / 2);
+      fill(255);
+      textAlign(CENTER, CENTER);
+      textFont(titleFont);
 
-    popStyle();
+      text(name.toUpperCase(), pos.x + size.x / 2, pos.y + size.y / 2);
+      popStyle();
+    } 
   }
 
 
