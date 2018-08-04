@@ -12,16 +12,18 @@ class FieldView {
     void update(int num, PVector[] pos, float[] weight) {
         NUM_CUR_P = num;
 
-        if (NUM_CUR_P > NUM_PRE_P)
-            for (int i = 0; i < NUM_CUR_P - NUM_PRE_P; i++)
-                riders.add(new Rider(pos[i], weight[i], riders.size()));
+        if (NUM_CUR_P != NUM_PRE_P) {
+            riders.clear();
+            for (int i = 0; i < NUM_CUR_P; i++) 
+                riders.add(new Rider(pos[i], weight[i], i));
+        }
 
         for (int i = 0; i < riders.size(); i++)
             riders.get(i).update(pos[i], weight[i]);
 
         NUM_PRE_P = riders.size();
     }
-    
+
     public void draw() {
         if (riders.size() > 0) {
             for (int i = 0; i < riders.size(); i++) {

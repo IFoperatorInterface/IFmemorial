@@ -56,7 +56,7 @@ class DataController {
     }
 
     void setUDP() {
-        int receivingPort = 40000;
+        int receivingPort = 40004;
 
         udp_receiving = new UDP(sketch, receivingPort);
         udp_sending = new UDP(sketch);
@@ -82,9 +82,13 @@ class DataController {
 
 
 void receive(byte[] data) {
+    if (!settingCompleted)
+        return;
+
     int NUM_MODULE_TOKENS = 10;
     //1.num People, 2.Node id, 3.X angle, 4.Y angle, 5.Force 1, 6.Force 2, 7.Force 3, 8.Force 4, 9.Jumpped, 10.standing
     String received = new String(data);
+    // printArray(data);
 
     String[] tokens = split(received, ',');
     // printArray(tokens);
@@ -98,20 +102,27 @@ void receive(byte[] data) {
             a[i] = float(tokens[i]);
         }
 
-        int arrayLength = (size - NUM_MODULE_TOKENS) / 3;
+
         int indx = (int) a[1];
         mdata[indx].update(a);
 
-        if (arrayLength > 0) {
-            PVector[] pos = new PVector[arrayLength];
-            float[] weight = new float[arrayLength];
-            for (int i = 0; i < arrayLength; i++) {
-                pos[i] = new PVector(a[NUM_MODULE_TOKENS + i * 3], a[NUM_MODULE_TOKENS + 1 + i * 3]);
-                weight[i] = (a[NUM_MODULE_TOKENS + i * 3 + 2] > 400) ? 400 : a[NUM_MODULE_TOKENS + i * 3 + 2];
+        if (a.length > NUM_MODULE_TOKENS) {
+            int NUM_PERSON = (a.length - NUM_MODULE_TOKENS) / 3;
+            if (NUM_PERSON > 0) {
+                PVector[] pos = new PVector[NUM_PERSON];
+                float[] weight = new float[NUM_PERSON];
+                for (int i = 0; i < NUM_PERSON; i++) {
+                    float[] person = new float[NUM_PERSON];
+                    pos[i] = new PVector(a[NUM_MODULE_TOKENS + i * 3 + 0], a[NUM_MODULE_TOKENS + i * 3 + 1]);
+                    weight[i] = a[NUM_MODULE_TOKENS + i * 3 + 2];
+                    if (weight[i] > 400)
+                        weight[i] = 400;
+                }
+                fieldView.update(NUM_PERSON, pos, weight);
             }
-            fieldView.update(arrayLength, pos, weight);
         }
     }
+
 }
 
 

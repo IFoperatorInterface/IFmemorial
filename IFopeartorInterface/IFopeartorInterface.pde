@@ -22,6 +22,7 @@ PApplet sketch = this;
 DataController dataController;
 Data mdata[];
 SETTING setting;
+boolean settingCompleted = false;
 
 int mouseStartX, mouseStartY;
 final int MOUSE_MODE = 1;
@@ -44,6 +45,7 @@ void setup() {
   moduleView = new ModuleView();
   fieldView = new FieldView();
   dataView = new DataView();
+  settingCompleted = true;
 }
 
 
