@@ -28,6 +28,7 @@ class Data {
 
 class DataController {
     private static final int sendingPort = 40001;
+    private static final int receivingPort = 40000;
     private static final String udpIP = "127.0.0.1";
 
     Boolean runWithConnection;
@@ -39,11 +40,13 @@ class DataController {
         setOPC();
         setModuleData();
     }
-    void sendSoundData(int indx, int note, int volume) {
+    void sendSoundData(int indx, int note, int volume) { //note 1 - 127, volume 0 - 127, instrument 0 -127
+        String instrument = ",0,";
+        String length = ",100";
         if (note < 1 || note > 127)
             return;
         volume = constrain(volume, 0, 100);
-        String mssg = "abcd,1," + indx + "," + note + ",100" + ",0," + volume;
+        String mssg = "abcd,1," + indx + "," + note + length + instrument + volume;
         println(mssg);
         udp_sending.send(mssg, udpIP, sendingPort);
     }
@@ -56,8 +59,6 @@ class DataController {
     }
 
     void setUDP() {
-        int receivingPort = 40004;
-
         udp_receiving = new UDP(sketch, receivingPort);
         udp_sending = new UDP(sketch);
         udp_receiving.listen(runWithConnection);
@@ -117,6 +118,8 @@ void receive(byte[] data) {
                     weight[i] = a[NUM_MODULE_TOKENS + i * 3 + 2];
                     if (weight[i] > 400)
                         weight[i] = 400;
+                    if (weight[i] < 0)
+                        weight[i] = 0;
                 }
                 fieldView.update(NUM_PERSON, pos, weight);
             }
