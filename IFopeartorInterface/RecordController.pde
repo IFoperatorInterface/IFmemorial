@@ -48,10 +48,13 @@ public class RecordController {
 
     if (isRecording) {
       newRecord = new Record(frameCount, newId);
+      logger.log(Log.RECORD_START, -1, -1, newId, null);
       newId++;
     } else {
       newRecord.duration = frameCount - newRecord.recordStartTime;
       records.add(newRecord);
+
+      logger.log(Log.RECORD_END, -1, -1, newRecord.id, null);
 
       newRecord = null;
 
@@ -75,10 +78,12 @@ public class RecordController {
     if (targetRecord.playStartTime == -1){
       targetRecord.playStartTime = frameCount;
       recordPlayToggles.get(idx).setBackgroundColor(0, 170, 255);
+      logger.log(Log.RECORD_PLAY, -1, -1, targetRecord.id, null);
     }
     else {
       targetRecord.playStartTime = -1;
       recordPlayToggles.get(idx).setBackgroundColor(0, 45, 90);
+      logger.log(Log.RECORD_STOP, -1, -1, targetRecord.id, null);
     }
   }
 
