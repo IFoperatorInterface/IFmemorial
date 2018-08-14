@@ -76,6 +76,8 @@ public class FieldController {
     moduleView.addTrigger(trigger);
     recordController.addTrigger(trigger);
 
+    logger.log(Log.TRIGGER, a%6, a/6, order+1, effect);
+
     order++;
   }
 

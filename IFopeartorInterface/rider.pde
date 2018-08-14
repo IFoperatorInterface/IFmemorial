@@ -3,6 +3,7 @@ class Rider {
     private int r;
     private float weight;
     private int indx;
+    private int nextMove;
     Rider(PVector pos, float weight, int indx) {
         this.pos = pos;
         r = 120;
@@ -11,6 +12,13 @@ class Rider {
     }
 
     void update(PVector pos, float weight) {
+        if (frameCount > nextMove
+            && (int(pos.x) != int(this.pos.x) || int(pos.y) != int(this.pos.y))) {
+
+            nextMove = frameCount + 10;
+            logger.log(Log.MOVE, int(pos.x), int(pos.y), null, null);
+        }
+
         this.pos = pos;
         this.weight = weight;
     }

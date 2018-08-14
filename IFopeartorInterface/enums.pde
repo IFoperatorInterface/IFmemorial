@@ -16,3 +16,8 @@ enum FieldMode {
 enum Rgb {
   RED, GREEN, BLUE
 }
+
+
+enum Log {
+  MOVE, PULL, JUMP, TRIGGER, RECORD_START, RECORD_END, RECORD_PLAY, RECORD_STOP
+}

@@ -141,6 +141,8 @@ public class PresetController {
 
     Trigger trigger = new Trigger(pullEndEffect.copy(), x, y, frameCount);
     moduleView.addTrigger(trigger);
+
+    logger.log(Log.PULL, x, y, direction.heading(), null);
   }
 
 
@@ -151,5 +153,7 @@ public class PresetController {
     moduleView.addTrigger(startTrigger);
     moduleView.addTrigger(endTrigger);
     moduleView.addTrigger(fieldTrigger);
+
+    logger.log(Log.JUMP, x, y, null, null);
   }
 }

@@ -16,6 +16,7 @@ ModuleView moduleView;
 FieldView fieldView;
 SystemView systemView;
 DataView dataView;
+Logger logger;
 
 PApplet sketch = this;
 
@@ -45,6 +46,7 @@ void setup() {
   moduleView = new ModuleView();
   fieldView = new FieldView();
   dataView = new DataView();
+  logger = new Logger();
   settingCompleted = true;
 }
 
@@ -95,4 +97,9 @@ void mouseReleased() {
   recordController.press(mouseStartX, mouseStartY, mouseX, mouseY);
 
   effectController.mouseReleased();
+}
+
+
+void stop() {
+  logger.stop();
 }

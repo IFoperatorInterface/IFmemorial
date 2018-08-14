@@ -10,3 +10,4 @@ builds/
 .vscode/
 TODO.rtf
 *.rtf
+log/

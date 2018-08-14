@@ -70,4 +70,25 @@ class Effect {
 
     return newEffect;
   }
+
+
+  public String toString() {
+    String result = "";
+    result += soundMode + "/";
+    result += (soundMode!=SoundMode.RANDOM ? note : "") + "/";
+    result += String.format("#%02X%02X%02X", colorRGB[0], colorRGB[1], colorRGB[2]) + "/";
+    result += barMode + "/";
+    result += (barMode==BarMode.BOUNCE ? size : "") + "/";
+    result += String.format("%d-%d", position[0], position[1]) + "/";
+    result += String.format("(%d.%d)-(%d.%d)-(%d.%d)-(%d.%d)", brightness[0][0], brightness[0][1], brightness[1][0], brightness[1][1], brightness[2][0], brightness[2][1], brightness[3][0], brightness[3][1]) + "/";
+    result += (fieldMode[0]||fieldMode[1]||fieldMode[2]||fieldMode[3]||fieldMode[4] ? spread : "") + "/";
+    result += (fieldMode[FieldMode.UP.ordinal()] ? "U" : "");
+    result += (fieldMode[FieldMode.DOWN.ordinal()] ? "D" : "");
+    result += (fieldMode[FieldMode.LEFT.ordinal()] ? "L" : "");
+    result += (fieldMode[FieldMode.RIGHT.ordinal()] ? "R" : "");
+    result += (fieldMode[FieldMode.ELLIPSE.ordinal()] ? "E" : "") + "/";
+    result += (fieldMode[FieldMode.ELLIPSE.ordinal()] ? diameter : "");
+
+    return result;
+  }
 }
