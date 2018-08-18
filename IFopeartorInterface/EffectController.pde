@@ -11,6 +11,8 @@ public class EffectController {
   private int previewStartTime;
   int pd = 10;
 
+  private ColorWheel ledColor;
+
   private ADRpointer[] adrPointers = new ADRpointer[4];
 
   private Button[] soundModeRadioButtons;
@@ -24,7 +26,6 @@ public class EffectController {
   private Graph adrGraph;
 
   EffectController() {
-    effect = new Effect();
     sliderLastTime = -1;
     sliderTarget = -1;
     positionLastTime = -1;
@@ -34,7 +35,6 @@ public class EffectController {
     int y = (int) windows[1].pos.y + (int) + h + pd * 2;
     PVector pos;
     previewModule = new Module(-1, x, y, h, null);
-    updatePreview();
     systemView.previewTitle = new Title(new PVector(x, y + pd * 2), "effect preview");
 
     soundModeRadioButtons = new Button[SoundMode.values().length];
@@ -54,14 +54,12 @@ public class EffectController {
           }
         });
     }
-    soundModeRadioButtons[effect.soundMode.ordinal()].setBackgroundColor(0, 170, 255);
 
     x += (btSize + pd);
     noteSlider = new Slider()
       .setPosition(x, y)
       .setSize(btSize, h)
       .setRange(1, 127)
-      .setValue(effect.note)
       .setName("Note")
       .setChangeListener(new SliderChangeListener() {
         public void onChange(int value) {
@@ -70,11 +68,9 @@ public class EffectController {
       });
 
     x += (btSize + pd) * 2;
-    color c = color(effect.colorRGB[0], effect.colorRGB[1], effect.colorRGB[2]);
-    controlP5.addColorWheel("ledColor", x, y, h)
-      .setRGB(c)
-      .plugTo(this)
-      .getCaptionLabel()
+    ledColor = controlP5.addColorWheel("ledColor", x, y, h)
+      .plugTo(this);
+    ledColor.getCaptionLabel()
       .setVisible(false);
 
     barModeRadioButtons = new Button[BarMode.values().length];
@@ -94,15 +90,12 @@ public class EffectController {
           }
         });
     }
-    barModeRadioButtons[effect.barMode.ordinal()].setBackgroundColor(0, 170, 255);
-
 
     x = x + btSize + pd;
     sizeSlider = new Slider()
       .setPosition(x, y)
       .setSize(btSize, h)
       .setRange(0, 100)
-      .setValue(effect.size)
       .setName("Size")
       .setChangeListener(new SliderChangeListener() {
         public void onChange(int value) {
@@ -141,35 +134,6 @@ public class EffectController {
         }
       });
 
-    adrPointers[0] = new ADRpointer(new PVector(
-      map(effect.brightness[0][0], 0, 100, _x, _x + _w),
-      map(effect.brightness[0][1], 0, 100, _y + _h, _y)), 0);
-    adrPointers[1] = new ADRpointer(new PVector(
-      map(effect.brightness[1][0], 0, 100, _x, _x + _w),
-      map(effect.brightness[1][1], 0, 100, _y + _h, _y)), 1);
-    adrPointers[2] = new ADRpointer(new PVector(
-      map(effect.brightness[2][0], 0, 100, _x, _x + _w),
-      map(effect.brightness[2][1], 0, 100, _y + _h, _y)), 2);
-    adrPointers[3] = new ADRpointer(new PVector(
-      map(effect.brightness[3][0], 0, 100, _x, _x + _w),
-      map(effect.brightness[3][1], 0, 100, _y + _h, _y)), 3);
-
-    for (ADRpointer a: adrPointers) {
-      a.x = _x;
-      a.y = _y;
-      a.w = _w;
-      a.h = _h;
-    }
-
-    adrPointers[0].clickAreaL = 0.0;
-    adrPointers[0].clickAreaR = (adrPointers[1].pos.x - adrPointers[0].pos.x) / 2;
-    adrPointers[1].clickAreaL = (adrPointers[1].pos.x - adrPointers[0].pos.x) / 2;
-    adrPointers[1].clickAreaR = (adrPointers[2].pos.x - adrPointers[1].pos.x) / 2;
-    adrPointers[2].clickAreaL = (adrPointers[2].pos.x - adrPointers[1].pos.x) / 2;
-    adrPointers[2].clickAreaR = (adrPointers[3].pos.x - adrPointers[2].pos.x) / 2;
-    adrPointers[3].clickAreaL = (adrPointers[3].pos.x - adrPointers[2].pos.x) / 2;
-    adrPointers[3].clickAreaR = _x + _w - adrPointers[3].pos.x;
-
     String adrTitle = "adr behavior";
     pos = new PVector(x + w / 2, y + h / 2);
     systemView.sliderTitles[1] = new Title(pos, adrTitle);
@@ -183,7 +147,6 @@ public class EffectController {
       .setPosition(x, y)
       .setSize(btSize, h)
       .setRange(0, 100)
-      .setValue(effect.spread)
       .setName("Spread")
       .setActive(false)
       .setChangeListener(new SliderChangeListener() {
@@ -245,7 +208,6 @@ public class EffectController {
       .setPosition(x, y)
       .setSize(btSize, h)
       .setRange(0, 100)
-      .setValue(effect.diameter)
       .setName("Diameter")
       .setActive(false)
       .setChangeListener(new SliderChangeListener() {
@@ -253,6 +215,62 @@ public class EffectController {
           diameterSlider(value);
         }
       });
+
+
+    this.effect = new Effect();
+    setEffect(this.effect);
+    updatePreview();
+  }
+
+
+
+  public void setEffect(Effect effect) {
+    effect = effect.copy();
+
+    soundModeRadioButton(effect.soundMode.ordinal());
+    noteSlider(effect.note);
+    barModeRadioButton(effect.barMode.ordinal());
+    sizeSlider(effect.size);
+    spreadSlider(effect.spread);
+    diameterSlider(effect.diameter);
+
+    ledColor.setRGB(color(effect.colorRGB[0], effect.colorRGB[1], effect.colorRGB[2]));
+
+    adrPointers[0] = new ADRpointer(new PVector(
+      map(effect.brightness[0][0], 0, 100, adrGraph.pos.x, adrGraph.pos.x + adrGraph.size.x),
+      map(effect.brightness[0][1], 0, 100, adrGraph.pos.y + adrGraph.size.y, adrGraph.pos.y)), 0);
+    adrPointers[1] = new ADRpointer(new PVector(
+      map(effect.brightness[1][0], 0, 100, adrGraph.pos.x, adrGraph.pos.x + adrGraph.size.x),
+      map(effect.brightness[1][1], 0, 100, adrGraph.pos.y + adrGraph.size.y, adrGraph.pos.y)), 1);
+    adrPointers[2] = new ADRpointer(new PVector(
+      map(effect.brightness[2][0], 0, 100, adrGraph.pos.x, adrGraph.pos.x + adrGraph.size.x),
+      map(effect.brightness[2][1], 0, 100, adrGraph.pos.y + adrGraph.size.y, adrGraph.pos.y)), 2);
+    adrPointers[3] = new ADRpointer(new PVector(
+      map(effect.brightness[3][0], 0, 100, adrGraph.pos.x, adrGraph.pos.x + adrGraph.size.x),
+      map(effect.brightness[3][1], 0, 100, adrGraph.pos.y + adrGraph.size.y, adrGraph.pos.y)), 3);
+
+    for (ADRpointer a: adrPointers) {
+      a.x = (int) adrGraph.pos.x;
+      a.y = (int) adrGraph.pos.y;
+      a.w = (int) adrGraph.size.x;
+      a.h = (int) adrGraph.size.y;
+    }
+
+    adrPointers[0].clickAreaL = 0.0;
+    adrPointers[0].clickAreaR = (adrPointers[1].pos.x - adrPointers[0].pos.x) / 2;
+    adrPointers[1].clickAreaL = (adrPointers[1].pos.x - adrPointers[0].pos.x) / 2;
+    adrPointers[1].clickAreaR = (adrPointers[2].pos.x - adrPointers[1].pos.x) / 2;
+    adrPointers[2].clickAreaL = (adrPointers[2].pos.x - adrPointers[1].pos.x) / 2;
+    adrPointers[2].clickAreaR = (adrPointers[3].pos.x - adrPointers[2].pos.x) / 2;
+    adrPointers[3].clickAreaL = (adrPointers[3].pos.x - adrPointers[2].pos.x) / 2;
+    adrPointers[3].clickAreaR = adrGraph.pos.x + adrGraph.size.x - adrPointers[3].pos.x;
+
+    for (int i=0; i<FieldMode.values().length; i++) {
+      if (this.effect.fieldMode[i] != effect.fieldMode[i])
+        fieldModeToggle(i);
+    }
+
+    this.effect = effect;
   }
 
 
