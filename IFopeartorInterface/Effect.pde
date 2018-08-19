@@ -11,6 +11,7 @@ class Effect {
   public int[] colorRGB;
   public int[][] brightness;
   public boolean noCenter;
+  public int id;
 
 
   Effect() {
@@ -35,6 +36,7 @@ class Effect {
     brightness[2] = new int[]{60, 100};
     brightness[3] = new int[]{90, 0};
     noCenter = false;
+    id = -1;
   }
 
 
@@ -67,6 +69,7 @@ class Effect {
     newEffect.brightness[3][0] = brightness[3][0];
     newEffect.brightness[3][1] = brightness[3][1];
     newEffect.noCenter = noCenter;
+    newEffect.id = id;
 
     return newEffect;
   }

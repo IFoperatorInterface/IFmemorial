@@ -12,6 +12,13 @@ public class RecordController {
   private List<Button> recordPlayToggles;
   private List<Button> recordDeleteButtons;
 
+  private Button presetButton;
+  private int newPresetId;
+
+  private List<Effect> presets;
+  private List<Button> presetSetButtons;
+  private List<Button> presetDeleteButtons;
+
 
   RecordController() {
     this.records = new ArrayList < Record > ();
@@ -40,6 +47,22 @@ public class RecordController {
 
       this.recordPlayToggles = new ArrayList<Button>();
       this.recordDeleteButtons = new ArrayList<Button>();
+
+      this.presetButton = new Button()
+        .setPosition(x + (BT_SIZE+PD) * 4, y)
+        .setSize(btSize, btSize)
+        .setName("preset")
+        .setBackgroundColor(120, 20, 200)
+        .setPressListener(new ButtonPressListener() {
+          public void onPress() {
+            presetButton();
+          }
+        });
+
+      this.newPresetId = 0;
+      this.presets = new ArrayList<Effect>();
+      this.presetSetButtons = new ArrayList<Button>();
+      this.presetDeleteButtons = new ArrayList<Button>();
   }
 
 
@@ -156,11 +179,101 @@ public class RecordController {
   }
 
 
+  void presetButton() {
+    Effect newPreset = effectController.getEffect();
+    newPreset.id = newPresetId;
+    presets.add(newPreset);
+
+    updatePresetSetButton();
+
+    newPresetId++;
+  }
+
+
+  void presetSetButton(int theValue) {
+    int idx = -1;
+
+    for (int i = 0; i < presets.size(); i++)
+      if (presets.get(i).id == theValue)
+        idx = i;
+
+    if (idx == -1)
+      return;
+
+    Effect targetPreset = presets.get(idx);
+
+    effectController.setEffect(targetPreset);
+  }
+
+
+  void presetDeleteButton(int theValue) {
+    int idx = -1;
+
+    for (int i = 0; i < presets.size(); i++)
+      if (presets.get(i).id == theValue)
+        idx = i;
+
+    if (idx == -1)
+      return;
+
+    presets.remove(idx);
+    presetSetButtons.remove(idx);
+    presetDeleteButtons.remove(idx);
+    updatePresetSetButton();
+  }
+
+
+  private void updatePresetSetButton() {
+    for (int i = 0; i < presets.size(); i++) {
+      int x = int(windows[4].pos.x) + (BT_SIZE + PD) * 4;
+      int y = int(windows[4].pos.y);
+      int h = int(windows[4].size.y);
+      int w = int(windows[4].size.x);
+      PVector pos = new PVector(x + PD + (BT_SIZE + PD) * i, y + PD);
+      final Effect targetPreset = presets.get(i);
+
+      if (i >= presetSetButtons.size()) {
+        presetSetButtons.add(new Button()
+          .setSize(BT_SIZE, BT_SIZE)
+          .setBackgroundColor(0, 45, 90)
+          .setName("Preset "+targetPreset.id)
+          .setPressListener(new ButtonPressListener() {
+            public void onPress() {
+              presetSetButton(targetPreset.id);
+            }
+          })
+        );
+      }
+      presetSetButtons.get(i).setPosition((int) pos.x, (int) pos.y);
+
+      if (i >= presetDeleteButtons.size()) {
+        presetDeleteButtons.add(new Button()
+          .setSize(BT_SIZE, BT_SIZE / 2)
+          .setBackgroundColor(0, 45, 90)
+          .setName("Clear")
+          .setPressListener(new ButtonPressListener() {
+            public void onPress() {
+              presetDeleteButton(targetPreset.id);
+            }
+          })
+        );
+      }
+      presetDeleteButtons.get(i).setPosition((int) pos.x, (int) pos.y + BT_SIZE + 2);
+    }
+  }
+
+
   public void onDraw() {
     recordToggle.draw();
     for (Button b : recordPlayToggles)
       b.draw();
     for (Button b : recordDeleteButtons)
+      b.draw();
+
+    presetButton.draw();
+    for (Button b : presetSetButtons)
+      b.draw();
+    for (Button b : presetDeleteButtons)
       b.draw();
 
 
@@ -187,6 +300,16 @@ public class RecordController {
       if (recordDeleteButtons.size() != listSize)
         break;
     }
+
+    presetButton.press(x, y);
+    for (Button b : presetSetButtons)
+      b.press(x, y);
+    listSize = presetDeleteButtons.size();
+    for (Button b : presetDeleteButtons) {
+      b.press(x, y);
+      if (presetDeleteButtons.size() != listSize)
+        break;
+    }
   }
 
 
@@ -198,6 +321,16 @@ public class RecordController {
     for (Button b : recordDeleteButtons) {
       b.press(x1, y1, x2, y2);
       if (recordDeleteButtons.size() != listSize)
+        break;
+    }
+
+    presetButton.press(x1, y1, x2, y2);
+    for (Button b : presetSetButtons)
+      b.press(x1, y1, x2, y2);
+    listSize = presetDeleteButtons.size();
+    for (Button b : presetDeleteButtons) {
+      b.press(x1, y1, x2, y2);
+      if (presetDeleteButtons.size() != listSize)
         break;
     }
   }
