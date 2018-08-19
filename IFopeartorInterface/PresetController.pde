@@ -86,11 +86,11 @@ public class PresetController {
     rect(x, y, size, size);
 
     x += size + pd;
-    fill(pullStartEffect.colorRGB[0], pullStartEffect.colorRGB[1], pullStartEffect.colorRGB[2]);
+    fill(effects[1].colorRGB[0], effects[1].colorRGB[1], effects[1].colorRGB[2]);
     rect(x, y, size, size);
 
     x += size + pd;
-    fill(jumpStartEffect.colorRGB[0], jumpStartEffect.colorRGB[1], jumpStartEffect.colorRGB[2]);
+    fill(effects[2].colorRGB[0], effects[2].colorRGB[1], effects[2].colorRGB[2]);
     rect(x, y, size, size);
 
     popStyle();
@@ -141,6 +141,9 @@ public class PresetController {
     if (barSize > 100)
       barSize = 100;
 
+    pullStartEffect.colorRGB[0] = effects[1].colorRGB[0];
+    pullStartEffect.colorRGB[1] = effects[1].colorRGB[1];
+    pullStartEffect.colorRGB[2] = effects[1].colorRGB[2];
     pullStartEffect.position[1] = barSize;
 
     Trigger trigger = new Trigger(pullStartEffect.copy(), x, y, frameCount);
@@ -161,6 +164,13 @@ public class PresetController {
 
 
   public void triggerJump(int x, int y) {
+    jumpStartEffect.colorRGB[0] = effects[2].colorRGB[0];
+    jumpStartEffect.colorRGB[1] = effects[2].colorRGB[1];
+    jumpStartEffect.colorRGB[2] = effects[2].colorRGB[2];
+    jumpEndEffect.colorRGB[0] = effects[2].colorRGB[0];
+    jumpEndEffect.colorRGB[1] = effects[2].colorRGB[1];
+    jumpEndEffect.colorRGB[2] = effects[2].colorRGB[2];
+
     Trigger startTrigger = new Trigger(jumpStartEffect.copy(), x, y, frameCount);
     Trigger endTrigger = new Trigger(jumpEndEffect.copy(), x, y, frameCount + 58);
     Trigger fieldTrigger = new Trigger(effects[2].copy(), x, y, frameCount + 54);
