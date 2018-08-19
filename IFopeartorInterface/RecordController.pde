@@ -1,4 +1,8 @@
 public class RecordController {
+  private final int NUM_RECORD = 9;
+  private final int PD = 8;
+  private final int BT_SIZE = int((windows[4].pos.x - (PD * NUM_RECORD + 1)) / NUM_RECORD);
+
   private List < Record > records;
   private Record newRecord;
   private int newId;
@@ -14,11 +18,10 @@ public class RecordController {
     this.isRecording = false;
     this.newId = 0;
 
-    int pd = 8;
     int h = int(windows[4].size.y);
     int btSize = int(h / 3);
-    int x = int(windows[4].pos.x) + pd;
-    int y = int(windows[4].pos.y) + h - btSize - pd;
+    int x = int(windows[4].pos.x) + PD;
+    int y = int(windows[4].pos.y) + h - btSize - PD;
 
 
     recordToggle = new Button()
@@ -107,19 +110,16 @@ public class RecordController {
 
   private void updateRecordPlayToggle() {
     for (int i = 0; i < records.size(); i++) {
-      int NUM_RECORD = 9;
       int x = int(windows[4].pos.x);
       int y = int(windows[4].pos.y);
       int h = int(windows[4].size.y);
       int w = int(windows[4].size.x);
-      int pd = 8;
-      int btSize = int((w - (pd * NUM_RECORD + 1)) / NUM_RECORD);
-      PVector pos = new PVector(x + pd + (btSize + pd) * i, y + pd);
+      PVector pos = new PVector(x + PD + (BT_SIZE + PD) * i, y + PD);
       final Record targetRecord = records.get(i);
 
       if (i >= recordPlayToggles.size()) {
         recordPlayToggles.add(new Button()
-          .setSize(btSize, btSize)
+          .setSize(BT_SIZE, BT_SIZE)
           .setBackgroundColor(0, 45, 90)
           .setName("Record "+targetRecord.id)
           .setPressListener(new ButtonPressListener() {
@@ -133,7 +133,7 @@ public class RecordController {
 
       if (i >= recordDeleteButtons.size()) {
         recordDeleteButtons.add(new Button()
-          .setSize(btSize, btSize / 2)
+          .setSize(BT_SIZE, BT_SIZE / 2)
           .setBackgroundColor(0, 45, 90)
           .setName("Clear")
           .setPressListener(new ButtonPressListener() {
@@ -143,7 +143,7 @@ public class RecordController {
           })
         );
       }
-      recordDeleteButtons.get(i).setPosition((int) pos.x, (int) pos.y + btSize + 2);
+      recordDeleteButtons.get(i).setPosition((int) pos.x, (int) pos.y + BT_SIZE + 2);
     }
   }
 
