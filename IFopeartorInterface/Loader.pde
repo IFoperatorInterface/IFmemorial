@@ -7,18 +7,28 @@ class Loader {
   }
 
 
-  void save(List<Effect> presets) {
-    String[] presetStrings = new String[presets.size()];
-    for (int i=0; i<presetStrings.length; i++)
-      presetStrings[i] = presets.get(i).toString();
+  void save(List<Effect> presets, List<Record> records) {
+    String[] strings = new String[presets.size() + records.size()];
+    for (int i=0; i<presets.size(); i++)
+      strings[i] = presets.get(i).toString();
 
-    saveStrings(filename, presetStrings);
+    for (int i=0; i<records.size(); i++)
+      strings[presets.size()+i] = records.get(i).toString();
+
+    saveStrings(filename, strings);
   }
 
 
   void load() {
     String[] lines = loadStrings(filename);
-    for (String l : lines)
-      recordController.addPreset(new Effect(l));
+    int recordId = 0;
+    for (String l : lines) {
+      if (l.indexOf("$") == -1)
+        recordController.addPreset(new Effect(l));
+      else {
+        recordController.addRecord(new Record(l, recordId));
+        recordId++;
+      }
+    }
   }
 }

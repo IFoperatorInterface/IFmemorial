@@ -78,17 +78,25 @@ public class RecordController {
     if (isRecording) {
       newRecord = new Record(frameCount, newId);
       logger.log(Log.RECORD_START, -1, -1, newId, null);
-      newId++;
     } else {
-      newRecord.duration = frameCount - newRecord.recordStartTime;
-      records.add(newRecord);
+      addRecord(newRecord);
 
       logger.log(Log.RECORD_END, -1, -1, newRecord.id, null);
 
       newRecord = null;
 
-      updateRecordPlayToggle();
+      loader.save(presets, records);
     }
+  }
+
+
+  public void addRecord(Record newRecord) {
+    newRecord.duration = frameCount - newRecord.recordStartTime;
+    records.add(newRecord);
+
+    updateRecordPlayToggle();
+
+    newId++;
   }
 
 
@@ -131,6 +139,7 @@ public class RecordController {
     recordPlayToggles.remove(idx);
     recordDeleteButtons.remove(idx);
     updateRecordPlayToggle();
+    loader.save(presets, records);
   }
 
 
@@ -190,7 +199,7 @@ public class RecordController {
 
     addPreset(newPreset);
 
-    loader.save(presets);
+    loader.save(presets, records);
 
   }
 
@@ -236,7 +245,7 @@ public class RecordController {
     presetSetButtons.remove(idx);
     presetDeleteButtons.remove(idx);
     updatePresetSetButton();
-    loader.save(presets);
+    loader.save(presets, records);
   }
 
 

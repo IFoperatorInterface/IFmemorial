@@ -14,10 +14,10 @@ class Record {
   }
 
 
-  Record(String s) {
+  Record(String s, int id) {
     String[] words = s.split("\\$");
     this.recordStartTime = Integer.parseInt(words[0]);
-    this.id = -1;
+    this.id = id;
     this.playStartTime = -1;
 
     this.triggers = new ArrayList<Trigger>();
