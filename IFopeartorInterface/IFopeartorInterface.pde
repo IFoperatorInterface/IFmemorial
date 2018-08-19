@@ -17,6 +17,7 @@ FieldView fieldView;
 SystemView systemView;
 DataView dataView;
 Logger logger;
+Loader loader;
 
 PApplet sketch = this;
 
@@ -47,6 +48,7 @@ void setup() {
   fieldView = new FieldView();
   dataView = new DataView();
   logger = new Logger();
+  loader = new Loader();
   settingCompleted = true;
 }
 

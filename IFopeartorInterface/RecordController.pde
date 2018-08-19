@@ -191,6 +191,7 @@ public class RecordController {
     presets.add(newPreset);
 
     updatePresetSetButton();
+    loader.save(presets);
 
     newPresetId++;
   }
@@ -226,6 +227,7 @@ public class RecordController {
     presetSetButtons.remove(idx);
     presetDeleteButtons.remove(idx);
     updatePresetSetButton();
+    loader.save(presets);
   }
 
 
