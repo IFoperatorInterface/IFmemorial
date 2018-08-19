@@ -1,7 +1,8 @@
 public class RecordController {
-  private final int NUM_RECORD = 9;
+  private final int NUM_RECORD = 4;
+  private final int NUM_PRESET = 4;
   private final int PD = 8;
-  private final int BT_SIZE = int((windows[4].pos.x - (PD * NUM_RECORD + 1)) / NUM_RECORD);
+  private final int BT_SIZE = int((windows[4].pos.x - (PD * (NUM_RECORD + NUM_PRESET + 1) + 1)) / (NUM_RECORD + NUM_PRESET + 1));
 
   private List < Record > records;
   private Record newRecord;
@@ -49,7 +50,7 @@ public class RecordController {
       this.recordDeleteButtons = new ArrayList<Button>();
 
       this.presetButton = new Button()
-        .setPosition(x + (BT_SIZE+PD) * 4, y)
+        .setPosition(x + (BT_SIZE+PD) * NUM_RECORD, y)
         .setSize(btSize, btSize)
         .setName("preset")
         .setBackgroundColor(120, 20, 200)
@@ -67,6 +68,8 @@ public class RecordController {
 
 
   void recordToggle(int theValue) {
+    if (records.size() >= NUM_RECORD)
+      return;
     if ((theValue == 1) == isRecording)
       return;
 
@@ -180,6 +183,9 @@ public class RecordController {
 
 
   void presetButton() {
+    if (presets.size() >= NUM_PRESET)
+      return;
+
     Effect newPreset = effectController.getEffect();
     newPreset.id = newPresetId;
     presets.add(newPreset);
@@ -225,7 +231,7 @@ public class RecordController {
 
   private void updatePresetSetButton() {
     for (int i = 0; i < presets.size(); i++) {
-      int x = int(windows[4].pos.x) + (BT_SIZE + PD) * 4;
+      int x = int(windows[4].pos.x) + (BT_SIZE + PD) * NUM_RECORD;
       int y = int(windows[4].pos.y);
       int h = int(windows[4].size.y);
       int w = int(windows[4].size.x);
