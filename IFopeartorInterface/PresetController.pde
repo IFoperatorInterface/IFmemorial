@@ -7,6 +7,7 @@ public class PresetController {
   private static final int COLOR_STEPS = 360;
   private final int BT_X = int(windows[4].pos.x + 400);
   private final int BT_Y = int(windows[4].pos.y + 140);
+  private final int PD = 8;
   private final int BT_SIZE = 30;
 
 
@@ -95,9 +96,19 @@ public class PresetController {
 
     popStyle();
 
+    pushStyle();
+    rectMode(CORNER);
+    noStroke();
+    final String[] titles = new String[] {"TOUCH", "PULL", "JUMP", "LOC"};
     for (int i = 0; i < 4; i++) {
-      rect(BT_X+BT_SIZE*i, BT_Y, BT_SIZE, BT_SIZE);
+      fill(0, 45, 90);
+      rect(BT_X+(BT_SIZE+PD)*i, BT_Y, BT_SIZE, BT_SIZE);
+      fill(255);
+      textAlign(CENTER, CENTER);
+      textFont(titleFont);
+      text(titles[i], BT_X+(BT_SIZE+PD)*i+BT_SIZE/2, BT_Y+BT_SIZE/2);
     }
+    popStyle();
 
     if (frameCount % (COLOR_PERIOD / COLOR_STEPS) != 0)
       return;
@@ -186,7 +197,7 @@ public class PresetController {
     if (y1 < BT_Y || y1 >= BT_Y + BT_SIZE)
       return;
 
-    int idx = (x1 - BT_X) / BT_SIZE;
+    int idx = (x1 - BT_X) / (BT_SIZE + PD);
     if (idx < 0 || idx >= 4)
       return;
 
