@@ -196,8 +196,19 @@ public class PresetController {
 
   private void setEffect(int idx, Effect effect) {
     println(idx, effect);
-    if (effect != null)
+    if (effect != null){
       effects[idx] = effect.copy();
+      for (int i=0; i<FieldMode.values().length; i++)
+        effects[idx].fieldMode[i] = false;
+      switch (idx) {
+        case 1:
+          effects[1].spread = 75;
+          break;
+        case 2:
+          effects[2].fieldMode[FieldMode.ELLIPSE.ordinal()] = true;
+          effects[2].spread = 50;
+      }
+    }
     else {
       switch (idx) {
         case 1:
