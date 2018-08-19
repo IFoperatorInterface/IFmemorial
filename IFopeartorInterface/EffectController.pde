@@ -228,11 +228,11 @@ public class EffectController {
     effect = effect.copy();
 
     soundModeRadioButton(effect.soundMode.ordinal());
-    noteSlider(effect.note);
+    noteSlider.setValue(effect.note);
     barModeRadioButton(effect.barMode.ordinal());
-    sizeSlider(effect.size);
-    spreadSlider(effect.spread);
-    diameterSlider(effect.diameter);
+    sizeSlider.setValue(effect.size);
+    spreadSlider.setValue(effect.spread);
+    diameterSlider.setValue(effect.diameter);
 
     ledColor.setRGB(color(effect.colorRGB[0], effect.colorRGB[1], effect.colorRGB[2]));
 
