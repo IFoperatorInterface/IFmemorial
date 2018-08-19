@@ -1,5 +1,6 @@
 public class PresetController {
   private int[] touchColor;
+  private Effect[] effects;
   private Effect pullStartEffect, pullEndEffect;
   private Effect jumpStartEffect, jumpEndEffect, jumpFieldEffect;
   private static final int COLOR_PERIOD = 30 * 60 * 16;
@@ -7,6 +8,8 @@ public class PresetController {
 
 
   PresetController() {
+    effects = new Effect[4];
+
     touchColor = new int[]{255, 0, 0};
 
     pullStartEffect = new Effect();
@@ -57,6 +60,9 @@ public class PresetController {
     jumpFieldEffect.brightness[1] = new int[]{10, 100};
     jumpFieldEffect.brightness[2] = new int[]{35, 30};
     jumpFieldEffect.brightness[3] = new int[]{60, 0};
+
+    effects[1] = pullEndEffect;
+    effects[2] = jumpFieldEffect;
 
     updateColor(0);
   }
@@ -136,10 +142,11 @@ public class PresetController {
 
 
   public void triggerPullEnd(int x, int y, PVector direction, float size) {
-    pullEndEffect.direction = new PVector(-direction.x, -direction.y);
-    pullEndEffect.position[1] = (int) constrain(size * 100, 0, 100);
+    Effect effect = effects[1].copy();
+    effect.direction = new PVector(-direction.x, -direction.y);
+    effect.position[1] = (int) constrain(size * 100, 0, 100);
 
-    Trigger trigger = new Trigger(pullEndEffect.copy(), x, y, frameCount);
+    Trigger trigger = new Trigger(effect, x, y, frameCount);
     moduleView.addTrigger(trigger);
 
     logger.log(Log.PULL, x, y, direction.heading(), null);
@@ -149,7 +156,7 @@ public class PresetController {
   public void triggerJump(int x, int y) {
     Trigger startTrigger = new Trigger(jumpStartEffect.copy(), x, y, frameCount);
     Trigger endTrigger = new Trigger(jumpEndEffect.copy(), x, y, frameCount + 58);
-    Trigger fieldTrigger = new Trigger(jumpFieldEffect.copy(), x, y, frameCount + 54);
+    Trigger fieldTrigger = new Trigger(effects[2].copy(), x, y, frameCount + 54);
     moduleView.addTrigger(startTrigger);
     moduleView.addTrigger(endTrigger);
     moduleView.addTrigger(fieldTrigger);
