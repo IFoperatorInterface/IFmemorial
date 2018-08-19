@@ -6,9 +6,9 @@ public class PresetController {
   private static final int COLOR_PERIOD = 30 * 60 * 16;
   private static final int COLOR_STEPS = 360;
   private final int BT_X = int(windows[4].pos.x + 400);
-  private final int BT_Y = int(windows[4].pos.y + 140);
+  private final int BT_Y = int(windows[4].pos.y + 125);
   private final int PD = 8;
-  private final int BT_SIZE = 30;
+  private final int BT_SIZE = 45;
 
 
   PresetController() {
