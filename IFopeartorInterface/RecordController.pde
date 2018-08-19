@@ -269,6 +269,22 @@ public class RecordController {
   }
 
 
+  public Effect getPreset(int xPos, int yPos) {
+    int x = int(windows[4].pos.x) + (BT_SIZE + PD) * NUM_RECORD + PD;
+    int y = int(windows[4].pos.y);
+
+    if (yPos < y || yPos >= y+BT_SIZE)
+      return null;
+
+    int idx = (xPos - x) / (BT_SIZE + PD);
+
+    if (idx >= 0 && idx < presets.size())
+      return presets.get(idx);
+    else
+      return null;
+  }
+
+
   public void onDraw() {
     recordToggle.draw();
     for (Button b : recordPlayToggles)

@@ -5,6 +5,9 @@ public class PresetController {
   private Effect jumpStartEffect, jumpEndEffect, jumpFieldEffect;
   private static final int COLOR_PERIOD = 30 * 60 * 16;
   private static final int COLOR_STEPS = 360;
+  private final int BT_X = int(windows[4].pos.x + 400);
+  private final int BT_Y = int(windows[4].pos.y + 140);
+  private final int BT_SIZE = 30;
 
 
   PresetController() {
@@ -92,6 +95,10 @@ public class PresetController {
 
     popStyle();
 
+    for (int i = 0; i < 4; i++) {
+      rect(BT_X+BT_SIZE*i, BT_Y, BT_SIZE, BT_SIZE);
+    }
+
     if (frameCount % (COLOR_PERIOD / COLOR_STEPS) != 0)
       return;
 
@@ -162,5 +169,34 @@ public class PresetController {
     moduleView.addTrigger(fieldTrigger);
 
     logger.log(Log.JUMP, x, y, null, null);
+  }
+
+
+  public void press(int x1, int y1, int x2, int y2) {
+    if (y1 < BT_Y || y1 >= BT_Y + BT_SIZE)
+      return;
+
+    int idx = (x1 - BT_X) / BT_SIZE;
+    if (idx < 0 || idx >= 4)
+      return;
+
+    setEffect(idx, recordController.getPreset(x2, y2));
+  }
+
+
+  private void setEffect(int idx, Effect effect) {
+    println(idx, effect);
+    if (effect != null)
+      effects[idx] = effect.copy();
+    else {
+      switch (idx) {
+        case 1:
+          effects[1] = pullEndEffect;
+          break;
+        case 2:
+          effects[2] = jumpFieldEffect;
+          break;
+      }
+    }
   }
 }
