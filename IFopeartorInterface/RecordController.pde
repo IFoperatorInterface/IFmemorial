@@ -187,12 +187,21 @@ public class RecordController {
       return;
 
     Effect newPreset = effectController.getEffect();
+
+    addPreset(newPreset);
+
+    loader.save(presets);
+
+  }
+
+
+  void addPreset(Effect newPreset) {
+    newPreset = newPreset.copy();
     newPreset.id = newPresetId;
     presets.add(newPreset);
 
     updatePresetSetButton();
-    loader.save(presets);
-
+    
     newPresetId++;
   }
 

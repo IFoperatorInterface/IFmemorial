@@ -14,4 +14,11 @@ class Loader {
 
     saveStrings(filename, presetStrings);
   }
+
+
+  void load() {
+    String[] lines = loadStrings(filename);
+    for (String l : lines)
+      recordController.addPreset(new Effect(l));
+  }
 }
