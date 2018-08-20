@@ -5,24 +5,37 @@ public class PresetController {
   private Effect jumpStartEffect, jumpEndEffect, jumpFieldEffect;
   private static final int COLOR_PERIOD = 30 * 60 * 16;
   private static final int COLOR_STEPS = 360;
-  private final int BT_X = int(windows[4].pos.x + 400);
-  private final int BT_Y = int(windows[4].pos.y + 125);
-  private final int PD = 8;
-  private final int BT_SIZE = 45;
-
+  private final int NUM_RECORD = 3;
+  private final int PD = 4;
+  private final int BT_SIZE = int(windows[4].size.y / 3 - PD);
+  private final int BT_X = int(windows[4].pos.x + (BT_SIZE + PD) * (9 - NUM_RECORD) + PD);
+  private final int BT_Y = int(windows[4].pos.y + PD);
 
   PresetController() {
     effects = new Effect[4];
 
-    touchColor = new int[]{255, 0, 0};
+    touchColor = new int[] {
+      255,
+      0,
+      0
+    };
 
     pullStartEffect = new Effect();
     pullStartEffect.note = -1;
     pullStartEffect.barMode = BarMode.BLINK;
     pullStartEffect.position[0] = 0;
-    pullStartEffect.brightness[1] = new int[]{0, 100};
-    pullStartEffect.brightness[2] = new int[]{2, 100};
-    pullStartEffect.brightness[3] = new int[]{2, 0};
+    pullStartEffect.brightness[1] = new int[] {
+      0,
+      100
+    };
+    pullStartEffect.brightness[2] = new int[] {
+      2,
+      100
+    };
+    pullStartEffect.brightness[3] = new int[] {
+      2,
+      0
+    };
 
     pullEndEffect = new Effect();
     pullEndEffect.soundMode = SoundMode.CHORD;
@@ -32,27 +45,54 @@ public class PresetController {
     pullEndEffect.position[1] = 100;
     pullEndEffect.spread = 75;
     pullEndEffect.noCenter = true;
-    pullEndEffect.brightness[1] = new int[]{10, 100};
-    pullEndEffect.brightness[2] = new int[]{55, 30};
-    pullEndEffect.brightness[3] = new int[]{100, 0};
+    pullEndEffect.brightness[1] = new int[] {
+      10,
+      100
+    };
+    pullEndEffect.brightness[2] = new int[] {
+      55,
+      30
+    };
+    pullEndEffect.brightness[3] = new int[] {
+      100,
+      0
+    };
 
     jumpStartEffect = new Effect();
     jumpStartEffect.note = 85;
     jumpStartEffect.barMode = BarMode.BOUNCE;
     jumpStartEffect.position[0] = 0;
     jumpStartEffect.position[1] = 100;
-    jumpStartEffect.brightness[1] = new int[]{20, 75};
-    jumpStartEffect.brightness[2] = new int[]{60, 100};
-    jumpStartEffect.brightness[3] = new int[]{65, 0};
+    jumpStartEffect.brightness[1] = new int[] {
+      20,
+      75
+    };
+    jumpStartEffect.brightness[2] = new int[] {
+      60,
+      100
+    };
+    jumpStartEffect.brightness[3] = new int[] {
+      65,
+      0
+    };
 
     jumpEndEffect = new Effect();
     jumpEndEffect.note = 40;
     jumpEndEffect.barMode = BarMode.BLINK;
     jumpEndEffect.position[0] = 0;
     jumpEndEffect.position[1] = 100;
-    jumpEndEffect.brightness[1] = new int[]{10, 100};
-    jumpEndEffect.brightness[2] = new int[]{60, 100};
-    jumpEndEffect.brightness[3] = new int[]{100, 0};
+    jumpEndEffect.brightness[1] = new int[] {
+      10,
+      100
+    };
+    jumpEndEffect.brightness[2] = new int[] {
+      60,
+      100
+    };
+    jumpEndEffect.brightness[3] = new int[] {
+      100,
+      0
+    };
 
     jumpFieldEffect = new Effect();
     jumpFieldEffect.note = -1;
@@ -61,9 +101,18 @@ public class PresetController {
     jumpFieldEffect.position[0] = 0;
     jumpFieldEffect.position[1] = 100;
     jumpFieldEffect.noCenter = true;
-    jumpFieldEffect.brightness[1] = new int[]{10, 100};
-    jumpFieldEffect.brightness[2] = new int[]{35, 30};
-    jumpFieldEffect.brightness[3] = new int[]{60, 0};
+    jumpFieldEffect.brightness[1] = new int[] {
+      10,
+      100
+    };
+    jumpFieldEffect.brightness[2] = new int[] {
+      35,
+      30
+    };
+    jumpFieldEffect.brightness[3] = new int[] {
+      60,
+      0
+    };
 
     effects[1] = pullEndEffect;
     effects[2] = jumpFieldEffect;
@@ -99,14 +148,19 @@ public class PresetController {
     pushStyle();
     rectMode(CORNER);
     noStroke();
-    final String[] titles = new String[] {"TOUCH", "PULL", "JUMP", "LOC"};
+    final String[] titles = new String[] {
+      "TOUCH",
+      "PULL",
+      "JUMP",
+      "LOC"
+    };
     for (int i = 0; i < 4; i++) {
       fill(0, 45, 90);
-      rect(BT_X+(BT_SIZE+PD)*i, BT_Y, BT_SIZE, BT_SIZE);
+      rect(BT_X + (BT_SIZE + PD) * i, BT_Y, BT_SIZE, BT_SIZE);
       fill(255);
       textAlign(CENTER, CENTER);
       textFont(titleFont);
-      text(titles[i], BT_X+(BT_SIZE+PD)*i+BT_SIZE/2, BT_Y+BT_SIZE/2);
+      text(titles[i], BT_X + (BT_SIZE + PD) * i + BT_SIZE / 2, BT_Y + BT_SIZE / 2);
     }
     popStyle();
 
@@ -120,12 +174,12 @@ public class PresetController {
 
 
   private void updateColor(int step) {
-    color c = Color.HSBtoRGB((float)step / COLOR_STEPS, 1, 1);
+    color c = Color.HSBtoRGB((float) step / COLOR_STEPS, 1, 1);
     touchColor[0] = (int) red(c) + 1;
     touchColor[1] = (int) green(c) + 1;
     touchColor[2] = (int) blue(c) + 1;
 
-    c = Color.HSBtoRGB((float)step / COLOR_STEPS + 0.05, 1, 1);
+    c = Color.HSBtoRGB((float) step / COLOR_STEPS + 0.05, 1, 1);
     pullStartEffect.colorRGB[0] = (int) red(c) + 1;
     pullStartEffect.colorRGB[1] = (int) green(c) + 1;
     pullStartEffect.colorRGB[2] = (int) blue(c) + 1;
@@ -134,7 +188,7 @@ public class PresetController {
     pullEndEffect.colorRGB[2] = (int) blue(c) + 1;
 
 
-    c = Color.HSBtoRGB((float)step / COLOR_STEPS + 0.1, 1, 1);
+    c = Color.HSBtoRGB((float) step / COLOR_STEPS + 0.1, 1, 1);
     jumpStartEffect.colorRGB[0] = (int) red(c) + 1;
     jumpStartEffect.colorRGB[1] = (int) green(c) + 1;
     jumpStartEffect.colorRGB[2] = (int) blue(c) + 1;
@@ -148,7 +202,7 @@ public class PresetController {
 
 
   public void triggerPullStart(int x, int y, float size) {
-    int barSize = (int) (size * 100);
+    int barSize = (int)(size * 100);
     if (barSize > 100)
       barSize = 100;
 
@@ -207,9 +261,9 @@ public class PresetController {
 
   private void setEffect(int idx, Effect effect) {
     println(idx, effect);
-    if (effect != null){
+    if (effect != null) {
       effects[idx] = effect.copy();
-      for (int i=0; i<FieldMode.values().length; i++)
+      for (int i = 0; i < FieldMode.values().length; i++)
         effects[idx].fieldMode[i] = false;
       switch (idx) {
         case 1:
@@ -219,8 +273,7 @@ public class PresetController {
           effects[2].fieldMode[FieldMode.ELLIPSE.ordinal()] = true;
           effects[2].spread = 50;
       }
-    }
-    else {
+    } else {
       switch (idx) {
         case 1:
           effects[1] = pullEndEffect;
