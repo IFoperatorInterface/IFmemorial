@@ -31,7 +31,7 @@ public class RecordController {
   private List < Button > presetSetButtons;
   private List < Button > presetDeleteButtons;
 
-  private Button noneBox;
+  private Button disableBox;
 
 
   RecordController() {
@@ -78,10 +78,10 @@ public class RecordController {
     this.presetSetButtons = new ArrayList < Button > ();
     this.presetDeleteButtons = new ArrayList < Button > ();
 
-    this.noneBox = new Button()
+    this.disableBox = new Button()
       .setPosition(x + (BT_SIZE + PD) * (NUM_RECORD + NUM_PRESET), y + BT_SIZE + PD)
       .setSize(BT_SIZE, BT_SIZE)
-      .setName("none")
+      .setName("disable")
       .setBackgroundColor(presetColor[0]/2, presetColor[1]/2, presetColor[2]/2);
   }
 
@@ -364,7 +364,7 @@ public class RecordController {
     for (Button b: presetDeleteButtons)
       b.draw();
 
-    noneBox.draw();
+    disableBox.draw();
 
 
     for (Record r: records) {
