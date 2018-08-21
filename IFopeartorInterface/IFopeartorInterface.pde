@@ -50,7 +50,7 @@ void setup() {
   logger = new Logger();
   loader = new Loader();
   
-  // loader.load();
+  loader.load();
   settingCompleted = true;
 }
 

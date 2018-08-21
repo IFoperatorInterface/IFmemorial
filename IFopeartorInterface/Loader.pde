@@ -21,6 +21,8 @@ class Loader {
 
   void load() {
     String[] lines = loadStrings(filename);
+    if (lines == null)
+      return;
     int recordId = 0;
     for (String l : lines) {
       if (l.indexOf("$") == -1)
