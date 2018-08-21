@@ -264,6 +264,18 @@ public class PresetController {
   }
 
 
+  private void resetEffect(int idx) {
+    switch (idx) {
+      case 1:
+        effects[1] = pullEndEffect;
+        break;
+      case 2:
+        effects[2] = jumpFieldEffect;
+        break;
+    }
+  }
+
+
   private void setEffect(int idx, Effect effect) {
     if (effect != null && effect.id != -1) {
       effects[idx] = effect.copy();
@@ -282,14 +294,7 @@ public class PresetController {
       effects[idx] = null;
     }
     else {
-      switch (idx) {
-        case 1:
-          effects[1] = pullEndEffect;
-          break;
-        case 2:
-          effects[2] = jumpFieldEffect;
-          break;
-      }
+      resetEffect(idx);
     }
   }
 
@@ -300,14 +305,7 @@ public class PresetController {
         continue;
 
       if (effects[i].id == preset.id){
-        switch(i) {
-          case 1:
-            effects[1] = pullEndEffect;
-            break;
-          case 2:
-            effects[2] = jumpFieldEffect;
-            break;
-        }
+        resetEffect(i);
       }
     }
   }
