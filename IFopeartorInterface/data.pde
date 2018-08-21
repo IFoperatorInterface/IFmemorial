@@ -113,10 +113,10 @@ void receive(byte[] data) {
             if (NUM_PERSON > 0) {
                 PVector[] pos = new PVector[NUM_PERSON];
                 float[] weight = new float[NUM_PERSON];
-                int indx;
+                float[] personIndx = new float[NUM_PERSON];
                 for (int i = 0; i < NUM_PERSON; i++) {
-                    // float[] person = new float[NUM_PERSON];
-                    indx = a[NUM_BASIC_TOKENS + i * NUM_VISITOR_TOKENS + 0];
+                    
+                    personIndx[i] = a[NUM_BASIC_TOKENS + i * NUM_VISITOR_TOKENS + 0];
                     float _x = a[NUM_BASIC_TOKENS + i * NUM_VISITOR_TOKENS + 1];
                     float _y = a[NUM_BASIC_TOKENS + i * NUM_VISITOR_TOKENS + 2];
                     weight[i] = a[NUM_BASIC_TOKENS + i * NUM_VISITOR_TOKENS + 3];
@@ -126,7 +126,7 @@ void receive(byte[] data) {
                     if (weight[i] < 0)
                         weight[i] = 0;
                 }
-                fieldView.update(NUM_PERSON, pos, weight);
+                fieldView.update(NUM_PERSON, pos, weight, personIndx);
             }
         }
     }
