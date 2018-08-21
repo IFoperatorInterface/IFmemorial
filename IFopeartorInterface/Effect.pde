@@ -72,6 +72,7 @@ class Effect {
     fieldMode[FieldMode.RIGHT.ordinal()] = (words[8].indexOf("R") != -1);
     fieldMode[FieldMode.ELLIPSE.ordinal()] = (words[8].indexOf("E") != -1);
     this.diameter = Integer.parseInt("0"+words[9]);
+    this.id = Integer.parseInt(words[10]);
   }
 
 
@@ -125,7 +126,8 @@ class Effect {
     result += (fieldMode[FieldMode.LEFT.ordinal()] ? "L" : "");
     result += (fieldMode[FieldMode.RIGHT.ordinal()] ? "R" : "");
     result += (fieldMode[FieldMode.ELLIPSE.ordinal()] ? "E" : "") + "/";
-    result += (fieldMode[FieldMode.ELLIPSE.ordinal()] ? diameter : "");
+    result += (fieldMode[FieldMode.ELLIPSE.ordinal()] ? diameter : "") + "/";
+    result += id;
 
     return result;
   }

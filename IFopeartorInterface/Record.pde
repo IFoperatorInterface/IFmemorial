@@ -14,14 +14,14 @@ class Record {
   }
 
 
-  Record(String s, int id) {
+  Record(String s) {
     String[] words = s.split("\\$");
     this.recordStartTime = Integer.parseInt(words[0]);
-    this.id = id;
+    this.id = Integer.parseInt(words[1]);
     this.playStartTime = -1;
 
     this.triggers = new ArrayList<Trigger>();
-    for (int i=1; i<words.length; i++) {
+    for (int i=2; i<words.length; i++) {
       triggers.add(new Trigger(words[i]));
     }
   }
@@ -35,6 +35,7 @@ class Record {
   public String toString() {
     String result = "";
     result += recordStartTime + "$";
+    result += id + "$";
     for (Trigger t : triggers) {
       result += t.toString() + "$";
     }

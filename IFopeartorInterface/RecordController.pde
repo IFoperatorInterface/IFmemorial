@@ -100,6 +100,8 @@ public class RecordController {
     } else {
       addRecord(newRecord);
 
+      newId++;
+
       logger.log(Log.RECORD_END, -1, -1, newRecord.id, null);
 
       newRecord = null;
@@ -114,8 +116,6 @@ public class RecordController {
     records.add(newRecord);
 
     updateRecordPlayToggle();
-
-    newId++;
   }
 
 
@@ -214,8 +214,11 @@ public class RecordController {
       return;
 
     Effect newPreset = effectController.getEffect();
+    newPreset.id = newPresetId;
 
     addPreset(newPreset);
+
+    newPresetId++;
 
     loader.save(presets, records);
 
@@ -224,12 +227,9 @@ public class RecordController {
 
   void addPreset(Effect newPreset) {
     newPreset = newPreset.copy();
-    newPreset.id = newPresetId;
     presets.add(newPreset);
 
     updatePresetSetButton();
-
-    newPresetId++;
   }
 
 
@@ -307,6 +307,17 @@ public class RecordController {
       }
       presetDeleteButtons.get(i).setPosition((int) pos.x, (int) pos.y);
     }
+  }
+
+
+  public void setStartId(int newId, int newPresetId) {
+    this.newId = newId;
+    this.newPresetId = newPresetId;
+  }
+
+
+  public int[] getStartId() {
+    return new int[] {newId, newPresetId};
   }
 
 
