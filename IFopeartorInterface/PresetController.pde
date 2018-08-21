@@ -178,21 +178,12 @@ public class PresetController {
     touchEffect.colorRGB[2] = (int) blue(c) + 1;
 
     c = Color.HSBtoRGB((float) step / COLOR_STEPS + 0.05, 1, 1);
-    pullStartEffect.colorRGB[0] = (int) red(c) + 1;
-    pullStartEffect.colorRGB[1] = (int) green(c) + 1;
-    pullStartEffect.colorRGB[2] = (int) blue(c) + 1;
     pullEndEffect.colorRGB[0] = (int) red(c) + 1;
     pullEndEffect.colorRGB[1] = (int) green(c) + 1;
     pullEndEffect.colorRGB[2] = (int) blue(c) + 1;
 
 
     c = Color.HSBtoRGB((float) step / COLOR_STEPS + 0.1, 1, 1);
-    jumpStartEffect.colorRGB[0] = (int) red(c) + 1;
-    jumpStartEffect.colorRGB[1] = (int) green(c) + 1;
-    jumpStartEffect.colorRGB[2] = (int) blue(c) + 1;
-    jumpEndEffect.colorRGB[0] = (int) red(c) + 1;
-    jumpEndEffect.colorRGB[1] = (int) green(c) + 1;
-    jumpEndEffect.colorRGB[2] = (int) blue(c) + 1;
     jumpFieldEffect.colorRGB[0] = (int) red(c) + 1;
     jumpFieldEffect.colorRGB[1] = (int) green(c) + 1;
     jumpFieldEffect.colorRGB[2] = (int) blue(c) + 1;
