@@ -329,6 +329,28 @@ public class RecordController {
   }
 
 
+  public int[] getPresetPosition(Effect preset) {
+    int idx = -1;
+
+    if (preset == null)
+      idx =  NUM_PRESET;
+    else {
+      for (int i=0; i<presets.size(); i++) {
+        if (presets.get(i).id == preset.id)
+          idx = i;
+      }
+    }
+
+    if (idx == -1)
+      return null;
+
+    int x = int(windows[4].pos.x) + (BT_SIZE + PD) * NUM_RECORD;
+    int y = int(windows[4].pos.y) + BT_SIZE + PD;
+
+    return new int[] {x+(BT_SIZE+PD)*idx+BT_SIZE/2, y+BT_SIZE/2};
+  }
+
+
   public void onDraw() {
     recordToggle.draw();
     for (Button b: recordPlayToggles)

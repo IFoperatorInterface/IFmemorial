@@ -145,7 +145,6 @@ public class PresetController {
 
     pushStyle();
     rectMode(CORNER);
-    noStroke();
     final String[] titles = new String[] {
       "TOUCH",
       "PULL",
@@ -153,12 +152,19 @@ public class PresetController {
       "LOC"
     };
     for (int i = 0; i < 4; i++) {
+      noStroke();
       fill(0, 45, 90);
       rect(BT_X + (BT_SIZE + PD) * i, BT_Y, BT_SIZE, BT_SIZE);
       fill(255);
       textAlign(CENTER, CENTER);
       textFont(titleFont);
       text(titles[i], BT_X + (BT_SIZE + PD) * i + BT_SIZE / 2, BT_Y + BT_SIZE / 2);
+
+      int[] presetPos = recordController.getPresetPosition(effects[i]);
+      if (presetPos == null)
+        continue;
+      stroke(128);
+      line(BT_X+(BT_SIZE+PD)*i+BT_SIZE/2, BT_Y+BT_SIZE/2, presetPos[0], presetPos[1]);
     }
     popStyle();
 
