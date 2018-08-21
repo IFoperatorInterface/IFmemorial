@@ -47,7 +47,6 @@ class DataController {
             return;
         volume = constrain(volume, 0, 100);
         String mssg = "abcd,1," + indx + "," + note + length + instrument + volume;
-        println(mssg);
         udp_sending.send(mssg, udpIP, sendingPort);
     }
 
