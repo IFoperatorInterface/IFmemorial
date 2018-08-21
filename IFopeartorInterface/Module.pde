@@ -26,7 +26,7 @@ class Module {
   public void draw() {
     drawBar();
 
-    if (indx != -1) {
+    if (indx != -1 && presetController.effects[0] != null) {
       float size = constrain(mdata[indx].barPos.mag() * 6 - 1, 0, 0.5);
       maxSize = maxSize * 0.985;
       if (size > maxSize)
