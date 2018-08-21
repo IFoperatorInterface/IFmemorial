@@ -1,6 +1,6 @@
 public class PresetController {
-  private int[] touchColor;
   private Effect[] effects;
+  private Effect touchEffect;
   private Effect pullStartEffect, pullEndEffect;
   private Effect jumpStartEffect, jumpEndEffect, jumpFieldEffect;
   private static final int COLOR_PERIOD = 30 * 60 * 16;
@@ -14,11 +14,7 @@ public class PresetController {
   PresetController() {
     effects = new Effect[4];
 
-    touchColor = new int[] {
-      255,
-      0,
-      0
-    };
+    touchEffect = new Effect();
 
     pullStartEffect = new Effect();
     pullStartEffect.note = -1;
@@ -132,7 +128,7 @@ public class PresetController {
     rectMode(CORNER);
     noStroke();
 
-    fill(touchColor[0], touchColor[1], touchColor[2]);
+    fill(touchEffect.colorRGB[0], touchEffect.colorRGB[1], touchEffect.colorRGB[2]);
     rect(x, y, size, size);
 
     x += size + pd;
@@ -179,9 +175,9 @@ public class PresetController {
 
   private void updateColor(int step) {
     color c = Color.HSBtoRGB((float) step / COLOR_STEPS, 1, 1);
-    touchColor[0] = (int) red(c) + 1;
-    touchColor[1] = (int) green(c) + 1;
-    touchColor[2] = (int) blue(c) + 1;
+    touchEffect.colorRGB[0] = (int) red(c) + 1;
+    touchEffect.colorRGB[1] = (int) green(c) + 1;
+    touchEffect.colorRGB[2] = (int) blue(c) + 1;
 
     c = Color.HSBtoRGB((float) step / COLOR_STEPS + 0.05, 1, 1);
     pullStartEffect.colorRGB[0] = (int) red(c) + 1;
