@@ -131,16 +131,12 @@ public class PresetController {
     fill(touchEffect.colorRGB[0], touchEffect.colorRGB[1], touchEffect.colorRGB[2]);
     rect(x, y, size, size);
 
-    x += size + pd;
-    if (effects[1] != null) {
-      fill(effects[1].colorRGB[0], effects[1].colorRGB[1], effects[1].colorRGB[2]);
-      rect(x, y, size, size);
-    }
+    for (int i=1; i<3; i++) {
+      if (effects[i] == null)
+        continue;
 
-    x += size + pd;
-    if (effects[2] != null) {
-      fill(effects[2].colorRGB[0], effects[2].colorRGB[1], effects[2].colorRGB[2]);
-      rect(x, y, size, size);
+      fill(effects[i].colorRGB[0], effects[i].colorRGB[1], effects[i].colorRGB[2]);
+      rect(x+(size+pd)*i, y, size, size);
     }
 
     popStyle();
