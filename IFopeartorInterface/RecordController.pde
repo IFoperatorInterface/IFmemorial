@@ -96,6 +96,7 @@ public class RecordController {
 
     if (isRecording) {
       newRecord = new Record(frameCount, newId);
+      newRecord.name = "Record " + newRecord.id;
       logger.log(Log.RECORD_START, -1, -1, newId, null);
     } else {
       addRecord(newRecord);
@@ -174,7 +175,7 @@ public class RecordController {
         recordPlayToggles.add(new Button()
           .setSize(BT_SIZE, BT_SIZE)
           .setBackgroundColor(recordColor[0], recordColor[1], recordColor[2])
-          .setName("Record " + targetRecord.id)
+          .setName(targetRecord.name)
           .setPressListener(new ButtonPressListener() {
             public void onPress() {
               recordPlayToggle(targetRecord.id);
@@ -215,6 +216,7 @@ public class RecordController {
 
     Effect newPreset = effectController.getEffect();
     newPreset.id = newPresetId;
+    newPreset.name = "Preset " + newPreset.id;
 
     addPreset(newPreset);
 
@@ -283,7 +285,7 @@ public class RecordController {
         presetSetButtons.add(new Button()
           .setSize(BT_SIZE, BT_SIZE)
           .setBackgroundColor(presetColor[0], presetColor[1], presetColor[2])
-          .setName("Preset " + targetPreset.id)
+          .setName(targetPreset.name)
           .setPressListener(new ButtonPressListener() {
             public void onPress() {
               presetSetButton(targetPreset.id);

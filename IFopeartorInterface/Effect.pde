@@ -12,6 +12,7 @@ class Effect {
   public int[][] brightness;
   public boolean noCenter;
   public int id;
+  public String name;
 
 
   Effect() {
@@ -37,6 +38,7 @@ class Effect {
     brightness[3] = new int[]{90, 0};
     noCenter = false;
     id = -1;
+    name = "";
   }
 
 
@@ -73,6 +75,7 @@ class Effect {
     fieldMode[FieldMode.ELLIPSE.ordinal()] = (words[8].indexOf("E") != -1);
     this.diameter = Integer.parseInt("0"+words[9]);
     this.id = Integer.parseInt(words[10]);
+    this.name = words[11];
   }
 
 
@@ -106,6 +109,7 @@ class Effect {
     newEffect.brightness[3][1] = brightness[3][1];
     newEffect.noCenter = noCenter;
     newEffect.id = id;
+    newEffect.name = name;
 
     return newEffect;
   }
@@ -127,7 +131,8 @@ class Effect {
     result += (fieldMode[FieldMode.RIGHT.ordinal()] ? "R" : "");
     result += (fieldMode[FieldMode.ELLIPSE.ordinal()] ? "E" : "") + "/";
     result += (fieldMode[FieldMode.ELLIPSE.ordinal()] ? diameter : "") + "/";
-    result += id;
+    result += id + "/";
+    result += name;
 
     return result;
   }

@@ -3,6 +3,7 @@ class Record {
   private final int recordStartTime;
   private int duration;
   private final int id;
+  public String name;
   private int playStartTime;
 
 
@@ -10,6 +11,7 @@ class Record {
     this.triggers = new ArrayList<Trigger>();
     this.recordStartTime = recordStartTime;
     this.id = id;
+    this.name = "";
     this.playStartTime = -1;
   }
 
@@ -18,10 +20,11 @@ class Record {
     String[] words = s.split("\\$");
     this.recordStartTime = Integer.parseInt(words[0]);
     this.id = Integer.parseInt(words[1]);
+    this.name = words[2];
     this.playStartTime = -1;
 
     this.triggers = new ArrayList<Trigger>();
-    for (int i=2; i<words.length; i++) {
+    for (int i=3; i<words.length; i++) {
       triggers.add(new Trigger(words[i]));
     }
   }
@@ -36,6 +39,7 @@ class Record {
     String result = "";
     result += recordStartTime + "$";
     result += id + "$";
+    result += name + "$";
     for (Trigger t : triggers) {
       result += t.toString() + "$";
     }
