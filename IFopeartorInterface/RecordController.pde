@@ -258,6 +258,8 @@ public class RecordController {
 
     if (idx == -1)
       return;
+    
+    presetController.unregisterPreset(presets.get(idx));
 
     presets.remove(idx);
     presetSetButtons.remove(idx);

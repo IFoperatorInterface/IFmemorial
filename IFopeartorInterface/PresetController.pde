@@ -300,4 +300,23 @@ public class PresetController {
       }
     }
   }
+
+
+  public void unregisterPreset(Effect preset) {
+    for (int i=0; i<4; i++) {
+      if (effects[i] == null)
+        continue;
+
+      if (effects[i].id == preset.id){
+        switch(i) {
+          case 1:
+            effects[1] = pullEndEffect;
+            break;
+          case 2:
+            effects[2] = jumpFieldEffect;
+            break;
+        }
+      }
+    }
+  }
 }
