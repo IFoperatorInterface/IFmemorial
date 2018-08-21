@@ -302,7 +302,7 @@ public class RecordController {
 
   public Effect getPreset(int xPos, int yPos) {
     int x = int(windows[4].pos.x) + (BT_SIZE + PD) * NUM_RECORD + PD;
-    int y = int(windows[4].pos.y);
+    int y = int(windows[4].pos.y) + BT_SIZE + PD;
 
     if (yPos < y || yPos >= y + BT_SIZE)
       return null;
