@@ -159,7 +159,9 @@ public class PresetController {
       textAlign(CENTER, CENTER);
       textFont(titleFont);
       text(titles[i], BT_X + (BT_SIZE + PD) * i + BT_SIZE / 2, BT_Y + BT_SIZE / 2);
+    }
 
+    for (int i = 0; i < 4; i++) {
       int[] presetPos = recordController.getPresetPosition(effects[i]);
       if (presetPos == null)
         continue;
