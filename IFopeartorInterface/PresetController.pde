@@ -3,6 +3,7 @@ public class PresetController {
   private Effect touchEffect;
   private Effect pullStartEffect, pullEndEffect;
   private Effect jumpStartEffect, jumpEndEffect, jumpFieldEffect;
+  private Effect locationEffect;
   private static final int COLOR_PERIOD = 30 * 60 * 16;
   private static final int COLOR_STEPS = 360;
   private final int NUM_RECORD = 3;
@@ -110,8 +111,12 @@ public class PresetController {
       0
     };
 
+    locationEffect = new Effect();
+
+    effects[0] = touchEffect;
     effects[1] = pullEndEffect;
     effects[2] = jumpFieldEffect;
+    effects[3] = locationEffect;
 
     updateColor(0);
   }
@@ -128,10 +133,7 @@ public class PresetController {
     rectMode(CORNER);
     noStroke();
 
-    fill(touchEffect.colorRGB[0], touchEffect.colorRGB[1], touchEffect.colorRGB[2]);
-    rect(x, y, size, size);
-
-    for (int i=1; i<3; i++) {
+    for (int i=0; i<effects.length; i++) {
       if (effects[i] == null)
         continue;
 
@@ -194,6 +196,11 @@ public class PresetController {
     jumpFieldEffect.colorRGB[0] = (int) red(c) + 1;
     jumpFieldEffect.colorRGB[1] = (int) green(c) + 1;
     jumpFieldEffect.colorRGB[2] = (int) blue(c) + 1;
+
+    c = Color.HSBtoRGB((float) step / COLOR_STEPS + 0.15, 1, 1);
+    locationEffect.colorRGB[0] = (int) red(c) + 1;
+    locationEffect.colorRGB[1] = (int) green(c) + 1;
+    locationEffect.colorRGB[2] = (int) blue(c) + 1;
   }
 
 
@@ -266,11 +273,17 @@ public class PresetController {
 
   private void resetEffect(int idx) {
     switch (idx) {
+      case 0:
+        effects[0] = touchEffect;
+        break;
       case 1:
         effects[1] = pullEndEffect;
         break;
       case 2:
         effects[2] = jumpFieldEffect;
+        break;
+      case 3:
+        effects[3] = locationEffect;
         break;
     }
   }

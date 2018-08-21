@@ -32,7 +32,7 @@ class Module {
       if (size > maxSize)
         maxSize = size;
       alpha = maxSize * 0.1 + alpha * 0.9;
-      drawLine(color(presetController.touchEffect.colorRGB[0], presetController.touchEffect.colorRGB[1], presetController.touchEffect.colorRGB[2], alpha * 255), 0, 1);
+      drawLine(color(presetController.effects[0].colorRGB[0], presetController.effects[0].colorRGB[1], presetController.effects[0].colorRGB[2], alpha * 255), 0, 1);
     }
 
     Iterator < Trigger > triggersIterator = triggers.iterator();
