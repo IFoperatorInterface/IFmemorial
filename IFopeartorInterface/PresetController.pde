@@ -260,7 +260,6 @@ public class PresetController {
 
 
   private void setEffect(int idx, Effect effect) {
-    println(idx, effect);
     if (effect != null) {
       effects[idx] = effect.copy();
       for (int i = 0; i < FieldMode.values().length; i++)
