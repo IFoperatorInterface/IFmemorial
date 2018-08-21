@@ -86,8 +86,9 @@ void receive(byte[] data) {
     if (!settingCompleted)
         return;
 
-    int NUM_MODULE_TOKENS = 10;
-    //1.num People, 2.Node id, 3.X angle, 4.Y angle, 5.Force 1, 6.Force 2, 7.Force 3, 8.Force 4, 9.Jumpped, 10.standing
+    int NUM_BASIC_TOKENS = 10; //1.num People, 2.Node id, 3.X angle, 4.Y angle, 5.Force 1, 6.Force 2, 7.Force 3, 8.Force 4, 9.Jumpped, 10.standing
+    int NUM_VISITOR_TOKENS = 4; //1.id, 2.x, 3.y, 4.weight
+
     String received = new String(data);
     // printArray(data);
 
@@ -107,15 +108,19 @@ void receive(byte[] data) {
         int indx = (int) a[1];
         mdata[indx].update(a);
 
-        if (a.length > NUM_MODULE_TOKENS) {
-            int NUM_PERSON = (a.length - NUM_MODULE_TOKENS) / 3;
+        if (a.length > NUM_BASIC_TOKENS) {
+            int NUM_PERSON = (a.length - NUM_BASIC_TOKENS) / NUM_VISITOR_TOKENS;
             if (NUM_PERSON > 0) {
                 PVector[] pos = new PVector[NUM_PERSON];
                 float[] weight = new float[NUM_PERSON];
+                int indx;
                 for (int i = 0; i < NUM_PERSON; i++) {
-                    float[] person = new float[NUM_PERSON];
-                    pos[i] = new PVector(a[NUM_MODULE_TOKENS + i * 3 + 0], a[NUM_MODULE_TOKENS + i * 3 + 1]);
-                    weight[i] = a[NUM_MODULE_TOKENS + i * 3 + 2];
+                    // float[] person = new float[NUM_PERSON];
+                    indx = a[NUM_BASIC_TOKENS + i * NUM_VISITOR_TOKENS + 0];
+                    float _x = a[NUM_BASIC_TOKENS + i * NUM_VISITOR_TOKENS + 1];
+                    float _y = a[NUM_BASIC_TOKENS + i * NUM_VISITOR_TOKENS + 2];
+                    weight[i] = a[NUM_BASIC_TOKENS + i * NUM_VISITOR_TOKENS + 3];
+                    pos[i] = new PVector(_x, _y);
                     if (weight[i] > 400)
                         weight[i] = 400;
                     if (weight[i] < 0)

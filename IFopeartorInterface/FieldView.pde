@@ -9,13 +9,13 @@ class FieldView {
         riders = new ArrayList < Rider > ();
     }
 
-    void update(int num, PVector[] pos, float[] weight) {
+    void update(int num, PVector[] pos, float[] weight, float[] indxP) {
         NUM_CUR_P = num;
 
         if (NUM_CUR_P != NUM_PRE_P) {
             riders.clear();
             for (int i = 0; i < NUM_CUR_P; i++) 
-                riders.add(new Rider(pos[i], weight[i], i));
+                riders.add(new Rider(pos[i], weight[i], indxP[i]));
         }
 
         for (int i = 0; i < riders.size(); i++)
