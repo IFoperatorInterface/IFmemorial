@@ -136,12 +136,16 @@ public class PresetController {
     rect(x, y, size, size);
 
     x += size + pd;
-    fill(effects[1].colorRGB[0], effects[1].colorRGB[1], effects[1].colorRGB[2]);
-    rect(x, y, size, size);
+    if (effects[1] != null) {
+      fill(effects[1].colorRGB[0], effects[1].colorRGB[1], effects[1].colorRGB[2]);
+      rect(x, y, size, size);
+    }
 
     x += size + pd;
-    fill(effects[2].colorRGB[0], effects[2].colorRGB[1], effects[2].colorRGB[2]);
-    rect(x, y, size, size);
+    if (effects[2] != null) {
+      fill(effects[2].colorRGB[0], effects[2].colorRGB[1], effects[2].colorRGB[2]);
+      rect(x, y, size, size);
+    }
 
     popStyle();
 
@@ -202,6 +206,9 @@ public class PresetController {
 
 
   public void triggerPullStart(int x, int y, float size) {
+    if (effects[1] == null)
+      return;
+
     int barSize = (int)(size * 100);
     if (barSize > 100)
       barSize = 100;
@@ -217,6 +224,9 @@ public class PresetController {
 
 
   public void triggerPullEnd(int x, int y, PVector direction, float size) {
+    if (effects[1] == null)
+      return;
+
     Effect effect = effects[1].copy();
     effect.direction = new PVector(-direction.x, -direction.y);
     effect.position[1] = (int) constrain(size * 100, 0, 100);
@@ -229,6 +239,9 @@ public class PresetController {
 
 
   public void triggerJump(int x, int y) {
+    if (effects[2] == null)
+      return;
+
     jumpStartEffect.colorRGB[0] = effects[2].colorRGB[0];
     jumpStartEffect.colorRGB[1] = effects[2].colorRGB[1];
     jumpStartEffect.colorRGB[2] = effects[2].colorRGB[2];
@@ -260,7 +273,7 @@ public class PresetController {
 
 
   private void setEffect(int idx, Effect effect) {
-    if (effect != null) {
+    if (effect != null && effect.id != -1) {
       effects[idx] = effect.copy();
       for (int i = 0; i < FieldMode.values().length; i++)
         effects[idx].fieldMode[i] = false;
@@ -272,7 +285,11 @@ public class PresetController {
           effects[2].fieldMode[FieldMode.ELLIPSE.ordinal()] = true;
           effects[2].spread = 50;
       }
-    } else {
+    }
+    else if (effect != null) {
+      effects[idx] = null;
+    }
+    else {
       switch (idx) {
         case 1:
           effects[1] = pullEndEffect;
