@@ -228,6 +228,8 @@ public class PresetController {
 
     Trigger trigger = new Trigger(effects[0].copy(), x, y, frameCount);
     moduleView.addTrigger(trigger);
+
+    logger.log(Log.TOUCH, x, y, null, null);
   }
 
 

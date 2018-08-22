@@ -23,6 +23,10 @@ class Logger {
 
 
     switch (log) {
+      case TOUCH:
+        subject = "Visitor";
+        behavior = "Touch";
+        break;
       case MOVE:
         subject = "Visitor";
         behavior = "Move";
