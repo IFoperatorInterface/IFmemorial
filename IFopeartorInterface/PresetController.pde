@@ -332,15 +332,12 @@ public class PresetController {
   private void setEffect(int idx, Effect effect) {
     if (effect != null && effect.id != -1) {
       effects[idx] = effect.copy();
-      for (int i = 0; i < FieldMode.values().length; i++)
-        effects[idx].fieldMode[i] = false;
       switch (idx) {
         case 1:
+          for (int i = 0; i < FieldMode.values().length; i++)
+            effects[idx].fieldMode[i] = false;
           effects[1].spread = 75;
           break;
-        case 2:
-          effects[2].fieldMode[FieldMode.ELLIPSE.ordinal()] = true;
-          effects[2].spread = 50;
       }
     }
     else if (effect != null) {
