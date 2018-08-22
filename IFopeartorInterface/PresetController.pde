@@ -258,6 +258,17 @@ public class PresetController {
   }
 
 
+  public void triggerMove(int x, int y) {
+    if (effects[3] == null)
+      return;
+
+    Trigger trigger = new Trigger(effects[3].copy(), x, y, frameCount);
+    moduleView.addTrigger(trigger);
+
+    logger.log(Log.MOVE, x, y, null, null);
+  }
+
+
   public void press(int x1, int y1, int x2, int y2) {
     if (y1 < BT_Y || y1 >= BT_Y + BT_SIZE)
       return;

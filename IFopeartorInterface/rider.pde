@@ -16,7 +16,7 @@ class Rider {
             && (int(pos.x) != int(this.pos.x) || int(pos.y) != int(this.pos.y))) {
 
             nextMove = frameCount + 10;
-            logger.log(Log.MOVE, int(pos.x), int(pos.y), null, null);
+            presetController.triggerMove(int(pos.x), int(pos.y));
         }
 
         this.pos = pos;
