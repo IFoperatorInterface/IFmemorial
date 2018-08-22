@@ -26,15 +26,6 @@ class Module {
   public void draw() {
     drawBar();
 
-    if (indx != -1 && presetController.effects[0] != null) {
-      float size = constrain(mdata[indx].barPos.mag() * 6 - 1, 0, 0.5);
-      maxSize = maxSize * 0.985;
-      if (size > maxSize)
-        maxSize = size;
-      alpha = maxSize * 0.1 + alpha * 0.9;
-      drawLine(color(presetController.effects[0].colorRGB[0], presetController.effects[0].colorRGB[1], presetController.effects[0].colorRGB[2], alpha * 255), 0, 1);
-    }
-
     Iterator < Trigger > triggersIterator = triggers.iterator();
     while (triggersIterator.hasNext()) {
       Trigger trigger = triggersIterator.next();

@@ -16,6 +16,25 @@ public class PresetController {
     effects = new Effect[4];
 
     touchEffect = new Effect();
+    touchEffect.barMode = BarMode.BLINK;
+    touchEffect.position[0] = 0;
+    touchEffect.position[1] = 100;
+    touchEffect.brightness[0] = new int[] {
+      0,
+      50
+    };
+    touchEffect.brightness[1] = new int[] {
+      98,
+      0
+    };
+    touchEffect.brightness[2] = new int[] {
+      99,
+      0
+    };
+    touchEffect.brightness[3] = new int[] {
+      100,
+      0
+    };
 
     pullStartEffect = new Effect();
     pullStartEffect.note = -1;
@@ -200,6 +219,15 @@ public class PresetController {
     moveEffect.colorRGB[0] = (int) red(c) + 1;
     moveEffect.colorRGB[1] = (int) green(c) + 1;
     moveEffect.colorRGB[2] = (int) blue(c) + 1;
+  }
+
+
+  public void triggerTouch(int x, int y) {
+    if (effects[0] == null)
+      return;
+
+    Trigger trigger = new Trigger(effects[0].copy(), x, y, frameCount);
+    moduleView.addTrigger(trigger);
   }
 
 
