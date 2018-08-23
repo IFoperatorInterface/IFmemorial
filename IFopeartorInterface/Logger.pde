@@ -11,7 +11,7 @@ class Logger {
 
 
   void log(Log log, int x, int y, Object data1, Object data2) {
-    String time = String.valueOf(frameCount);
+    String time = String.format("%02d:%02d:%02d.%02d", hour(), minute(), second(), millis()%1000/10);
     String subject = "None";
     String behavior = "Unknown";
     String positionX = String.valueOf(x);
