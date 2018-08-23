@@ -131,6 +131,24 @@ public class PresetController {
     };
 
     moveEffect = new Effect();
+    moveEffect.note = 40;
+    moveEffect.barMode = BarMode.BOUNCE;
+    moveEffect.size = 30;
+    moveEffect.position[0] = 0;
+    moveEffect.position[1] = 70;
+    moveEffect.brightness[1] = new int[] {
+      14,
+      100
+    };
+    moveEffect.brightness[2] = new int[] {
+      22,
+      60
+    };
+    moveEffect.brightness[3] = new int[] {
+      30,
+      0
+    };
+
 
     effects[0] = touchEffect;
     effects[1] = pullEndEffect;
