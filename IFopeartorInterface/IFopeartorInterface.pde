@@ -3,6 +3,7 @@ import java.util.*;
 import processing.serial.*;
 import hypermedia.net.*;
 import processing.core.*;
+import processing.sound.*;
 import java.net.*;
 import java.awt.Color;
 import java.util.Arrays;
