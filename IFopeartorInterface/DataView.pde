@@ -1,6 +1,4 @@
 public class DataView {
-  private static final float TOUCH_ACCEL_THRESHOLD = 0.02;
-  private static final float TOUCH_POS_THRESHOLD = 0.15;
   private static final float PULL_OUTER_SIZE_THRESHOLD = 0.4;
   private static final float PULL_INNER_SIZE_THRESHOLD = 0.2;
   private static final int PULL_START_COUNT_THRESHOLD = 7;
@@ -13,8 +11,7 @@ public class DataView {
   private int[] pullEndTime;
   private int[] pullCount;
   private PVector[] pullDirection;
-  private float[][] position;
-  private float[][] speed;
+  private int[] stopCount;
 
 
   DataView() {
@@ -23,8 +20,7 @@ public class DataView {
     this.pullEndTime = new int[36];
     this.pullCount = new int[36];
     this.pullDirection = new PVector[36];
-    this.position = new float[36][2];
-    this.speed = new float[36][2];
+    this.stopCount = new int[36];
     for (int i = 0; i < pullDirection.length; i++)
       pullDirection[i] = new PVector();
   }
@@ -35,23 +31,14 @@ public class DataView {
       int y = i / 6;
       int x = i % 6;
 
-      float positionX = mdata[i].barPos.x * 0.4 + position[i][0] * 0.6;
-      float positionY = mdata[i].barPos.y * 0.4 + position[i][1] * 0.6;
-      float speedX = positionX - position[i][0];
-      float speedY = positionY - position[i][1];
-      float accelX = speedX - speed[i][0];
-      float accelY = speedY - speed[i][1];
-
-      position[i][0] = positionX;
-      position[i][1] = positionY;
-      speed[i][0] = speedX;
-      speed[i][1] = speedY;
-      float posMag = sqrt(sq(positionX) + sq(positionY));
-      float accelMag = sqrt(sq(accelX) + sq(accelY));
-
-      if (accelMag > TOUCH_ACCEL_THRESHOLD
-          && posMag < TOUCH_POS_THRESHOLD) {
-        presetController.triggerTouch(x, y);
+      if (mdata[i].barPos.mag() < 0.15) {
+        stopCount[i]++;
+      }
+      else if (mdata[i].barPos.mag() >= 0.25) {
+        if (stopCount[i] > 30) {
+          presetController.triggerTouch(x, y);
+        }
+        stopCount[i] = 0;
       }
 
       if (mdata[i].barPos.mag() > PULL_OUTER_SIZE_THRESHOLD) {
