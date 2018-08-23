@@ -24,15 +24,15 @@ public class PresetController {
       50
     };
     touchEffect.brightness[1] = new int[] {
-      98,
+      598,
       0
     };
     touchEffect.brightness[2] = new int[] {
-      99,
+      599,
       0
     };
     touchEffect.brightness[3] = new int[] {
-      100,
+      600,
       0
     };
 
