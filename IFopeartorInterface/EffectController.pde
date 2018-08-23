@@ -171,7 +171,7 @@ public class EffectController {
       final FieldMode f = fieldModePosition[i];
       if (f == null)
         continue;
-      int baseX = int(windows[3].pos.x) + (pd + btSize) * 2;
+      int baseX = int(windows[3].pos.x) + (pd + btSize) * 1;
       int baseY = int(windows[3].pos.y) + pd;
       x = baseX + (btSize + pd) * (i % 3);
       y = baseY + (btSize + pd) * (i / 3);
@@ -188,7 +188,7 @@ public class EffectController {
         });
     }
 
-    x = int(windows[3].pos.x) + (pd + btSize) * 6;
+    x = int(windows[3].pos.x) + (pd + btSize) * 5;
     y = int(windows[3].pos.y) + pd + (btSize + pd) * (5 / 3);
     pos = new PVector(x + btSize / 2, y + btSize / 2);
     fieldModeToggles[FieldMode.ELLIPSE.ordinal()] = new Button()
