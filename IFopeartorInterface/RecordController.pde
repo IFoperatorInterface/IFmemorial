@@ -357,8 +357,8 @@ public class RecordController {
     if (idx == -1)
       return null;
 
-    int x = int(windows[4].pos.x) + (BT_SIZE + PD) * NUM_RECORD;
-    int y = int(windows[4].pos.y) + BT_SIZE + PD;
+    int x = int(windows[4].pos.x) + (BT_SIZE + PD) * NUM_RECORD + PD;
+    int y = int(windows[4].pos.y) + (BT_SIZE + PD) + PD;
 
     return new int[] {x+(BT_SIZE+PD)*idx+BT_SIZE/2, y+BT_SIZE/2};
   }
