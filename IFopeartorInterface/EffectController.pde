@@ -405,9 +405,9 @@ public class EffectController {
     }
 
     if (sliderTarget != -1) {
-      if (sliderTarget != 0 && (position.x - adrPointers[sliderTarget - 1].pos.x < 20))
+      if (sliderTarget != 0 && (position.x - adrPointers[sliderTarget - 1].pos.x < 0))
         return;
-      if (sliderTarget != 3 && (position.x - adrPointers[sliderTarget + 1].pos.x > -20))
+      if (sliderTarget != 3 && (position.x - adrPointers[sliderTarget + 1].pos.x > -0))
         return;
 
       if (sliderTarget == 1 || sliderTarget == 2) {
