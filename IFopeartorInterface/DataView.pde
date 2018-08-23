@@ -1,9 +1,9 @@
 public class DataView {
   private static final float PULL_OUTER_SIZE_THRESHOLD = 0.4;
   private static final float PULL_INNER_SIZE_THRESHOLD = 0.2;
-  private static final int PULL_START_COUNT_THRESHOLD = 7;
-  private static final int PULL_CHARGE_COUNT_THRESHOLD = 27;
-  private static final int PULL_CHARGE_COUNT_MAX = 52;
+  private static final int PULL_START_COUNT_THRESHOLD = 14;
+  private static final int PULL_CHARGE_COUNT_THRESHOLD = 34;
+  private static final int PULL_CHARGE_COUNT_MAX = 74;
   private static final int PULL_RELEASE_COUNT_THRESHOLD = 7;
   private static final int NOT_JUMPED_COUNT_THRESHOLD = 5;
 
