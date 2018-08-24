@@ -1,6 +1,6 @@
 public class RecordController {
-  private final int NUM_RECORD = 3;
-  private final int NUM_PRESET = 5;
+  private final int NUM_RECORD = 6;
+  private final int NUM_PRESET = 10;
   private final int PD = 4;
   // private final int BT_SIZE = int((windows[4].pos.x - (PD * (NUM_RECORD + NUM_PRESET + 1) + 1)) / (NUM_RECORD + NUM_PRESET + 1));
   private final int BT_SIZE = int(windows[4].size.y / 3 - PD);
@@ -63,7 +63,7 @@ public class RecordController {
     this.recordDeleteButtons = new ArrayList < Button > ();
 
     this.presetButton = new Button()
-      .setPosition(x + (BT_SIZE + PD) * NUM_RECORD, y)
+      .setPosition(x + (BT_SIZE + PD) * NUM_RECORD/2, y)
       .setSize(BT_SIZE, BT_SIZE)
       .setName("preset")
       .setBackgroundColor(presetColor[0], presetColor[1], presetColor[2])
@@ -82,7 +82,7 @@ public class RecordController {
       .setPosition(x + (BT_SIZE + PD) * (NUM_RECORD + NUM_PRESET), y + BT_SIZE + PD)
       .setSize(BT_SIZE, BT_SIZE)
       .setName("disable")
-      .setBackgroundColor(presetColor[0]/2, presetColor[1]/2, presetColor[2]/2);
+      .setBackgroundColor(presetColor[0] / 2, presetColor[1] / 2, presetColor[2] / 2);
   }
 
 
@@ -168,7 +168,11 @@ public class RecordController {
       int y = int(windows[4].pos.y) + BT_SIZE + PD;
       int h = int(windows[4].size.y);
       int w = int(windows[4].size.x);
-      PVector pos = new PVector(x + PD + (BT_SIZE + PD) * i, y + PD);
+
+      x = x + PD + (BT_SIZE + PD) * (i % (NUM_RECORD / 2));
+      y = (i < NUM_RECORD / 2) ? y + PD : y + PD + 1 * (PD + BT_SIZE);
+
+      PVector pos = new PVector(x, y);
       final Record targetRecord = records.get(i);
 
       if (i >= recordPlayToggles.size()) {
@@ -260,7 +264,7 @@ public class RecordController {
 
     if (idx == -1)
       return;
-    
+
     presetController.unregisterPreset(presets.get(idx));
 
     presets.remove(idx);
@@ -275,10 +279,13 @@ public class RecordController {
     for (int i = 0; i < presets.size(); i++) {
       int h = int(windows[4].size.y);
       int w = int(windows[4].size.x);
-      int x = int(windows[4].pos.x) + (BT_SIZE + PD) * NUM_RECORD;
+      int x = int(windows[4].pos.x) + (BT_SIZE + PD) * NUM_RECORD/2;
       int y = int(windows[4].pos.y) + BT_SIZE + PD;
 
-      PVector pos = new PVector(x + PD + (BT_SIZE + PD) * i, y + PD);
+      x = x + PD + (BT_SIZE + PD) * (i % (NUM_PRESET / 2));
+      y = (i < NUM_PRESET / 2) ? y + PD : y + PD + 1 * (PD + BT_SIZE);
+
+      PVector pos = new PVector(x, y);
       final Effect targetPreset = presets.get(i);
 
       if (i >= presetSetButtons.size()) {
@@ -319,7 +326,10 @@ public class RecordController {
 
 
   public int[] getStartId() {
-    return new int[] {newId, newPresetId};
+    return new int[] {
+      newId,
+      newPresetId
+    };
   }
 
 
@@ -346,9 +356,9 @@ public class RecordController {
     int idx = -1;
 
     if (preset == null)
-      idx =  NUM_PRESET;
+      idx = NUM_PRESET;
     else {
-      for (int i=0; i<presets.size(); i++) {
+      for (int i = 0; i < presets.size(); i++) {
         if (presets.get(i).id == preset.id)
           idx = i;
       }
@@ -360,7 +370,9 @@ public class RecordController {
     int x = int(windows[4].pos.x) + (BT_SIZE + PD) * NUM_RECORD + PD;
     int y = int(windows[4].pos.y) + (BT_SIZE + PD) + PD;
 
-    return new int[] {x+(BT_SIZE+PD)*idx+BT_SIZE/2, y+BT_SIZE/2};
+    return new int[] {
+      x + (BT_SIZE + PD) * idx + BT_SIZE / 2, y + BT_SIZE / 2
+    };
   }
 
 
