@@ -1,4 +1,7 @@
 class ModuleView {
+  SinOsc osc;
+  Env env;
+
   private List < Trigger > triggers;
   private Module modules[][];
   private static final int ROWS = 6;
@@ -7,6 +10,9 @@ class ModuleView {
   private static final int MAX_DELAY = 40;
 
   ModuleView() {
+    osc = new SinOsc(sketch);
+    env = new Env(sketch);
+
     triggers = new ArrayList < Trigger > ();
     modules = new Module[ROWS][COLUMNS];
 
@@ -45,7 +51,7 @@ class ModuleView {
       if (phase == 1 && !(t.effect.noCenter)) {
         modules[t.y][t.x].addTrigger(t.copyWithStartTime(frameCount));
 
-        dataController.sendSoundData(t.y*COLUMNS+t.x, getNote(t.effect, phase, delay), 100);
+        makeSound(t.y*COLUMNS+t.x, getNote(t.effect, phase, delay), 100);
         
       }
 
@@ -56,7 +62,7 @@ class ModuleView {
           int y = t.y - distance;
           if (y >= 0) {
             modules[y][t.x].addTrigger(t.copyWithStartTime(frameCount));
-            dataController.sendSoundData(y * COLUMNS + t.x, getNote(t.effect, phase, delay), 75);
+            makeSound(y * COLUMNS + t.x, getNote(t.effect, phase, delay), 75);
           }
         }
 
@@ -64,7 +70,7 @@ class ModuleView {
           int y = t.y + distance;
           if (y < ROWS) {
             modules[y][t.x].addTrigger(t.copyWithStartTime(frameCount));
-            dataController.sendSoundData(y * COLUMNS + t.x, getNote(t.effect, phase, delay), 75);
+            makeSound(y * COLUMNS + t.x, getNote(t.effect, phase, delay), 75);
           }
         }
 
@@ -72,7 +78,7 @@ class ModuleView {
           int x = t.x - distance;
           if (x >= 0) {
             modules[t.y][x].addTrigger(t.copyWithStartTime(frameCount));
-            dataController.sendSoundData(t.y * COLUMNS + x, getNote(t.effect, phase, delay), 75);
+            makeSound(t.y * COLUMNS + x, getNote(t.effect, phase, delay), 75);
           }
         }
 
@@ -80,7 +86,7 @@ class ModuleView {
           int x = t.x + distance;
           if (x < COLUMNS) {
             modules[t.y][x].addTrigger(t.copyWithStartTime(frameCount));
-            dataController.sendSoundData(t.y * COLUMNS + x, getNote(t.effect, phase, delay), 75);
+            makeSound(t.y * COLUMNS + x, getNote(t.effect, phase, delay), 75);
           }
         }
       }
@@ -93,7 +99,7 @@ class ModuleView {
                 && getDistance(t.x, t.y, x, y) <= diameter
                 && !(x == t.x && y == t.y)) {
               modules[y][x].addTrigger(t.copyWithStartTime(frameCount));
-              dataController.sendSoundData(y * COLUMNS + x, getNote(t.effect, phase, delay), 60);
+              makeSound(y * COLUMNS + x, getNote(t.effect, phase, delay), 60);
             }
       }
 
@@ -108,7 +114,7 @@ class ModuleView {
             && !(x < 0 || x >= 6 || y < 0 || y >= 6)
             && !(x == t.x && y == t.y)) {
           modules[y][x].addTrigger(t.copyWithStartTime(frameCount));
-          dataController.sendSoundData(y * COLUMNS + x, getNote(t.effect, phase, delay), 75);
+          makeSound(y * COLUMNS + x, getNote(t.effect, phase, delay), 75);
         }
       }
     }
@@ -133,6 +139,15 @@ class ModuleView {
     }
     return -1;
   } 
+  
+  
+  private void makeSound(int idx, int note, int volume) {
+    dataController.sendSoundData(idx, note, volume);
+
+    osc.freq(pow(2,(note-69)/12.0)*440);
+    osc.amp(0.05);
+    env.play(osc, 0.001, 0.004, 0.4*volume/100, 0.8);
+  }
 
 
   public void addTrigger(Trigger trigger) {

@@ -2,7 +2,6 @@
  Window[] windows = new Window[6];
 
  class SETTING {
-
      SETTING() {
          setFont();
          setWindow();
@@ -63,6 +62,5 @@
          float y = pos.y + size.y + 5;
          text(title, x, y);
          popStyle();
-
      }
  }

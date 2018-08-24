@@ -3,6 +3,7 @@ import java.util.*;
 import processing.serial.*;
 import hypermedia.net.*;
 import processing.core.*;
+import processing.sound.*;
 import java.net.*;
 import java.awt.Color;
 import java.util.Arrays;
@@ -18,6 +19,7 @@ SystemView systemView;
 DataView dataView;
 Logger logger;
 Loader loader;
+TimeView timeView;
 
 PApplet sketch = this;
 
@@ -36,7 +38,7 @@ public void settings() {
 
 void setup() {
   setting = new SETTING();
-  dataController = new DataController(true);
+  dataController = new DataController(false);
   systemView = new SystemView();
   controlP5 = new ControlP5(this);
   controlP5.setAutoDraw(false);
@@ -49,6 +51,7 @@ void setup() {
   dataView = new DataView();
   logger = new Logger();
   loader = new Loader();
+  timeView = new TimeView();
   
   loader.load();
   settingCompleted = true;
@@ -66,6 +69,7 @@ void draw() {
   fieldView.draw();
   systemView.draw();
   dataView.draw();
+  timeView.draw();
 }
 
 
