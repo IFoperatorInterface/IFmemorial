@@ -79,7 +79,7 @@ public class RecordController {
     this.presetDeleteButtons = new ArrayList < Button > ();
 
     this.disableBox = new Button()
-      .setPosition(x + (BT_SIZE + PD) * (NUM_RECORD + NUM_PRESET)/2, y + BT_SIZE + PD)
+      .setPosition(x + (BT_SIZE + PD) * ((NUM_RECORD + NUM_PRESET)/2+1), y + (BT_SIZE + PD)*2)
       .setSize(BT_SIZE, BT_SIZE)
       .setName("disable")
       .setBackgroundColor(presetColor[0] / 2, presetColor[1] / 2, presetColor[2] / 2);
