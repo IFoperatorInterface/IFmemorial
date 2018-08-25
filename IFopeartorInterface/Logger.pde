@@ -3,7 +3,7 @@ class Logger {
 
 
   Logger() {
-    String filename = String.format("log/%04d-%02d-%02d/%02d%02d%02d.csv", year(), month(), day(), hour(), minute(), second());
+    String filename = String.format("log/%04d%02d%02d-%02d%02d%02d.csv", year(), month(), day(), hour(), minute(), second());
     this.file = createWriter(filename);
 
     file.println(String.join(",", "Time", "Subject", "Behavior", "X position", "Y position", "Direction(pull)", "Order(trigger)", "Option(trigger)", "Record(record)"));
