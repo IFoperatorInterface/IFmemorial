@@ -79,7 +79,7 @@ public class RecordController {
     this.presetDeleteButtons = new ArrayList < Button > ();
 
     this.disableBox = new Button()
-      .setPosition(x + (BT_SIZE + PD) * (NUM_RECORD + NUM_PRESET), y + BT_SIZE + PD)
+      .setPosition(x + (BT_SIZE + PD) * (NUM_RECORD + NUM_PRESET)/2, y + BT_SIZE + PD)
       .setSize(BT_SIZE, BT_SIZE)
       .setName("disable")
       .setBackgroundColor(presetColor[0] / 2, presetColor[1] / 2, presetColor[2] / 2);
@@ -334,16 +334,21 @@ public class RecordController {
 
 
   public Effect getPreset(int xPos, int yPos) {
-    int x = int(windows[4].pos.x) + (BT_SIZE + PD) * NUM_RECORD + PD;
+    int x = int(windows[4].pos.x) + (BT_SIZE + PD) * (NUM_RECORD / 2) + PD;
     int y = int(windows[4].pos.y) + BT_SIZE + PD;
 
-    if (yPos < y || yPos >= y + BT_SIZE)
+    if (yPos < y || yPos >= y + BT_SIZE * 2 + PD)
       return null;
 
-    int idx = (xPos - x) / (BT_SIZE + PD);
+    int xIdx = (xPos - x) / (BT_SIZE + PD);
+    int yIdx = (yPos - y) / (BT_SIZE + PD);
 
-    if (idx == NUM_PRESET)
+    if (xIdx == NUM_PRESET / 2 && yIdx == 0)
       return new Effect();
+    else if (xIdx == NUM_PRESET / 2)
+      return null;
+
+   int idx = yIdx * (NUM_PRESET / 2) + xIdx;
 
     if (idx >= 0 && idx < presets.size())
       return presets.get(idx);
@@ -367,11 +372,22 @@ public class RecordController {
     if (idx == -1)
       return null;
 
-    int x = int(windows[4].pos.x) + (BT_SIZE + PD) * NUM_RECORD + PD;
+    int x = int(windows[4].pos.x) + (BT_SIZE + PD) * (NUM_RECORD / 2) + PD;
     int y = int(windows[4].pos.y) + (BT_SIZE + PD) + PD;
 
+    int xIdx, yIdx;
+    if (idx != NUM_PRESET) {
+      xIdx = idx % (NUM_PRESET / 2);
+      yIdx = idx / (NUM_PRESET / 2);
+    }
+    else {
+      xIdx = NUM_PRESET / 2;
+      yIdx = 0;
+    }
+
     return new int[] {
-      x + (BT_SIZE + PD) * idx + BT_SIZE / 2, y + BT_SIZE / 2
+      x + (BT_SIZE + PD) * xIdx + BT_SIZE / 2,
+      y + (BT_SIZE + PD) * yIdx + BT_SIZE / 2
     };
   }
 
