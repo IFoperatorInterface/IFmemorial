@@ -7,6 +7,8 @@ class Logger {
     this.file = createWriter(filename);
 
     file.println(String.join(",", "Time", "Subject", "Behavior", "X position", "Y position", "Direction(pull)", "Order(trigger)", "Option(trigger)", "Record(record)"));
+    String time = String.format("%02d:%02d:%02d.%02d", hour(), minute(), second(), millis()%1000/10);
+    file.println(String.join(",", time, "System", "Start", "", "", "", "", "", ""));
   }
 
 
