@@ -10,9 +10,9 @@ class TimeView {
         initialTime = millis();
     }
     void draw() {
-        String sec = "" + ((millis() - initialTime) / 1000) % 60;
-        String minute = "" + ((millis() - initialTime) / (1000 * 60)) % 60;
-        String count = "TIME: " + minute + ":" + sec;
+        int sec = ((millis() - initialTime) / 1000) % 60;
+        int minute = ((millis() - initialTime) / (1000 * 60)) % 60;
+        String count = String.format("TIME: %d:%02d", minute, sec);
         int fontSize = 15;
         pushStyle();
         textFont(titleFont);
