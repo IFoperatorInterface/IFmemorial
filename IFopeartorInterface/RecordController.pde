@@ -113,7 +113,6 @@ public class RecordController {
 
 
   public void addRecord(Record newRecord) {
-    newRecord.duration = frameCount - newRecord.recordStartTime;
     records.add(newRecord);
 
     updateRecordPlayToggle();
