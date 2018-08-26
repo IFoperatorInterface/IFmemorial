@@ -1,6 +1,5 @@
 class ModuleView {
-  SinOsc osc;
-  Env env;
+  SoundCipher sc;
 
   private List < Trigger > triggers;
   private Module modules[][];
@@ -10,8 +9,7 @@ class ModuleView {
   private static final int MAX_DELAY = 40;
 
   ModuleView() {
-    osc = new SinOsc(sketch);
-    env = new Env(sketch);
+    sc = new SoundCipher(sketch);
 
     triggers = new ArrayList < Trigger > ();
     modules = new Module[ROWS][COLUMNS];
@@ -144,9 +142,7 @@ class ModuleView {
   private void makeSound(int idx, int note, int volume) {
     dataController.sendSoundData(idx, note, volume);
 
-    osc.freq(pow(2,(note-69)/12.0)*440);
-    osc.amp(0.05);
-    env.play(osc, 0.001, 0.004, 0.4*volume/100, 0.8);
+    sc.playNote(note, volume, 2);
   }
 
 
