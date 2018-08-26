@@ -337,15 +337,14 @@ public class RecordController {
     int x = int(windows[4].pos.x) + (BT_SIZE + PD) * (NUM_RECORD / 2) + PD;
     int y = int(windows[4].pos.y) + BT_SIZE + PD;
 
-    if (yPos < y || yPos >= y + BT_SIZE * 2 + PD)
-      return null;
-
     int xIdx = (xPos - x) / (BT_SIZE + PD);
     int yIdx = (yPos - y) / (BT_SIZE + PD);
 
-    if (xIdx == NUM_PRESET / 2 && yIdx == 0)
+    if (xIdx == 6 && yIdx == 1)
       return new Effect();
-    else if (xIdx == NUM_PRESET / 2)
+
+    if (xIdx < 0 || xIdx >= (NUM_PRESET / 2) ||
+        yIdx < 0 || yIdx >= 2)
       return null;
 
    int idx = yIdx * (NUM_PRESET / 2) + xIdx;
@@ -381,8 +380,8 @@ public class RecordController {
       yIdx = idx / (NUM_PRESET / 2);
     }
     else {
-      xIdx = NUM_PRESET / 2;
-      yIdx = 0;
+      xIdx = 6;
+      yIdx = 1;
     }
 
     return new int[] {
