@@ -132,7 +132,7 @@ class ModuleView {
         return effect.note + (phase - 1) * 3 / delay;
       case RANDOM:
         if (phase == 1)
-          effect.note = (int) random(1, 128);
+          effect.note = (int) random(40, 100);
         return effect.note;
     }
     return -1;
@@ -140,6 +140,9 @@ class ModuleView {
   
   
   private void makeSound(int idx, int note, int volume) {
+    if (note < 40 || note > 100)
+      return;
+
     dataController.sendSoundData(idx, note, volume);
 
     sc.playNote(note, volume, 2);

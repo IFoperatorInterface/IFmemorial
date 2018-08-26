@@ -59,7 +59,7 @@ public class EffectController {
     noteSlider = new Slider()
       .setPosition(x, y)
       .setSize(btSize, h)
-      .setRange(1, 127)
+      .setRange(40, 100)
       .setName("Note")
       .setChangeListener(new SliderChangeListener() {
         public void onChange(int value) {
