@@ -1,5 +1,6 @@
 class Rider {
     PVector pos;
+    PVector prevPos;
     private int r;
     private float weight;
     private int indx;
@@ -9,21 +10,24 @@ class Rider {
         r = 120;
         this.weight = weight;
         this.indx = indx;
+        this.prevPos = new PVector(0, 0);
     }
 
     void update(PVector pos, float weight) {
-        if (frameCount > nextMove
-            && (int(pos.x) != int(this.pos.x) || int(pos.y) != int(this.pos.y))) {
-
-            nextMove = frameCount + 10;
-            presetController.triggerMove(int(pos.x), int(pos.y));
-        }
-
         this.pos = pos;
         this.weight = weight;
     }
 
     void draw() {
+        if (frameCount > nextMove
+            && (int(pos.x) != int(prevPos.x) || int(pos.y) != int(prevPos.y))) {
+
+            nextMove = frameCount + 10;
+            presetController.triggerMove(int(pos.x), int(pos.y));
+        }
+
+        prevPos.set(pos);
+
         pushStyle();
         pushMatrix();
         translate(fieldController.fieldBtsPos[0].x, fieldController.fieldBtsPos[0].y);
