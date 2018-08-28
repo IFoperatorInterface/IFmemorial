@@ -20,6 +20,7 @@ class Rider {
 
     void draw() {
         if (frameCount > nextMove
+            && prevPos.mag() > 0.01
             && (int(pos.x) != int(prevPos.x) || int(pos.y) != int(prevPos.y))) {
 
             nextMove = frameCount + 10;
