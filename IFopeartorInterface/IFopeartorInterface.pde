@@ -20,6 +20,7 @@ DataView dataView;
 Logger logger;
 Loader loader;
 TimeView timeView;
+Setups setup;
 
 PApplet sketch = this;
 
@@ -38,38 +39,31 @@ public void settings() {
 
 void setup() {
   setting = new SETTING();
-  dataController = new DataController(false);
-  systemView = new SystemView();
-  controlP5 = new ControlP5(this);
-  controlP5.setAutoDraw(false);
-  effectController = new EffectController();
-  fieldController = new FieldController();
-  recordController = new RecordController();
-  presetController = new PresetController();
-  moduleView = new ModuleView();
-  fieldView = new FieldView();
-  dataView = new DataView();
-  logger = new Logger();
-  loader = new Loader();
-  timeView = new TimeView();
-  
-  loader.load();
-  settingCompleted = true;
 }
 
 
 void draw() {
   background(0);
-  controlP5.draw();
-  effectController.onDraw();
-  fieldController.onDraw();
-  recordController.onDraw();
-  presetController.onDraw();
-  moduleView.draw();
-  fieldView.draw();
-  systemView.draw();
-  dataView.draw();
-  timeView.draw();
+  switch (setting.mode) {
+    case (0):
+      if (!settingCompleted)
+        setup = new Setups();
+
+      setting.draw();
+      break;
+    case (1):
+      controlP5.draw();
+      effectController.onDraw();
+      fieldController.onDraw();
+      recordController.onDraw();
+      presetController.onDraw();
+      moduleView.draw();
+      fieldView.draw();
+      systemView.draw();
+      dataView.draw();
+      timeView.draw();
+      break;
+  }
 }
 
 
@@ -111,4 +105,11 @@ void mouseReleased() {
 
 void stop() {
   logger.stop();
+}
+
+void keyReleased() {
+  if (key == ' ' && setting.mode == 0) {
+    setting.mode = 1;
+    timeView = new TimeView();
+  }
 }
