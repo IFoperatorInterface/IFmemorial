@@ -71,8 +71,11 @@ void draw() {
   systemView.draw();
   dataView.draw();
   timeView.draw();
+<<<<<<< HEAD
   }
   catch (Exception e) {}
+=======
+>>>>>>> parent of 925fcaf... initial page created
 }
 
 
