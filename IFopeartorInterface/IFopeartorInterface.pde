@@ -59,7 +59,6 @@ void setup() {
 
 
 void draw() {
-  try {
   background(0);
   controlP5.draw();
   effectController.onDraw();
@@ -72,10 +71,13 @@ void draw() {
   dataView.draw();
   timeView.draw();
 <<<<<<< HEAD
+<<<<<<< HEAD
   }
   catch (Exception e) {}
 =======
 >>>>>>> parent of 925fcaf... initial page created
+=======
+>>>>>>> parent of dacd52e... try catch
 }
 
 
