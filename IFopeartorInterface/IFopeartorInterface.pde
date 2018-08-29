@@ -59,6 +59,7 @@ void setup() {
 
 
 void draw() {
+  try {
   background(0);
   controlP5.draw();
   effectController.onDraw();
@@ -70,6 +71,8 @@ void draw() {
   systemView.draw();
   dataView.draw();
   timeView.draw();
+  }
+  catch (Exception e) {}
 }
 
 
