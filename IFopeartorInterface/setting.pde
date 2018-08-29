@@ -2,6 +2,7 @@
  Window[] windows = new Window[6];
 
  class SETTING {
+     private int mode = 0;
      SETTING() {
          setFont();
          setWindow();
@@ -36,6 +37,12 @@
              windows[i] = new Window(winX, winY, winWidth, winHeight, title[i]);
          }
      }
+     void draw() {
+         String welcome = "welcome to operating interface";
+         int s = 10;
+         textSize(s);
+         text(welcome.toUpperCase(), width / 2 - textWidth(welcome) / 2, height / 2 - s / 2);
+     }
  }
 
  class Window {
@@ -62,5 +69,26 @@
          float y = pos.y + size.y + 5;
          text(title, x, y);
          popStyle();
+     }
+ }
+
+ class Setups {
+     Setups() {
+         dataController = new DataController(false);
+         systemView = new SystemView();
+         controlP5 = new ControlP5(sketch);
+         controlP5.setAutoDraw(false);
+         effectController = new EffectController();
+         fieldController = new FieldController();
+         recordController = new RecordController();
+         presetController = new PresetController();
+         moduleView = new ModuleView();
+         fieldView = new FieldView();
+         dataView = new DataView();
+         logger = new Logger();
+         loader = new Loader();
+
+         loader.load();
+         settingCompleted = true;
      }
  }
