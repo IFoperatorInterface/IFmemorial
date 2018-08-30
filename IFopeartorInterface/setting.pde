@@ -38,6 +38,12 @@
              windows[i] = new Window(winX, winY, winWidth, winHeight, title[i]);
          }
      }
+      void draw() {
+         String welcome = "welcome, operator";
+         int h = 12;
+         textSize(h);
+         text(welcome.toUpperCase(), width / 2 - textWidth(welcome) / 2, height / 2 - h / 2);
+     }
  }
 
  class Window {
@@ -86,10 +92,5 @@
          loader.load();
          settingCompleted = true;
      }
-     void draw() {
-         String welcome = "welcome, operator";
-         int h = 12;
-         textSize(h);
-         text(welcome.toUpperCase(), width / 2 - textWidth(welcome) / 2, height / 2 - h / 2);
-     }
+    
  }

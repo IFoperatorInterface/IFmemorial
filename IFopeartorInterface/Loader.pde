@@ -32,12 +32,17 @@ class Loader {
       if (l.indexOf("^") != -1) {
         String[] words = l.split("\\^");
         recordController.setStartId(Integer.parseInt(words[0]), Integer.parseInt(words[1]));
+         println("1");
       }
-      else if (l.indexOf("$") == -1)
+      else if (l.indexOf("$") == -1){
+       println("2");
         recordController.addPreset(new Effect(l));
+      }
       else {
+         println("3");
         recordController.addRecord(new Record(l));
       }
     }
+    println("Asdf");
   }
 }

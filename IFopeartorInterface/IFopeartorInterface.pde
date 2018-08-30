@@ -44,12 +44,10 @@ void setup() {
 
 void draw() {
   background(0);
+  
   switch (setting.mode) {
     case (0):
-      if (!settingCompleted)
-        setups = new Setups();
-
-      setups.draw();
+      setting.draw();
       break;
     case (1):
       try {
@@ -72,6 +70,8 @@ void draw() {
 void mouseClicked() {
   if (MOUSE_MODE != 0)
     return;
+if(!setting.isCompleted)
+  return;
 
   effectController.press(mouseX, mouseY);
   recordController.press(mouseX, mouseY);
@@ -79,6 +79,8 @@ void mouseClicked() {
 
 
 void mousePressed() {
+  if(!setting.isCompleted)
+  return;
   fieldController.onMousePressed();
 
   if (MOUSE_MODE != 1)
@@ -92,6 +94,8 @@ void mousePressed() {
 
 
 void mouseReleased() {
+  if(!setting.isCompleted)
+  return;
   fieldController.onMouseReleased();
 
   if (MOUSE_MODE != 1)
@@ -111,8 +115,9 @@ void stop() {
 
 void keyReleased() {
   if (key == ' ' && setting.mode == 0) {
-    setting.mode = 1;
     setting.isCompleted = true;
+    setups = new Setups();
     timeView = new TimeView();
+    setting.mode = 1;
   }
 }
