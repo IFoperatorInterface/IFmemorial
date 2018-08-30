@@ -38,7 +38,7 @@
              windows[i] = new Window(winX, winY, winWidth, winHeight, title[i]);
          }
      }
-      void draw() {
+     void draw() {
          String welcome = "welcome, operator";
          int h = 12;
          textSize(h);
@@ -92,5 +92,5 @@
          loader.load();
          settingCompleted = true;
      }
-    
+
  }
