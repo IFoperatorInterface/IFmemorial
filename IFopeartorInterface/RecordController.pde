@@ -390,14 +390,16 @@ public class RecordController {
   }
 
 
-  public void onOneRecord(int start, int end) {
+  public void offAllRecord() {
     // Turn off all records
     for (Record r : records) {
       if (r.playStartTime != -1) {
         recordPlayToggle(r.id);
       }
     }
+  }
 
+  public void onOneRecord(int start, int end) {
     // Turn on a random record from start to end
     if (records.size() < start)
       return;

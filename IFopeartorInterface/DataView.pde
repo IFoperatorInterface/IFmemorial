@@ -18,6 +18,7 @@ public class DataView {
   private int emptyCount;
   private int emptyNextEvent;
   private int notEmptyCount;
+  private int notEmptyEventOff;
   private int notEmptyNextEvent;
 
 
@@ -93,6 +94,7 @@ public class DataView {
         emptyCount++;
         notEmptyCount = 0;
         notEmptyNextEvent = 0;
+        notEmptyEventOff = Integer.MAX_VALUE;
 
         if (emptyCount > emptyNextEvent) {
           presetController.triggerWelcome();
@@ -106,7 +108,13 @@ public class DataView {
 
         if (notEmptyCount > notEmptyNextEvent) {
           presetController.triggerIntervene();
-          notEmptyNextEvent += recordController.getOnRecordDuration() * int(random(1, 7)) + int(random(NOT_EMPTY_NEXT_COUNT_DELAY_MIN, NOT_EMPTY_NEXT_COUNT_DELAY_MAX));
+          notEmptyEventOff = notEmptyNextEvent + recordController.getOnRecordDuration() * int(random(1, 7));
+          notEmptyNextEvent = Integer.MAX_VALUE;
+        }
+        else if (notEmptyCount > notEmptyEventOff) {
+          presetController.triggerInterveneOff();
+          notEmptyNextEvent = notEmptyEventOff + int(random(NOT_EMPTY_NEXT_COUNT_DELAY_MIN, NOT_EMPTY_NEXT_COUNT_DELAY_MAX));
+          notEmptyEventOff = Integer.MAX_VALUE;
         }
       }
     }

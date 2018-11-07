@@ -380,11 +380,18 @@ public class PresetController {
 
 
   public void triggerWelcome() {
+    recordController.offAllRecord();
     recordController.onOneRecord(0, 2);
   }
 
 
   public void triggerIntervene() {
+    recordController.offAllRecord();
     recordController.onOneRecord(2, 6);
+  }
+
+
+  public void triggerInterveneOff() {
+    recordController.offAllRecord();
   }
 }
