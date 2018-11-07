@@ -60,7 +60,7 @@ public class EffectController {
       .setPosition(x, y)
       .setSize(btSize, h)
       .setRange(40, 100)
-      .setName("Note")
+      .setName("Note\nC4")
       .setChangeListener(new SliderChangeListener() {
         public void onChange(int value) {
           noteSlider(value);
@@ -292,6 +292,13 @@ public class EffectController {
 
   void noteSlider(int a) {
     effect.note = a;
+
+    int octaveVal = a / 12 - 1;
+    int noteVal = a % 12;
+
+    String[] noteNames = new String[]{"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
+
+    noteSlider.setName(String.format("Note\n%s%d", noteNames[noteVal], octaveVal));
   }
 
 
