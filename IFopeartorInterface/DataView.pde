@@ -6,12 +6,19 @@ public class DataView {
   private static final int PULL_CHARGE_COUNT_MAX = 74;
   private static final int PULL_RELEASE_COUNT_THRESHOLD = 7;
   private static final int NOT_JUMPED_COUNT_THRESHOLD = 5;
+  private static final int EMPTY_NEXT_COUNT_INITIAL = 300;
+  private static final int NOT_EMPTY_NEXT_COUNT_DELAY_MIN = 30;
+  private static final int NOT_EMPTY_NEXT_COUNT_DELAY_MAX = 300;
 
   private int[] notJumpedCount;
   private int[] pullEndTime;
   private int[] pullCount;
   private PVector[] pullDirection;
   private int[] stopCount;
+  private int emptyCount;
+  private int emptyNextEvent;
+  private int notEmptyCount;
+  private int notEmptyNextEvent;
 
 
   DataView() {
@@ -23,10 +30,15 @@ public class DataView {
     this.stopCount = new int[36];
     for (int i = 0; i < pullDirection.length; i++)
       pullDirection[i] = new PVector();
+
+    this.emptyCount = 0;
+    this.notEmptyCount = 0;
+    this.emptyCount = 0;
   }
 
 
   public void draw() {
+    // Trigger touch, pull, and jump
     for (int i=0; i<36; i++) {
       int y = i / 6;
       int x = i % 6;
@@ -71,6 +83,31 @@ public class DataView {
       }
       else {
         notJumpedCount[i]++;
+      }
+    }
+
+
+    // Trigger welcome and intervene
+    if (AUTO_WELCOME_MODE) {
+      if (fieldView.riders.size() == 0) {
+        emptyCount++;
+        notEmptyCount = 0;
+        notEmptyNextEvent = 0;
+
+        if (emptyCount > emptyNextEvent) {
+          println(emptyCount+"Trigger welcome"+emptyNextEvent);
+          emptyNextEvent += 30 * int(random(1, 7));
+        }
+      }
+      else {
+        notEmptyCount++;
+        emptyCount = 0;
+        emptyNextEvent = EMPTY_NEXT_COUNT_INITIAL;
+
+        if (notEmptyCount > notEmptyNextEvent) {
+          println(notEmptyCount+"Trigger intervene"+notEmptyNextEvent);
+          notEmptyNextEvent += 30 * int(random(1, 7)) + int(random(NOT_EMPTY_NEXT_COUNT_DELAY_MIN, NOT_EMPTY_NEXT_COUNT_DELAY_MAX));
+        }
       }
     }
   }

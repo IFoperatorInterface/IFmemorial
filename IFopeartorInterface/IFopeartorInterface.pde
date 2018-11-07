@@ -8,6 +8,8 @@ import java.net.*;
 import java.awt.Color;
 import java.util.Arrays;
 
+final boolean AUTO_WELCOME_MODE = true;
+
 ControlP5 controlP5;
 EffectController effectController;
 FieldController fieldController;

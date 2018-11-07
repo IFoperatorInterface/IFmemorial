@@ -1,6 +1,6 @@
 class FieldView {
     PVector winPos, winSize;
-    private List < Rider > riders;
+    List < Rider > riders;
     int NUM_CUR_P, NUM_PRE_P;
 
     FieldView() {
