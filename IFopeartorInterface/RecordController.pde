@@ -5,14 +5,14 @@ public class RecordController {
   // private final int BT_SIZE = int((windows[4].pos.x - (PD * (NUM_RECORD + NUM_PRESET + 1) + 1)) / (NUM_RECORD + NUM_PRESET + 1));
   private final int BT_SIZE = int(windows[4].size.y / 3 - PD);
   private final int[] recordColor = {
-    100,
+    80,
     20,
-    250
+    160
   };
   private final int[] presetColor = {
-    200,
+    190,
     20,
-    100
+    80
   };
 
   private List < Record > records;
@@ -133,11 +133,11 @@ public class RecordController {
 
     if (targetRecord.playStartTime == -1) {
       targetRecord.playStartTime = frameCount;
-      recordPlayToggles.get(idx).setBackgroundColor(0, 170, 255);
+      recordPlayToggles.get(idx).setBackgroundColor(recordColor[0]*2, recordColor[1]*2, recordColor[2]*2);
       logger.log(Log.RECORD_PLAY, -1, -1, targetRecord.id, null);
     } else {
       targetRecord.playStartTime = -1;
-      recordPlayToggles.get(idx).setBackgroundColor(0, 45, 90);
+      recordPlayToggles.get(idx).setBackgroundColor(recordColor[0], recordColor[1], recordColor[2]);
       logger.log(Log.RECORD_STOP, -1, -1, targetRecord.id, null);
     }
   }
