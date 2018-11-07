@@ -377,4 +377,14 @@ public class PresetController {
       }
     }
   }
+
+
+  public void triggerWelcome() {
+    recordController.onOneRecord(0, 2);
+  }
+
+
+  public void triggerIntervene() {
+    recordController.onOneRecord(2, 6);
+  }
 }

@@ -95,8 +95,8 @@ public class DataView {
         notEmptyNextEvent = 0;
 
         if (emptyCount > emptyNextEvent) {
-          println(emptyCount+"Trigger welcome"+emptyNextEvent);
-          emptyNextEvent += 30 * int(random(1, 7));
+          presetController.triggerWelcome();
+          emptyNextEvent += recordController.getOnRecordDuration() * int(random(1, 7));
         }
       }
       else {
@@ -105,8 +105,8 @@ public class DataView {
         emptyNextEvent = EMPTY_NEXT_COUNT_INITIAL;
 
         if (notEmptyCount > notEmptyNextEvent) {
-          println(notEmptyCount+"Trigger intervene"+notEmptyNextEvent);
-          notEmptyNextEvent += 30 * int(random(1, 7)) + int(random(NOT_EMPTY_NEXT_COUNT_DELAY_MIN, NOT_EMPTY_NEXT_COUNT_DELAY_MAX));
+          presetController.triggerIntervene();
+          notEmptyNextEvent += recordController.getOnRecordDuration() * int(random(1, 7)) + int(random(NOT_EMPTY_NEXT_COUNT_DELAY_MIN, NOT_EMPTY_NEXT_COUNT_DELAY_MAX));
         }
       }
     }

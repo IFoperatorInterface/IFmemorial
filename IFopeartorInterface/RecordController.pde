@@ -390,6 +390,33 @@ public class RecordController {
   }
 
 
+  public void onOneRecord(int start, int end) {
+    // Turn off all records
+    for (Record r : records) {
+      if (r.playStartTime != -1) {
+        recordPlayToggle(r.id);
+      }
+    }
+
+    // Turn on a random record from start to end
+    if (records.size() < start)
+      return;
+    end = min (records.size(), end);
+    Record targetRecord = records.get(int(random(start, end)));
+    recordPlayToggle(targetRecord.id);
+  }
+
+
+  public int getOnRecordDuration() {
+    int duration = 0;
+    for (Record r : records) {
+      if (r.playStartTime != -1 && r.duration > duration)
+        duration = r.duration;
+    }
+    return duration;
+  }
+
+
   public void onDraw() {
     recordToggle.draw();
     for (Button b: recordPlayToggles)
