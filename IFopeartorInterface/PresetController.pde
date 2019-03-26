@@ -160,53 +160,6 @@ public class PresetController {
 
 
   public void onDraw() {
-    int pd = 5;
-    int h = int(windows[1].size.y);
-    int size = h / 10;
-    int x = int(windows[1].pos.x) + size * 22 + pd;
-    int y = int(windows[1].pos.y) + h - size;
-
-    pushStyle();
-    rectMode(CORNER);
-    noStroke();
-
-    for (int i=0; i<effects.length; i++) {
-      if (effects[i] == null)
-        continue;
-
-      fill(effects[i].colorRGB[0], effects[i].colorRGB[1], effects[i].colorRGB[2]);
-      rect(x+(size+pd)*i, y, size, size);
-    }
-
-    popStyle();
-
-    pushStyle();
-    rectMode(CORNER);
-    final String[] titles = new String[] {
-      "TOUCH",
-      "PULL",
-      "JUMP",
-      "MOVE"
-    };
-    for (int i = 0; i < 4; i++) {
-      noStroke();
-      fill(0, 45, 90);
-      rect(BT_X + (BT_SIZE + PD) * i, BT_Y, BT_SIZE, BT_SIZE);
-      fill(255);
-      textAlign(CENTER, CENTER);
-      textFont(titleFont);
-      text(titles[i], BT_X + (BT_SIZE + PD) * i + BT_SIZE / 2, BT_Y + BT_SIZE / 2);
-    }
-
-    for (int i = 0; i < 4; i++) {
-      int[] presetPos = recordController.getPresetPosition(effects[i]);
-      if (presetPos == null)
-        continue;
-      stroke(128);
-      line(BT_X+(BT_SIZE+PD)*i+BT_SIZE/2, BT_Y+BT_SIZE/2, presetPos[0], presetPos[1]);
-    }
-    popStyle();
-
     if (frameCount % (COLOR_PERIOD / COLOR_STEPS) != 0)
       return;
 

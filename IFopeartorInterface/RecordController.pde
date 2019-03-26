@@ -408,21 +408,6 @@ public class RecordController {
 
 
   public void onDraw() {
-    recordToggle.draw();
-    for (Button b: recordPlayToggles)
-      b.draw();
-    for (Button b: recordDeleteButtons)
-      b.draw();
-
-    presetButton.draw();
-    for (Button b: presetSetButtons)
-      b.draw();
-    for (Button b: presetDeleteButtons)
-      b.draw();
-
-    disableBox.draw();
-
-
     for (Record r: records) {
       if (r.playStartTime == -1)
         continue;
