@@ -7,6 +7,7 @@ class ModuleView {
   private static final int COLUMNS = 16;
   private static final int MIN_DELAY = 1;
   private static final int MAX_DELAY = 40;
+  private static final float DECREMENT_RATE = 0.85;
 
   ModuleView() {
     sc = new SoundCipher(sketch);
@@ -75,7 +76,9 @@ class ModuleView {
         if (t.effect.fieldMode[FieldMode.LEFT.ordinal()]) {
           int x = t.x - distance;
           if (x >= 0) {
-            modules[t.y][x].addTrigger(t.copyWithStartTime(frameCount));
+            Trigger newT = t.copyWithStartTime(frameCount);
+            newT.effect.position[1] = int(t.effect.position[1]*pow(DECREMENT_RATE, distance));
+            modules[t.y][x].addTrigger(newT);
             makeSound(t.y * COLUMNS + x, getNote(t.effect, phase, delay), 75);
           }
         }
@@ -83,7 +86,9 @@ class ModuleView {
         if (t.effect.fieldMode[FieldMode.RIGHT.ordinal()]) {
           int x = t.x + distance;
           if (x < COLUMNS) {
-            modules[t.y][x].addTrigger(t.copyWithStartTime(frameCount));
+            Trigger newT = t.copyWithStartTime(frameCount);
+            newT.effect.position[1] = int(t.effect.position[1]*pow(DECREMENT_RATE, distance));
+            modules[t.y][x].addTrigger(newT);
             makeSound(t.y * COLUMNS + x, getNote(t.effect, phase, delay), 75);
           }
         }

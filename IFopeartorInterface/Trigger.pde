@@ -22,7 +22,7 @@ class Trigger {
 
 
   public Trigger copyWithStartTime(int startTime) {
-    return new Trigger(this.effect, this.x, this.y, startTime);
+    return new Trigger(this.effect.copy(), this.x, this.y, startTime);
   }
 
 
