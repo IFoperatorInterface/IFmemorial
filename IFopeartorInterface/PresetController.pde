@@ -246,8 +246,6 @@ public class PresetController {
 
     Trigger trigger = new Trigger(effects[0].copy(), x, y, frameCount);
     moduleView.addTrigger(trigger);
-
-    logger.log(Log.TOUCH, x, y, null, null);
   }
 
 
@@ -279,8 +277,6 @@ public class PresetController {
 
     Trigger trigger = new Trigger(effect, x, y, frameCount);
     moduleView.addTrigger(trigger);
-
-    logger.log(Log.PULL, x, y, direction.heading(), null);
   }
 
 
@@ -301,8 +297,6 @@ public class PresetController {
     moduleView.addTrigger(startTrigger);
     moduleView.addTrigger(endTrigger);
     moduleView.addTrigger(fieldTrigger);
-
-    logger.log(Log.JUMP, x, y, null, null);
   }
 
 
@@ -312,8 +306,6 @@ public class PresetController {
 
     Trigger trigger = new Trigger(effects[3].copy(), x, y, frameCount);
     moduleView.addTrigger(trigger);
-
-    logger.log(Log.MOVE, x, y, null, null);
   }
 
 

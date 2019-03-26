@@ -97,17 +97,12 @@ public class RecordController {
     if (isRecording) {
       newRecord = new Record(frameCount, newId);
       newRecord.name = "Record " + newRecord.id;
-      logger.log(Log.RECORD_START, -1, -1, newId, null);
     } else {
       addRecord(newRecord);
 
       newId++;
 
-      logger.log(Log.RECORD_END, -1, -1, newRecord.id, null);
-
       newRecord = null;
-
-      loader.save(presets, records);
     }
   }
 
@@ -134,11 +129,9 @@ public class RecordController {
     if (targetRecord.playStartTime == -1) {
       targetRecord.playStartTime = frameCount;
       recordPlayToggles.get(idx).setBackgroundColor(recordColor[0]*2, recordColor[1]*2, recordColor[2]*2);
-      logger.log(Log.RECORD_PLAY, -1, -1, targetRecord.id, null);
     } else {
       targetRecord.playStartTime = -1;
       recordPlayToggles.get(idx).setBackgroundColor(recordColor[0], recordColor[1], recordColor[2]);
-      logger.log(Log.RECORD_STOP, -1, -1, targetRecord.id, null);
     }
   }
 
@@ -157,7 +150,6 @@ public class RecordController {
     recordPlayToggles.remove(idx);
     recordDeleteButtons.remove(idx);
     updateRecordPlayToggle();
-    loader.save(presets, records);
   }
 
 
@@ -224,9 +216,6 @@ public class RecordController {
     addPreset(newPreset);
 
     newPresetId++;
-
-    loader.save(presets, records);
-
   }
 
 
@@ -270,7 +259,6 @@ public class RecordController {
     presetSetButtons.remove(idx);
     presetDeleteButtons.remove(idx);
     updatePresetSetButton();
-    loader.save(presets, records);
   }
 
 

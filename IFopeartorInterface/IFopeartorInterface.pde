@@ -19,8 +19,6 @@ ModuleView moduleView;
 FieldView fieldView;
 SystemView systemView;
 DataView dataView;
-Logger logger;
-Loader loader;
 TimeView timeView;
 Setups setups;
 
@@ -112,7 +110,6 @@ void mouseReleased() {
 
 
 void stop() {
-  logger.stop();
 }
 
 void keyReleased() {

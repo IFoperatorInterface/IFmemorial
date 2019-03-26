@@ -86,10 +86,7 @@
          moduleView = new ModuleView();
          fieldView = new FieldView();
          dataView = new DataView();
-         logger = new Logger();
-         loader = new Loader();
 
-         loader.load();
          settingCompleted = true;
      }
 
