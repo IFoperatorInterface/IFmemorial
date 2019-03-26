@@ -1,4 +1,7 @@
 public class FieldController {
+  private static final int ROWS = 6;
+  private static final int COLUMNS = 6;
+
   Integer btSize;
   PVector[] fieldBtsPos;
   int lastTarget;
@@ -7,22 +10,22 @@ public class FieldController {
 
   FieldController() {
     int indx = 0;
-    fieldBtsPos = new PVector[6 * 6];
+    fieldBtsPos = new PVector[ROWS * COLUMNS];
     fieldBtsPos = setFieldPostion();
-    btSize = (int) fieldBtsPos[36].x;
+    btSize = (int) fieldBtsPos[ROWS * COLUMNS].x;
     lastTarget = -1;
     mousePressed2 = false;
     order = 0;
 
-    for (int i = 0; i < 6; i++)
-      for (int j = 0; j < 6; j++) {
+    for (int i = 0; i < ROWS; i++)
+      for (int j = 0; j < COLUMNS; j++) {
         float x = fieldBtsPos[indx].x;
         float y = fieldBtsPos[indx].y;
-        controlP5.addButton("" + (i * 6 + j))
-          .setValue(i * 6 + j)
+        controlP5.addButton("" + (i * COLUMNS + j))
+          .setValue(i * COLUMNS + j)
           .setPosition(x, y)
           .setSize(btSize, btSize)
-          .setId(i * 6 + j);
+          .setId(i * COLUMNS + j);
         indx++;
       }
   }
@@ -32,7 +35,7 @@ public class FieldController {
     int target = -1;
 
     if (mousePressed2) {
-      for (int i=0; i<36; i++){
+      for (int i=0; i<ROWS*COLUMNS; i++){
         if ((mouseX > fieldBtsPos[i].x)
             && (mouseX < fieldBtsPos[i].x+btSize)
             && (mouseY > fieldBtsPos[i].y)
@@ -71,7 +74,8 @@ public class FieldController {
     if (effect.soundMode == SoundMode.CHORD)
       effect.note += order * 3;
 
-    Trigger trigger = new Trigger(effect, a % 6, a / 6, frameCount);
+    Trigger trigger = new Trigger(effect, a % COLUMNS, a / COLUMNS, frameCount);
+    println(a, trigger.x, trigger.y);
 
     moduleView.addTrigger(trigger);
     recordController.addTrigger(trigger);
@@ -80,7 +84,7 @@ public class FieldController {
   }
 
    PVector[] setFieldPostion() {
-    PVector[] result = new PVector[6 * 6 + 1];
+    PVector[] result = new PVector[ROWS * COLUMNS + 1];
     int padding = 2;
     int spacing = 25;
     int margin = 5;
@@ -90,14 +94,14 @@ public class FieldController {
     int windowY = (int) windows[5].pos.y + spacing;
     int btSize = (windowWidth > windowHeight) ? (windowHeight - margin * 2 - padding * 5) / 6 : (windowWidth - margin * 2 - padding * 5) / 6;
     int indx = 0;
-    for (int i = 0; i < 6; i++)
-      for (int j = 0; j < 6; j++) {
+    for (int i = 0; i < ROWS; i++)
+      for (int j = 0; j < COLUMNS; j++) {
         int x = windowX + (btSize + margin) * j;
         int y = windowY + (btSize + margin) * i;
         result[indx] = new PVector(x, y);
         indx++;
       }
-    result[36] = new PVector(btSize, btSize);
+    result[ROWS * COLUMNS] = new PVector(btSize, btSize);
     return result;
   }
 }

@@ -109,7 +109,7 @@ class ModuleView {
         int y = t.y + round(displacement.y);
 
         if ((round(displacement.x) != round(prevDisplacement.x) || round(displacement.y) != round(prevDisplacement.y))
-            && !(x < 0 || x >= 6 || y < 0 || y >= 6)
+            && !(x < 0 || x >= COLUMNS || y < 0 || y >= ROWS)
             && !(x == t.x && y == t.y)) {
           modules[y][x].addTrigger(t.copyWithStartTime(frameCount));
           makeSound(y * COLUMNS + x, getNote(t.effect, phase, delay), 75);
