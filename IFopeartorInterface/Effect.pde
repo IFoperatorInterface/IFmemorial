@@ -16,26 +16,28 @@ class Effect {
 
 
   Effect() {
-    soundMode = SoundMode.SINGLE;
-    note = 60;
-    barMode = BarMode.BOUNCE;
+    soundMode = SoundMode.CHORD;
+    note = 45;
+    barMode = BarMode.STRETCH;
     size = 30;
     position = new int[2];
-    position[0] = 10;
-    position[1] = 90;
+    position[0] = 0;
+    position[1] = 30;
     spread = 50;
     fieldMode = new boolean[5];
+    fieldMode[FieldMode.LEFT.ordinal()] = true;
+    fieldMode[FieldMode.RIGHT.ordinal()] = true;
     direction = null;
     diameter = 50;
     colorRGB = new int[3];
-    colorRGB[0] = 128;
-    colorRGB[1] = 0;
-    colorRGB[2] = 255;
+    colorRGB[0] = 240;
+    colorRGB[1] = 215;
+    colorRGB[2] = 0;
     brightness = new int[4][2];
     brightness[0] = new int[]{0, 0};
-    brightness[1] = new int[]{30, 100};
-    brightness[2] = new int[]{60, 100};
-    brightness[3] = new int[]{90, 0};
+    brightness[1] = new int[]{30, 80};
+    brightness[2] = new int[]{46, 100};
+    brightness[3] = new int[]{80, 0};
     noCenter = false;
     id = -1;
     name = "";
