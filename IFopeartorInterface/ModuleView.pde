@@ -75,6 +75,8 @@ class ModuleView {
 
         if (t.effect.fieldMode[FieldMode.LEFT.ordinal()]) {
           int x = t.x - distance;
+          x = (COLUMNS-1) - abs(abs(x) % (COLUMNS*2-2) - (COLUMNS-1));
+
           if (x >= 0) {
             Trigger newT = t.copyWithStartTime(frameCount);
             newT.effect.position[1] = int(t.effect.position[1]*pow(DECREMENT_RATE, distance));
@@ -85,6 +87,8 @@ class ModuleView {
 
         if (t.effect.fieldMode[FieldMode.RIGHT.ordinal()]) {
           int x = t.x + distance;
+          x = (COLUMNS-1) - abs(abs(x) % (COLUMNS*2-2) - (COLUMNS-1));
+
           if (x < COLUMNS) {
             Trigger newT = t.copyWithStartTime(frameCount);
             newT.effect.position[1] = int(t.effect.position[1]*pow(DECREMENT_RATE, distance));
