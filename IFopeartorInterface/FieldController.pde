@@ -1,6 +1,6 @@
 public class FieldController {
-  private static final int ROWS = 6;
-  private static final int COLUMNS = 6;
+  private static final int ROWS = 1;
+  private static final int COLUMNS = 16;
 
   Integer btSize;
   PVector[] fieldBtsPos;
@@ -92,7 +92,7 @@ public class FieldController {
     int windowHeight = (int) windows[5].size.y - spacing * 2;
     int windowX = (int) windows[5].pos.x + spacing;
     int windowY = (int) windows[5].pos.y + spacing;
-    int btSize = (windowWidth > windowHeight) ? (windowHeight - margin * 2 - padding * 5) / 6 : (windowWidth - margin * 2 - padding * 5) / 6;
+    int btSize = (windowWidth > windowHeight) ? (windowHeight - margin * 2 - padding * 5) / 16 : (windowWidth - margin * 2 - padding * 5) / 16;
     int indx = 0;
     for (int i = 0; i < ROWS; i++)
       for (int j = 0; j < COLUMNS; j++) {

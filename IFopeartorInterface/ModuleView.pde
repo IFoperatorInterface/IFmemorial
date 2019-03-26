@@ -3,8 +3,8 @@ class ModuleView {
 
   private List < Trigger > triggers;
   private Module modules[][];
-  private static final int ROWS = 6;
-  private static final int COLUMNS = 6;
+  private static final int ROWS = 1;
+  private static final int COLUMNS = 16;
   private static final int MIN_DELAY = 1;
   private static final int MAX_DELAY = 40;
 

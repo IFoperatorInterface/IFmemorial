@@ -115,7 +115,7 @@ class Module {
     translate(fieldController.fieldBtsPos[indx].x + btSize, fieldController.fieldBtsPos[indx].y);
     stroke(strokeColor);
     strokeWeight(5);
-    line(-4, (1 - start) * btSize, -4, (1 - end) * btSize);
+    line(-4, (1 - start) * btSize * 4 + btSize, -4, (1 - end) * btSize * 4 + btSize);
     popMatrix();
     popStyle();
   }
