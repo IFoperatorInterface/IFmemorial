@@ -39,17 +39,16 @@ public void settings() {
 
 void setup() {
   setting = new SETTING();
+
+  setting.isCompleted = true;
+  setups = new Setups();
+  timeView = new TimeView();
 }
 
 
 void draw() {
   background(0);
 
-  switch (setting.mode) {
-    case (0):
-      setting.draw();
-      break;
-    case (1):
       try {
         controlP5.draw();
         effectController.onDraw();
@@ -62,8 +61,6 @@ void draw() {
         dataView.draw();
         timeView.draw();
       } catch (Exception e) {}
-      break;
-  }
 }
 
 
@@ -110,13 +107,4 @@ void mouseReleased() {
 
 
 void stop() {
-}
-
-void keyReleased() {
-  if (key == ' ' && setting.mode == 0) {
-    setting.isCompleted = true;
-    setups = new Setups();
-    timeView = new TimeView();
-    setting.mode = 1;
-  }
 }

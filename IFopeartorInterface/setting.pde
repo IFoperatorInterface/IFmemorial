@@ -2,7 +2,6 @@
  Window[] windows = new Window[6];
 
  class SETTING {
-     private int mode = 0;
      private boolean isCompleted = false;
      SETTING() {
          setFont();
