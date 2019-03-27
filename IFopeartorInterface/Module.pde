@@ -8,6 +8,7 @@ class Module {
   private int barH;
   PVector pos, fieldPos;
   int btSize, indx;
+  private float baseLevel;
 
   Module(int indx, int x, int y, int barH, PVector fieldPos) {
     this.indx = indx;
@@ -19,12 +20,14 @@ class Module {
     pos = new PVector(x, y);
     if (fieldPos != null)
       btSize = fieldController.btSize;
-
+    this.baseLevel = 0;
   }
 
 
   public void draw() {
     drawBar();
+    Effect effect = effectController.getEffect();
+    drawLine(color(effect.colorRGB[0], effect.colorRGB[1], effect.colorRGB[2]), 0, baseLevel);
 
     Iterator < Trigger > triggersIterator = triggers.iterator();
     while (triggersIterator.hasNext()) {
@@ -74,7 +77,7 @@ class Module {
     float ratio = getRatio(trigger);
 
     float start = 0;
-    float end = map(ratio, 0, 1, trigger.effect.position[0] / 100.0, trigger.effect.position[1] / 100.0);
+    float end = map(ratio, 0, 1, trigger.effect.position[0] / 100.0, trigger.effect.position[1] / 100.0) + baseLevel;
 
     drawLine(color(trigger.effect.colorRGB[0], trigger.effect.colorRGB[1], trigger.effect.colorRGB[2]), start, end);
   }
@@ -126,6 +129,10 @@ class Module {
       triggers.clear();
 
     triggers.add(trigger);
+  }
+
+  public void increaseBaseLevel() {
+    baseLevel = 0.7 - (0.7 - baseLevel) * 0.98;
   }
 
   void drawBar() {

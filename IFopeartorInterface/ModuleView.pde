@@ -160,6 +160,12 @@ class ModuleView {
 
   public void addTrigger(Trigger trigger) {
     triggers.add(trigger);
+
+
+    for (int i = 0; i < ROWS; i++)
+      for (int j = 0; j < COLUMNS; j++) {
+        modules[i][j].increaseBaseLevel();
+      }
   }
 
 }
