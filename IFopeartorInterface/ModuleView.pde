@@ -4,6 +4,7 @@ class ModuleView {
   private List < Trigger > triggers;
   private Module modules[][];
   private boolean isPulled[][];
+  private int nextPullCount[][];
   private static final int ROWS = 1;
   private static final int COLUMNS = 16;
   private static final int MIN_DELAY = 1;
@@ -16,6 +17,7 @@ class ModuleView {
     triggers = new ArrayList < Trigger > ();
     modules = new Module[ROWS][COLUMNS];
     isPulled = new boolean[ROWS][COLUMNS];
+    nextPullCount = new int[ROWS][COLUMNS];
 
     int indx = 0;
     PVector[] fieldBtsPos = new PVector[ROWS * COLUMNS];
@@ -38,6 +40,19 @@ class ModuleView {
     for (int i = 0; i < ROWS; i++)
       for (int j = 0; j < COLUMNS; j++) {
         modules[i][j].draw();
+        if (isPulled[i][j] && frameCount > nextPullCount[i][j]) {
+          nextPullCount[i][j] = frameCount + int(random(20, 35));
+          Effect effect = new Effect();
+          effect.barMode = BarMode.BOUNCE;
+          effect.size = int(random(10, 20));
+          effect.position[0] = -20;
+          effect.position[1] = 120;
+          effect.brightness[1] = new int[]{int(random(110, 260)), 100};
+          effect.brightness[2] = new int[]{effect.brightness[1][0], 100};
+          effect.brightness[3] = new int[]{effect.brightness[1][0], 100};
+          Trigger trigger = new Trigger(effect, j, i, frameCount);
+          modules[i][j].addTrigger(trigger);
+        }
       }
     // Remove old trigger in triggers
     Iterator < Trigger > triggersIterator = triggers.iterator();
