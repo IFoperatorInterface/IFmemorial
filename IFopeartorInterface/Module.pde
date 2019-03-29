@@ -50,6 +50,7 @@ class Module {
       }
     }
 
+    drawLine(color(0, 0, 0, random(0, 70)), 0, 1);
     baseLevel = baseLevel * 0.998;
   }
 
