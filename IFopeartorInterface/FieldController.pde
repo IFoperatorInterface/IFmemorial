@@ -38,6 +38,9 @@ public class FieldController {
       target = getTarget();
     }
 
+    if (target != -1)
+      fieldButtonHold(target);
+
     if (lastTarget != -1 && target != lastTarget)
       fieldButton(lastTarget);
 
@@ -80,6 +83,10 @@ public class FieldController {
 
   void fieldButton(int a) {
     presetController.triggerPullEnd(a%COLUMNS, a/COLUMNS, new PVector(0, 0), 0);
+  }
+
+  void fieldButtonHold(int a) {
+    presetController.triggerPullStart(a%COLUMNS, a/COLUMNS, random(0, 100));
   }
 
    PVector[] setFieldPostion() {

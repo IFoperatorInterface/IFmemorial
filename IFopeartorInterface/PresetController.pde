@@ -72,17 +72,7 @@ public class PresetController {
     if (effects[1] == null)
       return;
 
-    int barSize = (int)(size * 100);
-    if (barSize > 100)
-      barSize = 100;
-
-    pullStartEffect.colorRGB[0] = effects[1].colorRGB[0];
-    pullStartEffect.colorRGB[1] = effects[1].colorRGB[1];
-    pullStartEffect.colorRGB[2] = effects[1].colorRGB[2];
-    pullStartEffect.position[1] = barSize;
-
-    Trigger trigger = new Trigger(pullStartEffect.copy(), x, y, frameCount);
-    moduleView.addTrigger(trigger);
+    moduleView.pullStart(x, y);
   }
 
 
@@ -90,6 +80,7 @@ public class PresetController {
     if (effects[1] == null)
       return;
 
+    moduleView.pullEnd(x, y);
     Trigger trigger = new Trigger(pullEndEffect.copy(), x, y, frameCount);
     moduleView.addTrigger(trigger);
   }

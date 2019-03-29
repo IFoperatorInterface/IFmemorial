@@ -3,6 +3,7 @@ class ModuleView {
 
   private List < Trigger > triggers;
   private Module modules[][];
+  private boolean isPulled[][];
   private static final int ROWS = 1;
   private static final int COLUMNS = 16;
   private static final int MIN_DELAY = 1;
@@ -14,6 +15,7 @@ class ModuleView {
 
     triggers = new ArrayList < Trigger > ();
     modules = new Module[ROWS][COLUMNS];
+    isPulled = new boolean[ROWS][COLUMNS];
 
     int indx = 0;
     PVector[] fieldBtsPos = new PVector[ROWS * COLUMNS];
@@ -32,6 +34,7 @@ class ModuleView {
 
 
   public void draw() {
+    println(isPulled[0]);
     for (int i = 0; i < ROWS; i++)
       for (int j = 0; j < COLUMNS; j++) {
         modules[i][j].draw();
@@ -117,6 +120,16 @@ class ModuleView {
 
   public void addTrigger(Trigger trigger) {
     triggers.add(trigger);
+  }
+
+
+  public void pullStart(int x, int y) {
+    isPulled[y][x] = true;
+  }
+
+
+  public void pullEnd(int x, int y) {
+    isPulled[y][x] = false;
   }
 
 }
