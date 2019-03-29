@@ -70,17 +70,7 @@ public class FieldController {
 
 
   void fieldButton(int a) {
-    Effect effect = effectController.getEffect();
-    if (effect.soundMode == SoundMode.CHORD)
-      effect.note += order * 3;
-
-    Trigger trigger = new Trigger(effect, a % COLUMNS, a / COLUMNS, frameCount);
-    println(a, trigger.x, trigger.y);
-
-    moduleView.addTrigger(trigger);
-    recordController.addTrigger(trigger);
-
-    order++;
+    presetController.triggerPullEnd(a%COLUMNS, a/COLUMNS, new PVector(0, 0), 0);
   }
 
    PVector[] setFieldPostion() {

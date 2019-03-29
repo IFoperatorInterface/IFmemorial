@@ -90,11 +90,7 @@ public class PresetController {
     if (effects[1] == null)
       return;
 
-    Effect effect = effects[1].copy();
-    effect.direction = new PVector(-direction.x, -direction.y);
-    effect.position[1] = (int) constrain(size * 100, 0, 100);
-
-    Trigger trigger = new Trigger(effect, x, y, frameCount);
+    Trigger trigger = new Trigger(pullEndEffect.copy(), x, y, frameCount);
     moduleView.addTrigger(trigger);
   }
 
