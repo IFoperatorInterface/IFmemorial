@@ -22,7 +22,7 @@ class Effect {
     size = 30;
     position = new int[2];
     position[0] = 0;
-    position[1] = 30;
+    position[1] = 40;
     spread = 50;
     fieldMode = new boolean[5];
     fieldMode[FieldMode.LEFT.ordinal()] = true;

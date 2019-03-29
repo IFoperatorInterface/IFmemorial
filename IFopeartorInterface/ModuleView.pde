@@ -9,7 +9,7 @@ class ModuleView {
   private static final int COLUMNS = 16;
   private static final int MIN_DELAY = 1;
   private static final int MAX_DELAY = 40;
-  private static final float DECREMENT_RATE = 0.85;
+  private static final float DECREMENT_RATE = 0.92;
 
   ModuleView() {
     sc = new SoundCipher(sketch);

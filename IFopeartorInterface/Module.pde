@@ -144,7 +144,7 @@ class Module {
   }
 
   public void increaseBaseLevel() {
-    baseLevel = 0.7 - (0.7 - baseLevel) * 0.98;
+    baseLevel = 0.6 - (0.6 - baseLevel) * 0.92;
   }
 
   void drawBar() {
