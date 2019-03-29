@@ -11,6 +11,7 @@ class Module {
   PVector pos, fieldPos;
   int btSize, indx;
   private float baseLevel;
+  private boolean isPulled;
 
   Module(int indx, int x, int y, int barH, PVector fieldPos) {
     this.indx = indx;
@@ -23,13 +24,17 @@ class Module {
     if (fieldPos != null)
       btSize = fieldController.btSize;
     this.baseLevel = BASE_LEVEL_DEFAULT;
+    this.isPulled = false;
   }
 
 
   public void draw() {
     drawBar();
     Effect effect = effectController.getEffect();
-    drawLine(color(effect.colorRGB[0], effect.colorRGB[1], effect.colorRGB[2]), 0, baseLevel);
+    if (!isPulled)
+      drawLine(color(effect.colorRGB[0], effect.colorRGB[1], effect.colorRGB[2]), 0, baseLevel);
+    else
+      drawLine(color(effect.colorRGB[0], effect.colorRGB[1], effect.colorRGB[2], 90), 0, 1);
 
     Iterator < Trigger > triggersIterator = triggers.iterator();
     while (triggersIterator.hasNext()) {
@@ -40,13 +45,15 @@ class Module {
       else {
         switch (trigger.effect.barMode) {
           case BOUNCE:
-            bounce(trigger);
+            if (isPulled)
+              bounce(trigger);
             break;
           case BLINK:
             blink(trigger);
             break;
           case STRETCH:
-            stretch(trigger);
+            if (!isPulled)
+              stretch(trigger);
             break;
         }
       }

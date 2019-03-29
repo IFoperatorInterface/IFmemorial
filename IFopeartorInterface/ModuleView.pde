@@ -139,11 +139,13 @@ class ModuleView {
 
   public void pullStart(int x, int y) {
     isPulled[y][x] = true;
+    modules[y][x].isPulled = true;
   }
 
 
   public void pullEnd(int x, int y) {
     isPulled[y][x] = false;
+    modules[y][x].isPulled = false;
   }
 
 }
