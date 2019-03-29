@@ -58,22 +58,6 @@ class ModuleView {
       if ((phase - 1) % delay == 0 && phase > 1) {
         int distance = (frameCount - t.startTime - 1) / delay;
 
-        if (t.effect.fieldMode[FieldMode.UP.ordinal()]) {
-          int y = t.y - distance;
-          if (y >= 0) {
-            modules[y][t.x].addTrigger(t.copyWithStartTime(frameCount));
-            makeSound(y * COLUMNS + t.x, getNote(t.effect, phase, delay), 75);
-          }
-        }
-
-        if (t.effect.fieldMode[FieldMode.DOWN.ordinal()]) {
-          int y = t.y + distance;
-          if (y < ROWS) {
-            modules[y][t.x].addTrigger(t.copyWithStartTime(frameCount));
-            makeSound(y * COLUMNS + t.x, getNote(t.effect, phase, delay), 75);
-          }
-        }
-
         if (t.effect.fieldMode[FieldMode.LEFT.ordinal()]) {
           int x = t.x - distance;
           if (x >= 0)
@@ -102,39 +86,7 @@ class ModuleView {
           }
         }
       }
-
-      if (t.effect.fieldMode[FieldMode.ELLIPSE.ordinal()]) {
-        float diameter = map(pow(t.effect.diameter, 1.5), 0, pow(100, 1.5), 1, getDistance(1, 1, ROWS, COLUMNS));
-        for (int x = 0; x < COLUMNS; x++)
-          for (int y = 0; y < ROWS; y++)
-            if ((int) (getDistance(t.x, t.y, x, y) * delay) == phase + 1
-                && getDistance(t.x, t.y, x, y) <= diameter
-                && !(x == t.x && y == t.y)) {
-              modules[y][x].addTrigger(t.copyWithStartTime(frameCount));
-              makeSound(y * COLUMNS + x, getNote(t.effect, phase, delay), 60);
-            }
-      }
-
-      if (t.effect.direction != null) {
-        PVector displacement = t.effect.direction.setMag(null, 1).mult((phase - 1.0) / delay);
-        PVector prevDisplacement = t.effect.direction.setMag(null, 1).mult((phase - 2.0) / delay);
-
-        int x = t.x + round(displacement.x);
-        int y = t.y + round(displacement.y);
-
-        if ((round(displacement.x) != round(prevDisplacement.x) || round(displacement.y) != round(prevDisplacement.y))
-            && !(x < 0 || x >= COLUMNS || y < 0 || y >= ROWS)
-            && !(x == t.x && y == t.y)) {
-          modules[y][x].addTrigger(t.copyWithStartTime(frameCount));
-          makeSound(y * COLUMNS + x, getNote(t.effect, phase, delay), 75);
-        }
-      }
     }
-  }
-
-
-  private float getDistance(int x1, int y1, int x2, int y2) {
-    return sqrt(sq(x1 - x2) + sq(y1 - y2));
   }
 
 
