@@ -1,4 +1,6 @@
 class Module {
+  private static final float BASE_LEVEL_DEFAULT = 0.05;
+
   private int x, y;
   private List<Trigger> triggers;
   private static final int MAX_DURATION = 90;
@@ -20,7 +22,7 @@ class Module {
     pos = new PVector(x, y);
     if (fieldPos != null)
       btSize = fieldController.btSize;
-    this.baseLevel = 0;
+    this.baseLevel = BASE_LEVEL_DEFAULT;
   }
 
 
@@ -51,7 +53,7 @@ class Module {
     }
 
     drawLine(color(0, 0, 0, random(0, 70)), 0, 1);
-    baseLevel = baseLevel * 0.998;
+    baseLevel = (baseLevel - BASE_LEVEL_DEFAULT) * 0.998 + BASE_LEVEL_DEFAULT;
   }
 
 
