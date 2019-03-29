@@ -49,6 +49,8 @@ class Module {
         }
       }
     }
+
+    baseLevel = baseLevel * 0.998;
   }
 
 
