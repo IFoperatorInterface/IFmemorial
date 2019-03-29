@@ -35,19 +35,28 @@ public class FieldController {
     int target = -1;
 
     if (mousePressed2) {
-      for (int i=0; i<ROWS*COLUMNS; i++){
-        if ((mouseX > fieldBtsPos[i].x)
-            && (mouseX < fieldBtsPos[i].x+btSize)
-            && (mouseY > fieldBtsPos[i].y)
-            && (mouseY < fieldBtsPos[i].y+btSize))
-          target = i;
-      }
+      target = getTarget();
     }
 
     if (lastTarget != -1 && target != lastTarget)
       fieldButton(lastTarget);
 
     lastTarget = target;
+  }
+
+
+  private int getTarget() {
+    int target = -1;
+
+    for (int i=0; i<ROWS*COLUMNS; i++){
+      if ((mouseX > fieldBtsPos[i].x)
+          && (mouseX < fieldBtsPos[i].x+btSize)
+          && (mouseY > fieldBtsPos[i].y)
+          && (mouseY < fieldBtsPos[i].y+btSize))
+        target = i;
+    }
+
+    return target;
   }
 
 
