@@ -24,7 +24,6 @@ class Rider {
             && (int(pos.x) != int(prevPos.x) || int(pos.y) != int(prevPos.y))) {
 
             nextMove = frameCount + 10;
-            presetController.triggerMove(int(pos.x), int(pos.y));
         }
 
         prevPos.set(pos);

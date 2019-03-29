@@ -16,146 +16,23 @@ public class PresetController {
     effects = new Effect[4];
 
     touchEffect = new Effect();
-    touchEffect.barMode = BarMode.BLINK;
-    touchEffect.position[0] = 0;
-    touchEffect.position[1] = 100;
-    touchEffect.brightness[0] = new int[] {
-      0,
-      50
-    };
-    touchEffect.brightness[1] = new int[] {
-      598,
-      0
-    };
-    touchEffect.brightness[2] = new int[] {
-      599,
-      0
-    };
-    touchEffect.brightness[3] = new int[] {
-      600,
-      0
-    };
 
     pullStartEffect = new Effect();
-    pullStartEffect.note = -1;
-    pullStartEffect.barMode = BarMode.BLINK;
-    pullStartEffect.position[0] = 0;
-    pullStartEffect.brightness[1] = new int[] {
-      0,
-      100
-    };
-    pullStartEffect.brightness[2] = new int[] {
-      2,
-      100
-    };
-    pullStartEffect.brightness[3] = new int[] {
-      2,
-      0
-    };
 
     pullEndEffect = new Effect();
-    pullEndEffect.soundMode = SoundMode.CHORD;
-    pullEndEffect.note = 75;
-    pullEndEffect.barMode = BarMode.BLINK;
-    pullEndEffect.position[0] = 0;
-    pullEndEffect.position[1] = 100;
-    pullEndEffect.spread = 75;
-    pullEndEffect.noCenter = true;
-    pullEndEffect.brightness[1] = new int[] {
-      10,
-      100
-    };
-    pullEndEffect.brightness[2] = new int[] {
-      55,
-      30
-    };
-    pullEndEffect.brightness[3] = new int[] {
-      100,
-      0
-    };
 
     jumpStartEffect = new Effect();
-    jumpStartEffect.note = 85;
-    jumpStartEffect.barMode = BarMode.BOUNCE;
-    jumpStartEffect.position[0] = 0;
-    jumpStartEffect.position[1] = 100;
-    jumpStartEffect.brightness[1] = new int[] {
-      20,
-      75
-    };
-    jumpStartEffect.brightness[2] = new int[] {
-      60,
-      100
-    };
-    jumpStartEffect.brightness[3] = new int[] {
-      65,
-      0
-    };
 
     jumpEndEffect = new Effect();
-    jumpEndEffect.note = 40;
-    jumpEndEffect.barMode = BarMode.BLINK;
-    jumpEndEffect.position[0] = 0;
-    jumpEndEffect.position[1] = 100;
-    jumpEndEffect.brightness[1] = new int[] {
-      10,
-      100
-    };
-    jumpEndEffect.brightness[2] = new int[] {
-      60,
-      100
-    };
-    jumpEndEffect.brightness[3] = new int[] {
-      100,
-      0
-    };
 
     jumpFieldEffect = new Effect();
-    jumpFieldEffect.note = -1;
-    jumpFieldEffect.barMode = BarMode.STRETCH;
-    jumpFieldEffect.fieldMode[FieldMode.ELLIPSE.ordinal()] = true;
-    jumpFieldEffect.position[0] = 0;
-    jumpFieldEffect.position[1] = 100;
-    jumpFieldEffect.noCenter = true;
-    jumpFieldEffect.brightness[1] = new int[] {
-      10,
-      100
-    };
-    jumpFieldEffect.brightness[2] = new int[] {
-      35,
-      30
-    };
-    jumpFieldEffect.brightness[3] = new int[] {
-      60,
-      0
-    };
 
     moveEffect = new Effect();
-    moveEffect.note = 40;
-    moveEffect.barMode = BarMode.BOUNCE;
-    moveEffect.size = 30;
-    moveEffect.position[0] = 0;
-    moveEffect.position[1] = 70;
-    moveEffect.brightness[1] = new int[] {
-      14,
-      100
-    };
-    moveEffect.brightness[2] = new int[] {
-      22,
-      60
-    };
-    moveEffect.brightness[3] = new int[] {
-      30,
-      0
-    };
-
 
     effects[0] = touchEffect;
     effects[1] = pullEndEffect;
     effects[2] = jumpFieldEffect;
     effects[3] = moveEffect;
-
-    updateColor(0);
   }
 
 
@@ -164,8 +41,6 @@ public class PresetController {
       return;
 
     int step = (frameCount / (COLOR_PERIOD / COLOR_STEPS)) % COLOR_STEPS;
-
-    updateColor(step);
   }
 
 
@@ -190,15 +65,6 @@ public class PresetController {
     moveEffect.colorRGB[0] = (int) red(c) + 1;
     moveEffect.colorRGB[1] = (int) green(c) + 1;
     moveEffect.colorRGB[2] = (int) blue(c) + 1;
-  }
-
-
-  public void triggerTouch(int x, int y) {
-    if (effects[0] == null)
-      return;
-
-    Trigger trigger = new Trigger(effects[0].copy(), x, y, frameCount);
-    moduleView.addTrigger(trigger);
   }
 
 
@@ -231,36 +97,6 @@ public class PresetController {
     Trigger trigger = new Trigger(effect, x, y, frameCount);
     moduleView.addTrigger(trigger);
   }
-
-
-  public void triggerJump(int x, int y) {
-    if (effects[2] == null)
-      return;
-
-    jumpStartEffect.colorRGB[0] = effects[2].colorRGB[0];
-    jumpStartEffect.colorRGB[1] = effects[2].colorRGB[1];
-    jumpStartEffect.colorRGB[2] = effects[2].colorRGB[2];
-    jumpEndEffect.colorRGB[0] = effects[2].colorRGB[0];
-    jumpEndEffect.colorRGB[1] = effects[2].colorRGB[1];
-    jumpEndEffect.colorRGB[2] = effects[2].colorRGB[2];
-
-    Trigger startTrigger = new Trigger(jumpStartEffect.copy(), x, y, frameCount);
-    Trigger endTrigger = new Trigger(jumpEndEffect.copy(), x, y, frameCount + 58);
-    Trigger fieldTrigger = new Trigger(effects[2].copy(), x, y, frameCount + 54);
-    moduleView.addTrigger(startTrigger);
-    moduleView.addTrigger(endTrigger);
-    moduleView.addTrigger(fieldTrigger);
-  }
-
-
-  public void triggerMove(int x, int y) {
-    if (effects[3] == null)
-      return;
-
-    Trigger trigger = new Trigger(effects[3].copy(), x, y, frameCount);
-    moduleView.addTrigger(trigger);
-  }
-
 
   public void press(int x1, int y1, int x2, int y2) {
     if (y1 < BT_Y || y1 >= BT_Y + BT_SIZE)
@@ -321,22 +157,5 @@ public class PresetController {
         resetEffect(i);
       }
     }
-  }
-
-
-  public void triggerWelcome() {
-    recordController.offAllRecord();
-    recordController.onOneRecord(0, 2);
-  }
-
-
-  public void triggerIntervene() {
-    recordController.offAllRecord();
-    recordController.onOneRecord(2, 6);
-  }
-
-
-  public void triggerInterveneOff() {
-    recordController.offAllRecord();
   }
 }
