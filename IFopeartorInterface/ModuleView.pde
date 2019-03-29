@@ -48,6 +48,7 @@ class ModuleView {
         triggersIterator.remove();
 
       if (phase == 1 && !(t.effect.noCenter)) {
+        modules[t.y][t.x].increaseBaseLevel();
         modules[t.y][t.x].addTrigger(t.copyWithStartTime(frameCount));
 
         makeSound(t.y*COLUMNS+t.x, getNote(t.effect, phase, delay), 100);
@@ -75,6 +76,8 @@ class ModuleView {
 
         if (t.effect.fieldMode[FieldMode.LEFT.ordinal()]) {
           int x = t.x - distance;
+          if (x >= 0)
+            modules[t.y][x].increaseBaseLevel();
           x = (COLUMNS-1) - abs(abs(x) % (COLUMNS*2-2) - (COLUMNS-1));
 
           if (x >= 0) {
@@ -87,6 +90,8 @@ class ModuleView {
 
         if (t.effect.fieldMode[FieldMode.RIGHT.ordinal()]) {
           int x = t.x + distance;
+          if (x < COLUMNS)
+            modules[t.y][x].increaseBaseLevel();
           x = (COLUMNS-1) - abs(abs(x) % (COLUMNS*2-2) - (COLUMNS-1));
 
           if (x < COLUMNS) {
@@ -160,12 +165,6 @@ class ModuleView {
 
   public void addTrigger(Trigger trigger) {
     triggers.add(trigger);
-
-
-    for (int i = 0; i < ROWS; i++)
-      for (int j = 0; j < COLUMNS; j++) {
-        modules[i][j].increaseBaseLevel();
-      }
   }
 
 }
