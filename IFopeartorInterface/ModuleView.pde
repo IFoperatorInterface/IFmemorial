@@ -36,7 +36,6 @@ class ModuleView {
 
 
   public void draw() {
-    println(isPulled[0]);
     for (int i = 0; i < ROWS; i++)
       for (int j = 0; j < COLUMNS; j++) {
         modules[i][j].draw();
