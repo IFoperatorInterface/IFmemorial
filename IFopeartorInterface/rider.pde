@@ -19,30 +19,6 @@ class Rider {
     }
 
     void draw() {
-        if (frameCount > nextMove
-            && prevPos.mag() > 0.01
-            && (int(pos.x) != int(prevPos.x) || int(pos.y) != int(prevPos.y))) {
-
-            nextMove = frameCount + 10;
-        }
-
-        prevPos.set(pos);
-
-        pushStyle();
-        pushMatrix();
-        translate(fieldController.fieldBtsPos[0].x, fieldController.fieldBtsPos[0].y);
-        float w = fieldController.fieldBtsPos[5].x - fieldController.fieldBtsPos[0].x + fieldController.btSize;
-        float h = fieldController.fieldBtsPos[30].y - fieldController.fieldBtsPos[0].y + fieldController.btSize;
-        float x = map(pos.x, 0, 6, 0, w);
-        float y = map(pos.y, 0, 6, 0, h);
-        float scale = norm(weight, 0, 380);
-        stroke(color(200));
-        noFill();
-        ellipse(x, y, r * scale, r * scale);
-        fill(color(200));
-        text(indx, x, y);
-        popMatrix();
-        popStyle();
     }
 
     boolean checkStateRiderIsOn() {
