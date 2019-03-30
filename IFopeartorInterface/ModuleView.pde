@@ -40,15 +40,15 @@ class ModuleView {
       for (int j = 0; j < COLUMNS; j++) {
         modules[i][j].draw();
         if (isPulled[i][j] && frameCount > nextPullCount[i][j]) {
-          nextPullCount[i][j] = frameCount + int(random(20, 35));
+          nextPullCount[i][j] = frameCount + int(random(10, 15));
           Effect effect = new Effect();
           effect.barMode = BarMode.BOUNCE;
-          effect.size = int(random(10, 20));
+          effect.size = int(random(2, 4));
           effect.position[0] = -20;
           effect.position[1] = 120;
-          effect.brightness[1] = new int[]{int(random(110, 260)), 100};
-          effect.brightness[2] = new int[]{effect.brightness[1][0], 100};
-          effect.brightness[3] = new int[]{effect.brightness[1][0], 100};
+          effect.brightness[1] = new int[]{int(random(17, 40)), 22};
+          effect.brightness[2] = new int[]{effect.brightness[1][0] * 2, 55};
+          effect.brightness[3] = new int[]{effect.brightness[1][0] * 3, 100};
           Trigger trigger = new Trigger(effect, j, i, frameCount);
           modules[i][j].addTrigger(trigger);
         }
