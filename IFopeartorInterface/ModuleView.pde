@@ -68,7 +68,7 @@ class ModuleView {
         modules[t.y][t.x].increaseBaseLevel();
         modules[t.y][t.x].addTrigger(t.copyWithStartTime(frameCount));
 
-        makeSound(t.y*COLUMNS+t.x, getNote(t.effect, phase, delay), 100);
+        makeSound(t.y*COLUMNS+t.x, getNote(t.effect, phase, delay), 100, 0);
         
       }
 
@@ -85,7 +85,7 @@ class ModuleView {
             Trigger newT = t.copyWithStartTime(frameCount);
             newT.effect.position[1] = int(t.effect.position[1]*pow(DECREMENT_RATE, distance));
             modules[t.y][x].addTrigger(newT);
-            makeSound(t.y * COLUMNS + x, getNote(t.effect, phase, delay), 75);
+            makeSound(t.y * COLUMNS + x, getNote(t.effect, phase, delay), 75, 0);
           }
         }
 
@@ -99,7 +99,7 @@ class ModuleView {
             Trigger newT = t.copyWithStartTime(frameCount);
             newT.effect.position[1] = int(t.effect.position[1]*pow(DECREMENT_RATE, distance));
             modules[t.y][x].addTrigger(newT);
-            makeSound(t.y * COLUMNS + x, getNote(t.effect, phase, delay), 75);
+            makeSound(t.y * COLUMNS + x, getNote(t.effect, phase, delay), 75, 0);
           }
         }
       }
@@ -122,12 +122,13 @@ class ModuleView {
   } 
   
   
-  private void makeSound(int idx, int note, int volume) {
+  private void makeSound(int idx, int note, int volume, int instrument) {
     if (note < 40 || note > 100)
       return;
 
-    dataController.sendSoundData(idx, note, volume, 0);
+    dataController.sendSoundData(idx, note, volume, instrument);
 
+    sc.instrument(instrument);
     sc.playNote(note, volume, 2);
   }
 
