@@ -81,11 +81,13 @@ class ModuleView {
             modules[t.y][x].increaseBaseLevel();
           x = (COLUMNS-1) - abs(abs(x) % (COLUMNS*2-2) - (COLUMNS-1));
 
+          float decrement = pow(DECREMENT_RATE, distance);
+
           if (x >= 0) {
             Trigger newT = t.copyWithStartTime(frameCount);
-            newT.effect.position[1] = int(t.effect.position[1]*pow(DECREMENT_RATE, distance));
+            newT.effect.position[1] = int(t.effect.position[1]*decrement);
             modules[t.y][x].addTrigger(newT);
-            makeSound(t.y * COLUMNS + x, getNote(t.effect, phase, delay), 75, 0);
+            makeSound(t.y * COLUMNS + x, getNote(t.effect, phase, delay), int(75*decrement), 0);
           }
         }
 
@@ -95,11 +97,13 @@ class ModuleView {
             modules[t.y][x].increaseBaseLevel();
           x = (COLUMNS-1) - abs(abs(x) % (COLUMNS*2-2) - (COLUMNS-1));
 
+          float decrement = pow(DECREMENT_RATE, distance);
+
           if (x < COLUMNS) {
             Trigger newT = t.copyWithStartTime(frameCount);
-            newT.effect.position[1] = int(t.effect.position[1]*pow(DECREMENT_RATE, distance));
+            newT.effect.position[1] = int(t.effect.position[1]*decrement);
             modules[t.y][x].addTrigger(newT);
-            makeSound(t.y * COLUMNS + x, getNote(t.effect, phase, delay), 75, 0);
+            makeSound(t.y * COLUMNS + x, getNote(t.effect, phase, delay), int(75*decrement), 0);
           }
         }
       }
