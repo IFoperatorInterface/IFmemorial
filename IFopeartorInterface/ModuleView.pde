@@ -126,7 +126,7 @@ class ModuleView {
     if (note < 40 || note > 100)
       return;
 
-    dataController.sendSoundData(idx, note, volume);
+    dataController.sendSoundData(idx, note, volume, 0);
 
     sc.playNote(note, volume, 2);
   }
