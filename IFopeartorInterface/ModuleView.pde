@@ -57,7 +57,7 @@ class ModuleView {
 
         if (isPulled[i][j] && frameCount > nextPullSoundCount[i][j]) {
           nextPullSoundCount[i][j] = frameCount + 110;
-          makeSound(i*COLUMNS+j, 45, 100, 0, 3.3);
+          makeSound(i*COLUMNS+j, modules[i][j].getNote(), 100, 0, 3.3);
         }
       }
     // Remove old trigger in triggers

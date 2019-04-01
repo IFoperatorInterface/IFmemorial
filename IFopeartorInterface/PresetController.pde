@@ -81,7 +81,9 @@ public class PresetController {
       return;
 
     moduleView.pullEnd(x, y);
-    Trigger trigger = new Trigger(pullEndEffect.copy(), x, y, frameCount);
+    Effect effect = pullEndEffect.copy();
+    effect.note = moduleView.modules[y][x].getNote();
+    Trigger trigger = new Trigger(effect, x, y, frameCount);
     moduleView.addTrigger(trigger);
   }
 

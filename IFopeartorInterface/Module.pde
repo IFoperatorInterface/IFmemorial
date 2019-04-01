@@ -165,4 +165,8 @@ class Module {
     popMatrix();
   }
 
+  public int getNote() {
+    return (int)map(baseLevel, BASE_LEVEL_DEFAULT, 0.6, 45, 65) + (int)random(-1, 1);
+  }
+
 }
