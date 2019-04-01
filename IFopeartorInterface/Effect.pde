@@ -16,7 +16,7 @@ class Effect {
 
 
   Effect() {
-    soundMode = SoundMode.CHORD;
+    soundMode = SoundMode.SINGLE;
     note = 45;
     barMode = BarMode.STRETCH;
     size = 30;
