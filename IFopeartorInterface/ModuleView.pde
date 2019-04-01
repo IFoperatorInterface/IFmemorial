@@ -5,6 +5,7 @@ class ModuleView {
   private Module modules[][];
   private boolean isPulled[][];
   private int nextPullCount[][];
+  private int nextPullSoundCount[][];
   private static final int ROWS = 1;
   private static final int COLUMNS = 16;
   private static final int MIN_DELAY = 1;
@@ -18,6 +19,7 @@ class ModuleView {
     modules = new Module[ROWS][COLUMNS];
     isPulled = new boolean[ROWS][COLUMNS];
     nextPullCount = new int[ROWS][COLUMNS];
+    nextPullSoundCount = new int[ROWS][COLUMNS];
 
     int indx = 0;
     PVector[] fieldBtsPos = new PVector[ROWS * COLUMNS];
@@ -52,6 +54,11 @@ class ModuleView {
           Trigger trigger = new Trigger(effect, j, i, frameCount);
           modules[i][j].addTrigger(trigger);
         }
+
+        if (isPulled[i][j] && frameCount > nextPullSoundCount[i][j]) {
+          nextPullSoundCount[i][j] = frameCount + 110;
+          makeSound(i*COLUMNS+j, 45, 100, 0, 3.3);
+        }
       }
     // Remove old trigger in triggers
     Iterator < Trigger > triggersIterator = triggers.iterator();
@@ -68,7 +75,7 @@ class ModuleView {
         modules[t.y][t.x].increaseBaseLevel();
         modules[t.y][t.x].addTrigger(t.copyWithStartTime(frameCount));
 
-        makeSound(t.y*COLUMNS+t.x, getNote(t.effect, phase, delay), 100, 0, 2);
+        makeSound(t.y*COLUMNS+t.x, getNote(t.effect, phase, delay), 70, 0, 2);
         
       }
 
