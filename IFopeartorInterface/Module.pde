@@ -12,6 +12,7 @@ class Module {
   int btSize, indx;
   private float baseLevel;
   private boolean isPulled;
+  private int note;
 
   Module(int indx, int x, int y, int barH, PVector fieldPos) {
     this.indx = indx;
@@ -166,7 +167,16 @@ class Module {
   }
 
   public int getNote() {
-    return (int)map(baseLevel, BASE_LEVEL_DEFAULT, 0.6, 45, 65) + (int)random(-1, 1);
+    return note;
   }
 
+  public void pullStart() {
+    if (!isPulled)
+      note = (int)map(baseLevel, BASE_LEVEL_DEFAULT, 0.6, 45, 65) + (int)random(-1, 1);
+    isPulled = true;
+  }
+
+  public void pullEnd() {
+    isPulled = false;
+  }
 }
