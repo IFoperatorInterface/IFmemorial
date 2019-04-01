@@ -40,12 +40,11 @@ class DataController {
         setOPC();
         setModuleData();
     }
-    void sendSoundData(int indx, int note, int volume, int instrument) { //note 1 - 127, volume 0 - 127, instrument 0 -127
-        String length = ",100";
+    void sendSoundData(int indx, int note, int volume, int instrument, int length) { //note 1 - 127, volume 0 - 127, instrument 0 -127
         if (note < 1 || note > 127)
             return;
         volume = constrain(volume, 0, 100);
-        String mssg = "abcd,1," + indx + "," + note + length + ',' + instrument + ',' + volume;
+        String mssg = "abcd,1," + indx + "," + note + ',' + length + ',' + instrument + ',' + volume;
         udp_sending.send(mssg, udpIP, sendingPort);
     }
 
