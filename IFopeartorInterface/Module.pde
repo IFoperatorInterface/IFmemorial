@@ -12,6 +12,7 @@ class Module {
   private static final float BASE_LEVEL_INCREASE_PULLED = 0.2;
   private static final int PULL_MAX_TIME = 11;
   private static final int WAVE_TIME_DISTANCE = 12;
+  private static final int OPACITY_PULLED = 90;
 
   private static final int NOTE_MIN = 45;
   private static final int NOTE_MAX = 65;
@@ -54,8 +55,10 @@ class Module {
       float baseLevelIncrease = constrain(map(frameCount-pullStartTime, 0, PULL_MAX_TIME, 0, BASE_LEVEL_INCREASE_PULLED), 0, BASE_LEVEL_INCREASE_PULLED);
       drawLine(color(effect.colorRGB[0], effect.colorRGB[1], effect.colorRGB[2]), 0, baseLevel+baseLevelIncrease);
     }
-    //if (isPulled)
-      //drawLine(color(effect.colorRGB[0], effect.colorRGB[1], effect.colorRGB[2], 90), 0, 1);
+    //if (isPulled) {
+      //float opacity = constrain(map(frameCount-pullStartTime, 0, PULL_MAX_TIME, 0, OPACITY_PULLED), 0, OPACITY_PULLED);
+      //drawLine(color(effect.colorRGB[0], effect.colorRGB[1], effect.colorRGB[2], opacity), 0, 1);
+    //}
 
     Iterator < Trigger > triggersIterator = triggers.iterator();
     while (triggersIterator.hasNext()) {
