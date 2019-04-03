@@ -73,7 +73,7 @@ class Module {
 
 
   private void bounce(Trigger trigger) {
-    float ratio = getRatio(trigger);
+    float ratio = getRatio(trigger, 0);
 
     float size = trigger.effect.size / 100.0;
     float start = (1 - size) * map(ratio, 0, 1, trigger.effect.position[0] / 100.0, trigger.effect.position[1] / 100.0);
@@ -84,7 +84,7 @@ class Module {
 
 
   private void blink(Trigger trigger) {
-    float ratio = getRatio(trigger);
+    float ratio = getRatio(trigger, 0);
 
     float start = trigger.effect.position[0] / 100.0;
     float end = trigger.effect.position[1] / 100.0;
@@ -94,7 +94,7 @@ class Module {
 
 
   private void stretch(Trigger trigger) {
-    float ratio = getRatio(trigger);
+    float ratio = getRatio(trigger, 0);
 
     float start = 0;
     float end = map(ratio, 0, 1, trigger.effect.position[0] / 100.0, trigger.effect.position[1] / 100.0) + baseLevel;
@@ -103,8 +103,8 @@ class Module {
   }
 
 
-  private float getRatio(Trigger trigger) {
-    float phase = (float)(frameCount - trigger.startTime) / MAX_DURATION * 100;
+  private float getRatio(Trigger trigger, int shift) {
+    float phase = (float)(frameCount - trigger.startTime + shift) / MAX_DURATION * 100;
     float ratio = 100;
 
     for (int i = 1; i < 4; i++) {
