@@ -2,6 +2,7 @@ class Module {
   private static final float BASE_LEVEL_DEFAULT = 0.05;
   private static final float BASE_LEVEL_INCREASE_PULLED = 0.2;
   private static final int PULL_MAX_TIME = 11;
+  private static final int WAVE_TIME_DISTANCE = 12;
 
   private int x, y;
   private List<Trigger> triggers;
@@ -48,7 +49,7 @@ class Module {
     while (triggersIterator.hasNext()) {
       Trigger trigger = triggersIterator.next();
 
-      if ((float)(frameCount - trigger.startTime) / MAX_DURATION * 100 > trigger.effect.brightness[3][0])
+      if ((float)(frameCount - trigger.startTime - WAVE_TIME_DISTANCE) / MAX_DURATION * 100 > trigger.effect.brightness[3][0])
         triggersIterator.remove();
       else {
         switch (trigger.effect.barMode) {
@@ -99,13 +100,26 @@ class Module {
     float start = 0;
     float end = map(ratio, 0, 1, trigger.effect.position[0] / 100.0, trigger.effect.position[1] / 100.0) + baseLevel;
 
-    drawLine(color(trigger.effect.colorRGB[0], trigger.effect.colorRGB[1], trigger.effect.colorRGB[2], 110), start, end);
+    drawLine(color(trigger.effect.colorRGB[0], trigger.effect.colorRGB[1], trigger.effect.colorRGB[2], 70), start, end);
+
+    ratio = getRatio(trigger, -WAVE_TIME_DISTANCE);
+    end = map(ratio, 0, 1, trigger.effect.position[0] / 100.0, trigger.effect.position[1] / 100.0) + baseLevel;
+    drawLine(color(trigger.effect.colorRGB[0], trigger.effect.colorRGB[1], trigger.effect.colorRGB[2], 70), start, end);
+
+    ratio = getRatio(trigger, WAVE_TIME_DISTANCE);
+    end = map(ratio, 0, 1, trigger.effect.position[0] / 100.0, trigger.effect.position[1] / 100.0) + baseLevel;
+    drawLine(color(trigger.effect.colorRGB[0], trigger.effect.colorRGB[1], trigger.effect.colorRGB[2], 70), start, end);
   }
 
 
   private float getRatio(Trigger trigger, int shift) {
     float phase = (float)(frameCount - trigger.startTime + shift) / MAX_DURATION * 100;
     float ratio = 100;
+
+    if (phase <= trigger.effect.brightness[0][0])
+      return trigger.effect.brightness[0][1];
+    else if (phase > trigger.effect.brightness[3][0])
+      return trigger.effect.brightness[3][1];
 
     for (int i = 1; i < 4; i++) {
       if (trigger.effect.brightness[i][0] >= phase) {
