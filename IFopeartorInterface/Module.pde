@@ -1,5 +1,7 @@
 class Module {
   private static final float BASE_LEVEL_DEFAULT = 0.05;
+  private static final float BASE_LEVEL_INCREASE_PULLED = 0.2;
+  private static final int PULL_MAX_TIME = 11;
 
   private int x, y;
   private List<Trigger> triggers;
@@ -13,6 +15,7 @@ class Module {
   private float baseLevel;
   private boolean isPulled;
   private int note;
+  private int pullStartTime;
 
   Module(int indx, int x, int y, int barH, PVector fieldPos) {
     this.indx = indx;
@@ -34,8 +37,11 @@ class Module {
     Effect effect = effectController.getEffect();
     if (!isPulled)
       drawLine(color(effect.colorRGB[0], effect.colorRGB[1], effect.colorRGB[2]), 0, baseLevel);
-    else
-      drawLine(color(effect.colorRGB[0], effect.colorRGB[1], effect.colorRGB[2]), 0, baseLevel+0.2);
+    else {
+      println(frameCount-pullStartTime);
+      float baseLevelIncrease = constrain(map(frameCount-pullStartTime, 0, PULL_MAX_TIME, 0, BASE_LEVEL_INCREASE_PULLED), 0, BASE_LEVEL_INCREASE_PULLED);
+      drawLine(color(effect.colorRGB[0], effect.colorRGB[1], effect.colorRGB[2]), 0, baseLevel+baseLevelIncrease);
+    }
     //if (isPulled)
       //drawLine(color(effect.colorRGB[0], effect.colorRGB[1], effect.colorRGB[2], 90), 0, 1);
 
@@ -171,8 +177,10 @@ class Module {
   }
 
   public void pullStart() {
-    if (!isPulled)
+    if (!isPulled) {
       note = (int)map(baseLevel, BASE_LEVEL_DEFAULT, 0.6, 45, 65) + (int)random(-1, 1);
+      pullStartTime = frameCount;
+    }
     isPulled = true;
   }
 
