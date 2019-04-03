@@ -1,8 +1,20 @@
 class Module {
   private static final float BASE_LEVEL_DEFAULT = 0.05;
+  private static final float BASE_LEVEL_MAX = 0.6;
+  private static final float BASE_LEVEL_INCREASE_RATE_LOW = 0.84;
+  private static final float BASE_LEVEL_INCREASE_RATE_HIGH = 0.94;
+  private static final float BASE_LEVEL_DECREASE_RATE = 0.998;
+
+  private static final int WAVE_OPACITY = 70;
+  private static final int BLINK_OPACITY = 70;
+  private static final int PARTICLE_OPACITY_MAX = (int)(240/1.2);
+
   private static final float BASE_LEVEL_INCREASE_PULLED = 0.2;
   private static final int PULL_MAX_TIME = 11;
   private static final int WAVE_TIME_DISTANCE = 12;
+
+  private static final int NOTE_MIN = 45;
+  private static final int NOTE_MAX = 65;
 
   private int x, y;
   private List<Trigger> triggers;
@@ -68,8 +80,8 @@ class Module {
       }
     }
 
-    drawLine(color(0, 0, 0, random(0, 70)), 0, 1);
-    baseLevel = (baseLevel - BASE_LEVEL_DEFAULT) * 0.998 + BASE_LEVEL_DEFAULT;
+    drawLine(color(0, 0, 0, random(0, BLINK_OPACITY)), 0, 1);
+    baseLevel = (baseLevel - BASE_LEVEL_DEFAULT) * BASE_LEVEL_DECREASE_RATE + BASE_LEVEL_DEFAULT;
   }
 
 
@@ -80,7 +92,7 @@ class Module {
     float start = (1 - size) * map(ratio, 0, 1, trigger.effect.position[0] / 100.0, trigger.effect.position[1] / 100.0);
     float end = start + size;
 
-    drawLine(color(trigger.effect.colorRGB[0], trigger.effect.colorRGB[1], trigger.effect.colorRGB[2], 200*(1.2-ratio)), start, end);
+    drawLine(color(trigger.effect.colorRGB[0], trigger.effect.colorRGB[1], trigger.effect.colorRGB[2], PARTICLE_OPACITY_MAX*(1.2-ratio)), start, end);
   }
 
 
@@ -100,15 +112,15 @@ class Module {
     float start = 0;
     float end = map(ratio, 0, 1, trigger.effect.position[0] / 100.0, trigger.effect.position[1] / 100.0) + baseLevel;
 
-    drawLine(color(trigger.effect.colorRGB[0], trigger.effect.colorRGB[1], trigger.effect.colorRGB[2], 70), start, end);
+    drawLine(color(trigger.effect.colorRGB[0], trigger.effect.colorRGB[1], trigger.effect.colorRGB[2], WAVE_OPACITY), start, end);
 
     ratio = getRatio(trigger, -WAVE_TIME_DISTANCE);
     end = map(ratio, 0, 1, trigger.effect.position[0] / 100.0, trigger.effect.position[1] / 100.0) + baseLevel;
-    drawLine(color(trigger.effect.colorRGB[0], trigger.effect.colorRGB[1], trigger.effect.colorRGB[2], 70), start, end);
+    drawLine(color(trigger.effect.colorRGB[0], trigger.effect.colorRGB[1], trigger.effect.colorRGB[2], WAVE_OPACITY), start, end);
 
     ratio = getRatio(trigger, WAVE_TIME_DISTANCE);
     end = map(ratio, 0, 1, trigger.effect.position[0] / 100.0, trigger.effect.position[1] / 100.0) + baseLevel;
-    drawLine(color(trigger.effect.colorRGB[0], trigger.effect.colorRGB[1], trigger.effect.colorRGB[2], 70), start, end);
+    drawLine(color(trigger.effect.colorRGB[0], trigger.effect.colorRGB[1], trigger.effect.colorRGB[2], WAVE_OPACITY), start, end);
   }
 
 
@@ -169,7 +181,7 @@ class Module {
   }
 
   public void increaseBaseLevel() {
-    baseLevel = 0.6 - (0.6 - baseLevel) * random(0.84, 0.94);
+    baseLevel = BASE_LEVEL_MAX - (BASE_LEVEL_MAX - baseLevel) * random(BASE_LEVEL_INCREASE_RATE_LOW, BASE_LEVEL_INCREASE_RATE_HIGH);
   }
 
   void drawBar() {
@@ -193,7 +205,7 @@ class Module {
 
   public void pullStart() {
     if (!isPulled) {
-      note = (int)map(baseLevel, BASE_LEVEL_DEFAULT, 0.6, 45, 65) + (int)random(-1, 1);
+      note = (int)map(baseLevel, BASE_LEVEL_DEFAULT, BASE_LEVEL_MAX, NOTE_MIN, NOTE_MAX) + (int)random(-1, 1);
       pullStartTime = frameCount;
     }
     isPulled = true;

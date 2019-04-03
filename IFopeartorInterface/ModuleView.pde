@@ -11,6 +11,14 @@ class ModuleView {
   private static final int MIN_DELAY = 1;
   private static final int MAX_DELAY = 40;
   private static final float DECREMENT_RATE = 0.92;
+  private static final int PULL_EFFECT_PERIOD_MIN = 10;
+  private static final int PULL_EFFECT_PERIOD_MAX = 15;
+  private static final int PULL_EFFECT_SIZE_MIN = 2;
+  private static final int PULL_EFFECT_SIZE_MAX = 4;
+  private static final int PULL_EFFECT_DURATION_MIN = 51/3;
+  private static final int PULL_EFFECT_DURATION_MAX = 120/3;
+  private static final int PULL_SOUND_PERIOD = 110;
+  private static final float PULL_SOUND_DURATION = 3.3;
 
   ModuleView() {
     sc = new SoundCipher(sketch);
@@ -42,13 +50,13 @@ class ModuleView {
       for (int j = 0; j < COLUMNS; j++) {
         modules[i][j].draw();
         if (isPulled[i][j] && frameCount > nextPullCount[i][j]) {
-          nextPullCount[i][j] = frameCount + int(random(10, 15));
+          nextPullCount[i][j] = frameCount + int(random(PULL_EFFECT_PERIOD_MIN, PULL_EFFECT_PERIOD_MAX));
           Effect effect = new Effect();
           effect.barMode = BarMode.BOUNCE;
-          effect.size = int(random(2, 4));
+          effect.size = int(random(PULL_EFFECT_SIZE_MIN, PULL_EFFECT_SIZE_MAX));
           effect.position[0] = -20;
           effect.position[1] = 120;
-          effect.brightness[1] = new int[]{int(random(17, 40)), 22};
+          effect.brightness[1] = new int[]{int(random(PULL_EFFECT_DURATION_MIN, PULL_EFFECT_DURATION_MAX)), 22};
           effect.brightness[2] = new int[]{effect.brightness[1][0] * 2, 55};
           effect.brightness[3] = new int[]{effect.brightness[1][0] * 3, 100};
           Trigger trigger = new Trigger(effect, j, i, frameCount);
@@ -56,8 +64,8 @@ class ModuleView {
         }
 
         if (isPulled[i][j] && frameCount > nextPullSoundCount[i][j]) {
-          nextPullSoundCount[i][j] = frameCount + 110;
-          makeSound(i*COLUMNS+j, modules[i][j].getNote(), 100, 0, 3.3);
+          nextPullSoundCount[i][j] = frameCount + PULL_SOUND_PERIOD;
+          makeSound(i*COLUMNS+j, modules[i][j].getNote(), 100, 0, PULL_SOUND_DURATION);
         }
       }
     // Remove old trigger in triggers
