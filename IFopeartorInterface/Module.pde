@@ -108,8 +108,8 @@ class Module {
     float phase = (float)(frameCount - trigger.startTime) / MAX_DURATION * 100;
     float ratio = 100;
 
-    for (int i = 3; i >= 1; i--) {
-      if (trigger.effect.brightness[i][0] >= phase)
+    for (int i = 1; i < 4; i++) {
+      if (trigger.effect.brightness[i][0] >= phase) {
         ratio = map(
           phase,
           trigger.effect.brightness[i - 1][0],
@@ -117,6 +117,8 @@ class Module {
           trigger.effect.brightness[i - 1][1],
           trigger.effect.brightness[i][1]
         );
+        break;
+      }
     }
 
     return ratio / 100;
