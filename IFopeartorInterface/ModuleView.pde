@@ -8,9 +8,12 @@ class ModuleView {
   private int nextPullSoundCount[][];
   private static final int ROWS = 1;
   private static final int COLUMNS = 16;
+
   private static final int MIN_DELAY = 1;
   private static final int MAX_DELAY = 40;
+
   private static final float DECREMENT_RATE = 0.92;
+
   private static final int PULL_EFFECT_PERIOD_MIN = 10;
   private static final int PULL_EFFECT_PERIOD_MAX = 15;
   private static final int PULL_EFFECT_SIZE_MIN = 2;
@@ -18,7 +21,13 @@ class ModuleView {
   private static final int PULL_EFFECT_DURATION_MIN = 51/3;
   private static final int PULL_EFFECT_DURATION_MAX = 120/3;
   private static final int PULL_SOUND_PERIOD = 110;
+  private static final int PULL_SOUND_INSTRUMENT = 0;
+  private static final int PULL_SOUND_VOLUME = 100;
   private static final float PULL_SOUND_DURATION = 3.3;
+
+  private static final int WAVE_SOUND_INSTRUMENT = 0;
+  private static final int WAVE_SOUND_VOLUME = 75;
+  private static final float WAVE_SOUND_DURATION = 2;
 
   ModuleView() {
     sc = new SoundCipher(sketch);
@@ -65,7 +74,7 @@ class ModuleView {
 
         if (isPulled[i][j] && frameCount > nextPullSoundCount[i][j]) {
           nextPullSoundCount[i][j] = frameCount + PULL_SOUND_PERIOD;
-          makeSound(i*COLUMNS+j, modules[i][j].getNote(), 100, 0, PULL_SOUND_DURATION);
+          makeSound(i*COLUMNS+j, modules[i][j].getNote(), PULL_SOUND_VOLUME, PULL_SOUND_INSTRUMENT, PULL_SOUND_DURATION);
         }
       }
     // Remove old trigger in triggers
@@ -83,7 +92,7 @@ class ModuleView {
         modules[t.y][t.x].increaseBaseLevel();
         modules[t.y][t.x].addTrigger(t.copyWithStartTime(frameCount));
 
-        makeSound(t.y*COLUMNS+t.x, getNote(t.effect, phase, delay), 70, 0, 2);
+        makeSound(t.y*COLUMNS+t.x, getNote(t.effect, phase, delay), WAVE_SOUND_VOLUME, PULL_SOUND_INSTRUMENT, WAVE_SOUND_DURATION);
         
       }
 
@@ -102,7 +111,7 @@ class ModuleView {
             Trigger newT = t.copyWithStartTime(frameCount);
             newT.effect.position[1] = int(t.effect.position[1]*decrement);
             modules[t.y][x].addTrigger(newT);
-            makeSound(t.y * COLUMNS + x, getNote(t.effect, phase, delay), int(75*decrement), 0, 2);
+            makeSound(t.y * COLUMNS + x, getNote(t.effect, phase, delay), int(WAVE_SOUND_VOLUME*decrement), PULL_SOUND_INSTRUMENT, WAVE_SOUND_DURATION);
           }
         }
 
@@ -118,7 +127,7 @@ class ModuleView {
             Trigger newT = t.copyWithStartTime(frameCount);
             newT.effect.position[1] = int(t.effect.position[1]*decrement);
             modules[t.y][x].addTrigger(newT);
-            makeSound(t.y * COLUMNS + x, getNote(t.effect, phase, delay), int(75*decrement), 0, 2);
+            makeSound(t.y * COLUMNS + x, getNote(t.effect, phase, delay), int(WAVE_SOUND_VOLUME*decrement), PULL_SOUND_INSTRUMENT, WAVE_SOUND_DURATION);
           }
         }
       }
