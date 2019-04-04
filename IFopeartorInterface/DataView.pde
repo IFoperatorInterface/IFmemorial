@@ -3,8 +3,6 @@ public class DataView {
   private static final float PULL_INNER_SIZE_THRESHOLD = 0.2;
   private static final int PULL_START_COUNT_THRESHOLD = 14;
   private static final int PULL_CHARGE_COUNT_THRESHOLD = 34;
-  private static final int PULL_CHARGE_COUNT_MAX = 74;
-  private static final int PULL_RELEASE_COUNT_THRESHOLD = 7;
 
   private int[] pullEndTime;
   private int[] pullCount;
@@ -26,23 +24,14 @@ public class DataView {
 
       if (mdata[i].barPos.mag() > PULL_OUTER_SIZE_THRESHOLD) {
         if (pullCount[i] > PULL_START_COUNT_THRESHOLD) {
-          float size = map(pullCount[i], PULL_START_COUNT_THRESHOLD, PULL_CHARGE_COUNT_MAX, 0, 1);
-          size = constrain(size, 0, 1);
-          presetController.triggerPullStart(x, y, size);
+          presetController.triggerPullStart(x, y, 1);
         }
         pullEndTime[i] = frameCount;
         pullCount[i]++;
       }
-      else if (mdata[i].barPos.mag() > PULL_INNER_SIZE_THRESHOLD) {
-        if (frameCount - pullEndTime[i] == 1)
-          pullDirection[i].set(mdata[i].barPos);
-      }
-      else {
-        if (frameCount - pullEndTime[i] < PULL_RELEASE_COUNT_THRESHOLD
-            && pullCount[i] > PULL_CHARGE_COUNT_THRESHOLD) {
-          float size = map(pullCount[i], PULL_START_COUNT_THRESHOLD, PULL_CHARGE_COUNT_MAX, 0, 1);
-          size = constrain(size, 0, 1);
-          presetController.triggerPullEnd(x, y, pullDirection[i], size);
+      else if (mdata[i].barPos.mag() <= PULL_INNER_SIZE_THRESHOLD) {
+        if (pullCount[i] > PULL_CHARGE_COUNT_THRESHOLD) {
+          presetController.triggerPullEnd(x, y, pullDirection[i], 1);
         }
         pullCount[i] = 0;
       }
