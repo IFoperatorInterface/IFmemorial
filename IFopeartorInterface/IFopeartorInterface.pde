@@ -100,7 +100,6 @@ void mouseReleased() {
 
   effectController.press(mouseStartX, mouseStartY, mouseX, mouseY);
   recordController.press(mouseStartX, mouseStartY, mouseX, mouseY);
-  presetController.press(mouseStartX, mouseStartY, mouseX, mouseY);
 
   effectController.mouseReleased();
 }
