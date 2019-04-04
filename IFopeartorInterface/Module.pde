@@ -1,21 +1,22 @@
 class Module {
-  private static final float BASE_LEVEL_DEFAULT = 0.05;
-  private static final float BASE_LEVEL_MAX = 0.6;
-  private static final float BASE_LEVEL_INCREASE_RATE_LOW = 0.84;
-  private static final float BASE_LEVEL_INCREASE_RATE_HIGH = 0.94;
-  private static final float BASE_LEVEL_DECREASE_RATE = 0.998;
+  private static final float BASE_LEVEL_DEFAULT = 0.05; // 최소 base level 높이. 단위: 0-1
+  private static final float BASE_LEVEL_MAX = 0.6; // 최대 base level 높이. 단위: 0-1
+  private static final float BASE_LEVEL_INCREASE_RATE_LOW = 0.84; // 놓을때마다 base level 증가 랜덤 최솟값. 1에 가까울수록 적게 증가. 단위: 1-0
+  private static final float BASE_LEVEL_INCREASE_RATE_HIGH = 0.94; // 놓을때마다 base level 증가 랜덤 최댓값. 1에 가까울수록 적게 증가. 단위: 1-0
+  private static final float BASE_LEVEL_DECREASE_RATE = 0.998; // Frame당 base level 감소값. 1에 가까울수록 적게 감소. 단위: 1-0
 
-  private static final int WAVE_OPACITY = 70;
-  private static final int BLINK_OPACITY = 70;
-  private static final int PARTICLE_OPACITY_MAX = (int)(240/1.2);
+  private static final int WAVE_OPACITY = 70; // Wave 투명도. 단위: 0-255
+  private static final int BLINK_OPACITY = 70; // 깜빡임 투명도. 클수록 많이 깜빡임. 단위: 0-255
+  private static final int PARTICLE_OPACITY_MAX = (int)(240/1.2); // 당겼을때 입자 투명도. 단위: 0-(255/1.2)
 
-  private static final float BASE_LEVEL_INCREASE_PULLED = 0.2;
-  private static final int PULL_MAX_TIME = 11;
-  private static final int WAVE_TIME_DISTANCE = 12;
-  private static final int OPACITY_PULLED = 90;
+  private static final float BASE_LEVEL_INCREASE_PULLED = 0.2; // 당긴 동안 당긴 봉 base level 증가. 단위: 0-1
+  private static final int PULL_MAX_TIME = 11; // 당긴 동안 base level 증가, 빛 차는 데 걸리는 시간. 단위: frame
+  private static final int WAVE_TIME_DISTANCE = 12; // 겹쳐진 wave간 시간 간격. 단위: frame
+  private static final int OPACITY_PULLED = 90; // 당긴 동안 당긴 봉 연한 빛 투명도. 현재는 비활성화. 단위: 0-255
 
-  private static final int NOTE_MIN = 45;
-  private static final int NOTE_MAX = 65;
+  private static final int NOTE_MIN = 45; // Base level별 최소 소리 note. 단위: 0-127
+  private static final int NOTE_MAX = 65; // Base level별 최대 소리 note. 단위: 0-127
+  private static final int NOTE_RANDOM_FACTOR = 1; // Base level별 소리 note 무작위 변화폭. 단위: 0-127
 
   private int x, y;
   private List<Trigger> triggers;
@@ -208,7 +209,7 @@ class Module {
 
   public void pullStart() {
     if (!isPulled) {
-      note = (int)map(baseLevel, BASE_LEVEL_DEFAULT, BASE_LEVEL_MAX, NOTE_MIN, NOTE_MAX) + (int)random(-1, 1);
+      note = (int)map(baseLevel, BASE_LEVEL_DEFAULT, BASE_LEVEL_MAX, NOTE_MIN, NOTE_MAX) + (int)random(-NOTE_RANDOM_FACTOR, NOTE_RANDOM_FACTOR);
       pullStartTime = frameCount;
     }
     isPulled = true;

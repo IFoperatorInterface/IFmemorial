@@ -12,22 +12,22 @@ class ModuleView {
   private static final int MIN_DELAY = 1;
   private static final int MAX_DELAY = 40;
 
-  private static final float DECREMENT_RATE = 0.92;
+  private static final float DECREMENT_RATE = 0.92; // Wave 퍼질 때 한칸당 빛 높이 및 소리 크기 감쇠 폭. 0에 가까울수록 많이 감쇠. 단위: 1-0
 
-  private static final int PULL_EFFECT_PERIOD_MIN = 10;
-  private static final int PULL_EFFECT_PERIOD_MAX = 15;
-  private static final int PULL_EFFECT_SIZE_MIN = 2;
-  private static final int PULL_EFFECT_SIZE_MAX = 4;
-  private static final int PULL_EFFECT_DURATION_MIN = 51/3;
-  private static final int PULL_EFFECT_DURATION_MAX = 120/3;
-  private static final int PULL_SOUND_PERIOD = 110;
-  private static final int PULL_SOUND_INSTRUMENT = 0;
-  private static final int PULL_SOUND_VOLUME = 100;
-  private static final float PULL_SOUND_DURATION = 3.3;
+  private static final int PULL_EFFECT_PERIOD_MIN = 10; // 당겼을 때 입자 생성 주기 랜덤 최솟값. 단위: frame
+  private static final int PULL_EFFECT_PERIOD_MAX = 15; // 당겼을 때 입자 생성 주기 랜덤 최댓값. 단위: frame
+  private static final int PULL_EFFECT_SIZE_MIN = 2; // 당겼을 때 입자 크기 랜덤 최솟값. 단위: 0-100
+  private static final int PULL_EFFECT_SIZE_MAX = 4; // 당겼을 때 입자 크기 랜덤 최댓값. 단위: 0-100
+  private static final int PULL_EFFECT_DURATION_MIN = 51/3; // 당겼을 때 입자 올라갈때까지 걸리는 시간 랜덤 최솟값. 클수록 느림. 단위: frame/3
+  private static final int PULL_EFFECT_DURATION_MAX = 120/3; // 당겼을 때 입자 올라갈때까지 걸리는 시간 랜덤 최댓값. 클수록 느림. 단위: frame/3
+  private static final int PULL_SOUND_PERIOD = 110; // 당겼을 때 소리 주기. 단위: frame
+  private static final int PULL_SOUND_INSTRUMENT = 0; // 당겼을 때 악기. 단위: MIDI 악기 (0-127)
+  private static final int PULL_SOUND_VOLUME = 100; // 당겼을 때 소리 크기. 단위: 0-127
+  private static final float PULL_SOUND_DURATION = 3.3; // 당겼을 때 소리 길이. 단위: 초
 
-  private static final int WAVE_SOUND_INSTRUMENT = 0;
-  private static final int WAVE_SOUND_VOLUME = 75;
-  private static final float WAVE_SOUND_DURATION = 2;
+  private static final int WAVE_SOUND_INSTRUMENT = 0; // Wave 악기. 단위: MIDI 악기 (0-127)
+  private static final int WAVE_SOUND_VOLUME = 75; // Wave 소리 크기. 단위: 0-127
+  private static final float WAVE_SOUND_DURATION = 2; // Wave 소리 길이. 단위: 초
 
   ModuleView() {
     sc = new SoundCipher(sketch);
