@@ -11,7 +11,6 @@ import java.util.Arrays;
 final boolean AUTO_WELCOME_MODE = true;
 
 ControlP5 controlP5;
-EffectController effectController;
 FieldController fieldController;
 PresetController presetController;
 ModuleView moduleView;
@@ -47,7 +46,6 @@ void draw() {
 
       try {
         controlP5.draw();
-        effectController.onDraw();
         fieldController.onDraw();
         presetController.onDraw();
         moduleView.draw();
@@ -62,8 +60,6 @@ void mouseClicked() {
     return;
   if (!setting.isCompleted)
     return;
-
-  effectController.press(mouseX, mouseY);
 }
 
 
@@ -77,8 +73,6 @@ void mousePressed() {
 
   mouseStartX = mouseX;
   mouseStartY = mouseY;
-
-  effectController.mousePressed();
 }
 
 
@@ -89,10 +83,6 @@ void mouseReleased() {
 
   if (MOUSE_MODE != 1)
     return;
-
-  effectController.press(mouseStartX, mouseStartY, mouseX, mouseY);
-
-  effectController.mouseReleased();
 }
 
 

@@ -78,7 +78,6 @@
          systemView = new SystemView();
          controlP5 = new ControlP5(sketch);
          controlP5.setAutoDraw(false);
-         effectController = new EffectController();
          fieldController = new FieldController();
          presetController = new PresetController();
          moduleView = new ModuleView();

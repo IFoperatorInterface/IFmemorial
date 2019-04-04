@@ -13,7 +13,7 @@ class SystemView {
         windowGUI();
     }
     void windowGUI() {
-        PVector pos = effectController.previewModule.pos;
+        PVector pos = new PVector(0, 0);
         float pd = 10;
         float w = 14;
         float h = pos.y - windows[1].pos.y;
@@ -45,14 +45,6 @@ class SystemView {
         fill(c);
         rect(x, y, w, h);
         popStyle();
-
-        for (ADRpointer p: effectController.adrPointers)
-            p.draw();
-
-        for (int i = 0; i < effectController.adrPointers.length - 1; i++) {
-            stroke(255);
-            line(effectController.adrPointers[i].pos.x, effectController.adrPointers[i].pos.y, effectController.adrPointers[i + 1].pos.x, effectController.adrPointers[i + 1].pos.y);
-        }
     }
 }
 

@@ -49,7 +49,7 @@ class Module {
 
   public void draw() {
     drawBar();
-    Effect effect = effectController.getEffect();
+    Effect effect = new Effect();
     if (!isPulled)
       drawLine(color(effect.colorRGB[0], effect.colorRGB[1], effect.colorRGB[2]), 0, baseLevel);
     else {
