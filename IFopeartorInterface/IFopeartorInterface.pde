@@ -17,7 +17,6 @@ PresetController presetController;
 ModuleView moduleView;
 SystemView systemView;
 DataView dataView;
-TimeView timeView;
 Setups setups;
 
 PApplet sketch = this;
@@ -40,7 +39,6 @@ void setup() {
 
   setting.isCompleted = true;
   setups = new Setups();
-  timeView = new TimeView();
 }
 
 
@@ -55,7 +53,6 @@ void draw() {
         moduleView.draw();
         systemView.draw();
         dataView.draw();
-        timeView.draw();
       } catch (Exception e) {}
 }
 
