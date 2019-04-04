@@ -15,7 +15,6 @@ EffectController effectController;
 FieldController fieldController;
 PresetController presetController;
 ModuleView moduleView;
-FieldView fieldView;
 SystemView systemView;
 DataView dataView;
 TimeView timeView;
@@ -54,7 +53,6 @@ void draw() {
         fieldController.onDraw();
         presetController.onDraw();
         moduleView.draw();
-        fieldView.draw();
         systemView.draw();
         dataView.draw();
         timeView.draw();

@@ -123,7 +123,6 @@ void receive(byte[] data) {
                     if (weight[i] < 0)
                         weight[i] = 0;
                 }
-                fieldView.update(NUM_PERSON, pos, weight, personIndx);
             }
         }
     }

@@ -82,7 +82,6 @@
          fieldController = new FieldController();
          presetController = new PresetController();
          moduleView = new ModuleView();
-         fieldView = new FieldView();
          dataView = new DataView();
 
          settingCompleted = true;
