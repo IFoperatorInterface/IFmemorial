@@ -13,7 +13,6 @@ final boolean AUTO_WELCOME_MODE = true;
 ControlP5 controlP5;
 EffectController effectController;
 FieldController fieldController;
-RecordController recordController;
 PresetController presetController;
 ModuleView moduleView;
 FieldView fieldView;
@@ -53,7 +52,6 @@ void draw() {
         controlP5.draw();
         effectController.onDraw();
         fieldController.onDraw();
-        recordController.onDraw();
         presetController.onDraw();
         moduleView.draw();
         fieldView.draw();
@@ -71,7 +69,6 @@ void mouseClicked() {
     return;
 
   effectController.press(mouseX, mouseY);
-  recordController.press(mouseX, mouseY);
 }
 
 
@@ -99,7 +96,6 @@ void mouseReleased() {
     return;
 
   effectController.press(mouseStartX, mouseStartY, mouseX, mouseY);
-  recordController.press(mouseStartX, mouseStartY, mouseX, mouseY);
 
   effectController.mouseReleased();
 }

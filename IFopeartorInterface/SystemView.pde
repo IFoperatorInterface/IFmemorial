@@ -13,20 +13,6 @@ class SystemView {
         windowGUI();
     }
     void windowGUI() {
-        if (recordController.isRecording) {
-            float x = windows[4].pos.x;
-            float y = windows[4].pos.y;
-            float w = windows[4].size.x;
-            float h = windows[4].size.y;
-            float scale = 100;
-            float speed = 8;
-            pushStyle();
-            noFill();
-            strokeWeight(5);
-            stroke(millis() % (scale * speed), 0, 0);
-            rect(x, y, w, h);
-            popStyle();
-        }
         PVector pos = effectController.previewModule.pos;
         float pd = 10;
         float w = 14;

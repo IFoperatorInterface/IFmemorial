@@ -80,7 +80,6 @@
          controlP5.setAutoDraw(false);
          effectController = new EffectController();
          fieldController = new FieldController();
-         recordController = new RecordController();
          presetController = new PresetController();
          moduleView = new ModuleView();
          fieldView = new FieldView();
