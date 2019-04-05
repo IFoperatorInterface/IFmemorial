@@ -46,10 +46,13 @@ void draw() {
 
       try {
         controlP5.draw();
+        
         fieldController.onDraw();
         presetController.onDraw();
         moduleView.draw();
+        
         systemView.draw();
+      
         dataView.draw();
       } catch (Exception e) {}
 }

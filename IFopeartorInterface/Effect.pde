@@ -30,8 +30,8 @@ class Effect {
     direction = null;
     diameter = 50;
     colorRGB = new int[3];
-    colorRGB[0] = 240; // 색상 R값. 단위: 0-255
-    colorRGB[1] = 215; // 색상 G값. 단위: 0-255
+    colorRGB[0] = 255; // 색상 R값. 단위: 0-255
+    colorRGB[1] = 142; // 색상 G값. 단위: 0-255
     colorRGB[2] = 0; // 색상 B값. 단위: 0-255
     brightness = new int[4][2];
     brightness[0] = new int[]{0, 0};

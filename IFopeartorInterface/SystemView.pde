@@ -7,8 +7,9 @@ class SystemView {
 
         adrGUI();
 
-        for (Title t: sliderTitles)
-            t.display();
+        //for (Title t: sliderTitles)
+        //    t.display();
+
 
         windowGUI();
     }
@@ -22,10 +23,10 @@ class SystemView {
         stroke(120);
         rect(pos.x - w / 2, pos.y - h + pd, w, h, w / 2);
         popStyle();
-        previewTitle.display();
+        //previewTitle.display();
 
-        for (Window win: windows)
-            win.display();
+        //for (Window win: windows)
+        //    win.display();
 
     }
     void adrGUI() {
