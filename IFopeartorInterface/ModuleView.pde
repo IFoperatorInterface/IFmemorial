@@ -56,7 +56,7 @@ class ModuleView {
         modules[i][j].draw();
         if (isPulled[i][j] && frameCount > nextPullCount[i][j]) {
           nextPullCount[i][j] = frameCount + int(random(PULL_EFFECT_PERIOD_MIN, PULL_EFFECT_PERIOD_MAX));
-          presetController.triggerParticle(j, i);
+          presetController.triggerParticle(j, i, -20);
         }
 
         if (isPulled[i][j] && frameCount > nextPullSoundCount[i][j]) {

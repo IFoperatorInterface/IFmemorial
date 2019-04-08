@@ -18,6 +18,8 @@ class Module {
   private static final int NOTE_MAX = 65; // Base level별 최대 소리 note. 단위: 0-127
   private static final int NOTE_RANDOM_FACTOR = 1; // Base level별 소리 note 무작위 변화폭. 단위: 0-127
 
+  private static final float PARTICLE_FREQUENCY_FACTOR = 0.12; // Wave 최대 높이에서 입자 생성 확률 인자
+
   private int x, y;
   private List<Trigger> triggers;
   private static final int MAX_DURATION = 90;
@@ -115,6 +117,8 @@ class Module {
     float end = map(ratio, 0, 1, trigger.effect.position[0] / 100.0, trigger.effect.position[1] / 100.0) + baseLevel;
 
     drawLine(color(trigger.effect.colorRGB[0], trigger.effect.colorRGB[1], trigger.effect.colorRGB[2], WAVE_OPACITY), start, end);
+    if (ratio>0.8 && random(1)<PARTICLE_FREQUENCY_FACTOR*trigger.effect.position[1]/100)
+      presetController.triggerParticle(indx%ModuleView.COLUMNS, indx/ModuleView.COLUMNS, (int)(end*100));
 
     ratio = getRatio(trigger, -WAVE_TIME_DISTANCE);
     end = map(ratio, 0, 1, trigger.effect.position[0] / 100.0, trigger.effect.position[1] / 100.0) + baseLevel;

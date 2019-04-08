@@ -32,13 +32,13 @@ public class PresetController {
   }
 
 
-  public void triggerParticle(int x, int y) {
+  public void triggerParticle(int x, int y, int start) {
     Effect effect = new Effect();
     effect.barMode = BarMode.BOUNCE;
     effect.size = int(random(PARTICLE_SIZE_MIN, PARTICLE_SIZE_MAX));
-    effect.position[0] = -20;
+    effect.position[0] = start;
     effect.position[1] = 120;
-    effect.brightness[1] = new int[]{int(random(PARTICLE_DURATION_MIN, PARTICLE_DURATION_MAX)), 22};
+    effect.brightness[1] = new int[]{int(random(PARTICLE_DURATION_MIN, PARTICLE_DURATION_MAX))*(120-start)/140, 22};
     effect.brightness[2] = new int[]{effect.brightness[1][0] * 2, 55};
     effect.brightness[3] = new int[]{effect.brightness[1][0] * 3, 100};
     effect.fieldMode[0] = false;
