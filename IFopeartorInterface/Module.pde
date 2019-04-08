@@ -77,8 +77,7 @@ class Module {
             blink(trigger);
             break;
           case STRETCH:
-            if (!isPulled)
-              stretch(trigger);
+            stretch(trigger);
             break;
         }
       }
