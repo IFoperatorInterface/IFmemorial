@@ -4,6 +4,8 @@ class Module {
   private static final float BASE_LEVEL_INCREASE_RATE_LOW = 0.52; // 놓을때마다 base level 증가 랜덤 최솟값. 1에 가까울수록 적게 증가. 단위: 1-0
   private static final float BASE_LEVEL_INCREASE_RATE_HIGH = 0.94; // 놓을때마다 base level 증가 랜덤 최댓값. 1에 가까울수록 적게 증가. 단위: 1-0
   private static final float BASE_LEVEL_DECREASE_RATE = 0.998; // Frame당 base level 감소값. 1에 가까울수록 적게 감소. 단위: 1-0
+  private static final float BASE_LEVEL_RANDOM = 0.002; // Frame당 base level 랜덤 변화폭. 단위: 0-1
+
 
   private static final int WAVE_OPACITY = 200; // Wave 투명도. 단위: 0-255
   private static final int BLINK_OPACITY = 40; // 깜빡임 투명도. 클수록 많이 깜빡임. 단위: 0-255
@@ -86,6 +88,7 @@ class Module {
 
     drawLine(color(0, 0, 0, random(0, BLINK_OPACITY)), 0, 1);
     baseLevel = (baseLevel - BASE_LEVEL_DEFAULT) * BASE_LEVEL_DECREASE_RATE + BASE_LEVEL_DEFAULT;
+    baseLevel += random(-BASE_LEVEL_RANDOM, BASE_LEVEL_RANDOM);
   }
 
 
