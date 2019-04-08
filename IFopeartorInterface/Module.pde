@@ -70,8 +70,7 @@ class Module {
       else {
         switch (trigger.effect.barMode) {
           case BOUNCE:
-            if (isPulled)
-              bounce(trigger);
+            bounce(trigger);
             break;
           case BLINK:
             blink(trigger);
