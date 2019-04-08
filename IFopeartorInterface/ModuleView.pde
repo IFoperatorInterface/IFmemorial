@@ -16,10 +16,6 @@ class ModuleView {
 
   private static final int PULL_EFFECT_PERIOD_MIN = 10; // 당겼을 때 입자 생성 주기 랜덤 최솟값. 단위: frame
   private static final int PULL_EFFECT_PERIOD_MAX = 60; // 당겼을 때 입자 생성 주기 랜덤 최댓값. 단위: frame
-  private static final int PULL_EFFECT_SIZE_MIN = 2; // 당겼을 때 입자 크기 랜덤 최솟값. 단위: 0-100
-  private static final int PULL_EFFECT_SIZE_MAX = 4; // 당겼을 때 입자 크기 랜덤 최댓값. 단위: 0-100
-  private static final int PULL_EFFECT_DURATION_MIN = 87/3; // 당겼을 때 입자 올라갈때까지 걸리는 시간 랜덤 최솟값. 클수록 느림. 단위: frame/3
-  private static final int PULL_EFFECT_DURATION_MAX = 210/3; // 당겼을 때 입자 올라갈때까지 걸리는 시간 랜덤 최댓값. 클수록 느림. 단위: frame/3
   private static final int PULL_SOUND_PERIOD = 1000; // 당겼을 때 소리 주기. 단위: frame
   private static final int PULL_SOUND_INSTRUMENT = 0; // 당겼을 때 악기. 단위: MIDI 악기 (0-127)
   private static final int PULL_SOUND_VOLUME = 100; // 당겼을 때 소리 크기. 단위: 0-127
@@ -60,16 +56,7 @@ class ModuleView {
         modules[i][j].draw();
         if (isPulled[i][j] && frameCount > nextPullCount[i][j]) {
           nextPullCount[i][j] = frameCount + int(random(PULL_EFFECT_PERIOD_MIN, PULL_EFFECT_PERIOD_MAX));
-          Effect effect = new Effect();
-          effect.barMode = BarMode.BOUNCE;
-          effect.size = int(random(PULL_EFFECT_SIZE_MIN, PULL_EFFECT_SIZE_MAX));
-          effect.position[0] = -20;
-          effect.position[1] = 120;
-          effect.brightness[1] = new int[]{int(random(PULL_EFFECT_DURATION_MIN, PULL_EFFECT_DURATION_MAX)), 22};
-          effect.brightness[2] = new int[]{effect.brightness[1][0] * 2, 55};
-          effect.brightness[3] = new int[]{effect.brightness[1][0] * 3, 100};
-          Trigger trigger = new Trigger(effect, j, i, frameCount);
-          modules[i][j].addTrigger(trigger);
+          presetController.triggerParticle(j, i);
         }
 
         if (isPulled[i][j] && frameCount > nextPullSoundCount[i][j]) {
@@ -89,7 +76,8 @@ class ModuleView {
         triggersIterator.remove();
 
       if (phase == 1 && !(t.effect.noCenter)) {
-        modules[t.y][t.x].increaseBaseLevel();
+        if (t.effect.barMode == BarMode.STRETCH)
+          modules[t.y][t.x].increaseBaseLevel();
         modules[t.y][t.x].addTrigger(t.copyWithStartTime(frameCount));
 
         makeSound(t.y*COLUMNS+t.x, getNote(t.effect, phase, delay), WAVE_SOUND_VOLUME, PULL_SOUND_INSTRUMENT, WAVE_SOUND_DURATION);
@@ -101,7 +89,7 @@ class ModuleView {
 
         if (t.effect.fieldMode[FieldMode.LEFT.ordinal()]) {
           int x = t.x - distance;
-          if (x >= 0)
+          if (x >= 0 && t.effect.barMode == BarMode.STRETCH)
             modules[t.y][x].increaseBaseLevel();
           x = (COLUMNS-1) - abs(abs(x) % (COLUMNS*2-2) - (COLUMNS-1));
 
@@ -117,7 +105,7 @@ class ModuleView {
 
         if (t.effect.fieldMode[FieldMode.RIGHT.ordinal()]) {
           int x = t.x + distance;
-          if (x < COLUMNS)
+          if (x < COLUMNS && t.effect.barMode == BarMode.STRETCH)
             modules[t.y][x].increaseBaseLevel();
           x = (COLUMNS-1) - abs(abs(x) % (COLUMNS*2-2) - (COLUMNS-1));
 
