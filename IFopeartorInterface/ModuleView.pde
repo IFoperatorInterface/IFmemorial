@@ -4,7 +4,7 @@ class ModuleView {
   private List < Trigger > triggers;
   private Module modules[][];
   private boolean isPulled[][];
-  private int nextPullCount[][];
+  private int nextParticleCount[][];
   private int nextPullSoundCount[][];
   private static final int ROWS = 1;
   private static final int COLUMNS = 16;
@@ -25,13 +25,15 @@ class ModuleView {
   private static final int WAVE_SOUND_VOLUME = 75; // Wave 소리 크기. 단위: 0-127
   private static final float WAVE_SOUND_DURATION = 2; // Wave 소리 길이. 단위: 초
 
+  private static final float NONPULL_PARTICLE_FREQUENCY = 0.015; // 당기지 않았을 때 입자 비율
+
   ModuleView() {
     sc = new SoundCipher(sketch);
 
     triggers = new ArrayList < Trigger > ();
     modules = new Module[ROWS][COLUMNS];
     isPulled = new boolean[ROWS][COLUMNS];
-    nextPullCount = new int[ROWS][COLUMNS];
+    nextParticleCount = new int[ROWS][COLUMNS];
     nextPullSoundCount = new int[ROWS][COLUMNS];
 
     int indx = 0;
@@ -54,9 +56,10 @@ class ModuleView {
     for (int i = 0; i < ROWS; i++)
       for (int j = 0; j < COLUMNS; j++) {
         modules[i][j].draw();
-        if (isPulled[i][j] && frameCount > nextPullCount[i][j]) {
-          nextPullCount[i][j] = frameCount + int(random(PULL_EFFECT_PERIOD_MIN, PULL_EFFECT_PERIOD_MAX));
-          presetController.triggerParticle(j, i, -20);
+        if (frameCount > nextParticleCount[i][j]) {
+          nextParticleCount[i][j] = frameCount + int(random(PULL_EFFECT_PERIOD_MIN, PULL_EFFECT_PERIOD_MAX));
+          if (isPulled[i][j] || random(1)<NONPULL_PARTICLE_FREQUENCY)
+            presetController.triggerParticle(j, i, -20);
         }
 
         if (isPulled[i][j] && frameCount > nextPullSoundCount[i][j]) {
