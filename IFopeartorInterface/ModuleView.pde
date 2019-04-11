@@ -147,8 +147,8 @@ class ModuleView {
 
     dataController.sendSoundData(idx, note, volume, instrument, int(length*50));
 
-    sc.instrument(instrument);
-    sc.playNote(note, volume, length);
+    //sc.instrument(instrument);
+    //sc.playNote(note, volume, length);
   }
 
 
