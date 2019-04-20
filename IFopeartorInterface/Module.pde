@@ -14,7 +14,7 @@ class Module {
 
   private static final float BASE_LEVEL_INCREASE_PULLED = 1.1; // 당긴 동안 당긴 봉 base level 증가. 단위: 0-1
   private static final int PULL_MAX_TIME = 600; // 당긴 동안 base level 증가, 빛 차는 데 걸리는 시간. 단위: frame
-  private static final int WAVE_TIME_DISTANCE = 12; // 겹쳐진 wave간 시간 간격. 단위: frame
+  private static final int WAVE_TIME_DISTANCE = 3; // 겹쳐진 wave간 시간 간격. 단위: frame
   private static final int OPACITY_PULLED = 90; // 당긴 동안 당긴 봉 연한 빛 투명도. 현재는 비활성화. 단위: 0-255
 
   private static final int NOTE_MIN = 45; // Base level별 최소 소리 note. 단위: 0-127
@@ -128,7 +128,7 @@ class Module {
     float end = map(ratio, 0, 1, trigger.effect.position[0] / 100.0, trigger.effect.position[1] / 100.0) + baseLevel;
 
     drawLine(color(trigger.effect.colorRGB[0], trigger.effect.colorRGB[1], trigger.effect.colorRGB[2], WAVE_OPACITY), start, end);
-    if (ratio>0.8 && random(1)<PARTICLE_FREQUENCY_FACTOR*trigger.effect.position[1]/100)
+    if (ratio>0.85 && random(1)<PARTICLE_FREQUENCY_FACTOR*trigger.effect.position[1]/100)
       presetController.triggerParticle(indx%ModuleView.COLUMNS, indx/ModuleView.COLUMNS, (int)(end*100));
 
     ratio = getRatio(trigger, -WAVE_TIME_DISTANCE);

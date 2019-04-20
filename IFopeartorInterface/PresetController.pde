@@ -1,8 +1,8 @@
 public class PresetController {
   private static final int PARTICLE_SIZE_MIN = 2; // 입자 크기 랜덤 최솟값. 단위: 0-100
-  private static final int PARTICLE_SIZE_MAX = 4; // 입자 크기 랜덤 최댓값. 단위: 0-100
-  private static final int PARTICLE_DURATION_MIN = 87/3; // 입자 올라갈때까지 걸리는 시간 랜덤 최솟값. 클수록 느림. 단위: frame/3
-  private static final int PARTICLE_DURATION_MAX = 210/3; // 입자 올라갈때까지 걸리는 시간 랜덤 최댓값. 클수록 느림. 단위: frame/3
+  private static final int PARTICLE_SIZE_MAX = 2; // 입자 크기 랜덤 최댓값. 단위: 0-100
+  private static final int PARTICLE_DURATION_MIN = 57/3; // 입자 올라갈때까지 걸리는 시간 랜덤 최솟값. 클수록 느림. 단위: frame/3
+  private static final int PARTICLE_DURATION_MAX = 120/3; // 입자 올라갈때까지 걸리는 시간 랜덤 최댓값. 클수록 느림. 단위: frame/3
 
   private Effect pullStartEffect, pullEndEffect;
 

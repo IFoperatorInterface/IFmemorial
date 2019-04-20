@@ -56,11 +56,13 @@ class ModuleView {
     for (int i = 0; i < ROWS; i++)
       for (int j = 0; j < COLUMNS; j++) {
         modules[i][j].draw();
+        /*
         if (frameCount > nextParticleCount[i][j]) {
           nextParticleCount[i][j] = frameCount + int(random(PULL_EFFECT_PERIOD_MIN, PULL_EFFECT_PERIOD_MAX));
           if (isPulled[i][j] || random(1)<NONPULL_PARTICLE_FREQUENCY)
             presetController.triggerParticle(j, i, -20);
         }
+        */
 
         if (isPulled[i][j] && frameCount > nextPullSoundCount[i][j]) {
           nextPullSoundCount[i][j] = frameCount + PULL_SOUND_PERIOD;
