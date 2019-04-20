@@ -17,8 +17,8 @@ class Module {
   private static final int WAVE_TIME_DISTANCE = 3; // 겹쳐진 wave간 시간 간격. 단위: frame
   private static final int OPACITY_PULLED = 90; // 당긴 동안 당긴 봉 연한 빛 투명도. 현재는 비활성화. 단위: 0-255
 
-  private static final int NOTE_MIN = 45; // Base level별 최소 소리 note. 단위: 0-127
-  private static final int NOTE_MAX = 65; // Base level별 최대 소리 note. 단위: 0-127
+  private static final int NOTE_MIN = 30; // Base level별 최소 소리 note. 단위: 0-127
+  private static final int NOTE_MAX = 55; // Base level별 최대 소리 note. 단위: 0-127
   private static final int NOTE_RANDOM_FACTOR = 1; // Base level별 소리 note 무작위 변화폭. 단위: 0-127
 
   private static final float PARTICLE_FREQUENCY_FACTOR = 0.12; // Wave 최대 높이에서 입자 생성 확률 인자

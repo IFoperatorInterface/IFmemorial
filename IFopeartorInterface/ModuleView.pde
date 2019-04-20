@@ -18,12 +18,12 @@ class ModuleView {
   private static final int PULL_EFFECT_PERIOD_MAX = 60; // 당겼을 때 입자 생성 주기 랜덤 최댓값. 단위: frame
   private static final int PULL_SOUND_PERIOD = 1000; // 당겼을 때 소리 주기. 단위: frame
   private static final int PULL_SOUND_INSTRUMENT = 0; // 당겼을 때 악기. 단위: MIDI 악기 (0-127)
-  private static final int PULL_SOUND_VOLUME = 100; // 당겼을 때 소리 크기. 단위: 0-127
+  private static final int PULL_SOUND_VOLUME = 70; // 당겼을 때 소리 크기. 단위: 0-127
   private static final float PULL_SOUND_DURATION = 3.3; // 당겼을 때 소리 길이. 단위: 초
 
   private static final int WAVE_SOUND_INSTRUMENT = 0; // Wave 악기. 단위: MIDI 악기 (0-127)
-  private static final int WAVE_SOUND_VOLUME = 75; // Wave 소리 크기. 단위: 0-127
-  private static final float WAVE_SOUND_DURATION = 2; // Wave 소리 길이. 단위: 초
+  private static final int WAVE_SOUND_VOLUME = 50; // Wave 소리 크기. 단위: 0-127
+  private static final float WAVE_SOUND_DURATION = 10; // Wave 소리 길이. 단위: 초
 
   private static final float NONPULL_PARTICLE_FREQUENCY = 0.015; // 당기지 않았을 때 입자 비율
 
@@ -85,7 +85,7 @@ class ModuleView {
           modules[t.y][t.x].increaseBaseLevel();
         modules[t.y][t.x].addTrigger(t.copyWithStartTime(frameCount));
 
-        makeSound(t.y*COLUMNS+t.x, getNote(t.effect, phase, delay), WAVE_SOUND_VOLUME, PULL_SOUND_INSTRUMENT, WAVE_SOUND_DURATION);
+        makeSound(t.y*COLUMNS+t.x, getNote(t.effect, phase, delay), WAVE_SOUND_VOLUME, WAVE_SOUND_INSTRUMENT, WAVE_SOUND_DURATION);
         
       }
 
@@ -104,7 +104,7 @@ class ModuleView {
             Trigger newT = t.copyWithStartTime(frameCount);
             newT.effect.position[1] = int(t.effect.position[1]*decrement);
             modules[t.y][x].addTrigger(newT);
-            makeSound(t.y * COLUMNS + x, getNote(t.effect, phase, delay), int(WAVE_SOUND_VOLUME*decrement), PULL_SOUND_INSTRUMENT, WAVE_SOUND_DURATION);
+            //makeSound(t.y * COLUMNS + x, getNote(t.effect, phase, delay), int(WAVE_SOUND_VOLUME*decrement), PULL_SOUND_INSTRUMENT, WAVE_SOUND_DURATION);
           }
         }
 
@@ -120,7 +120,7 @@ class ModuleView {
             Trigger newT = t.copyWithStartTime(frameCount);
             newT.effect.position[1] = int(t.effect.position[1]*decrement);
             modules[t.y][x].addTrigger(newT);
-            makeSound(t.y * COLUMNS + x, getNote(t.effect, phase, delay), int(WAVE_SOUND_VOLUME*decrement), PULL_SOUND_INSTRUMENT, WAVE_SOUND_DURATION);
+            //makeSound(t.y * COLUMNS + x, getNote(t.effect, phase, delay), int(WAVE_SOUND_VOLUME*decrement), PULL_SOUND_INSTRUMENT, WAVE_SOUND_DURATION);
           }
         }
       }
@@ -144,13 +144,13 @@ class ModuleView {
   
   
   private void makeSound(int idx, int note, int volume, int instrument, float length) {
-    if (note < 40 || note > 100)
+    if (note < 20 || note > 100)
       return;
 
     dataController.sendSoundData(idx, note, volume, instrument, int(length*50));
 
-    //sc.instrument(instrument);
-    //sc.playNote(note, volume, length);
+    sc.instrument(instrument);
+    sc.playNote(note, volume, length*8);
   }
 
 
