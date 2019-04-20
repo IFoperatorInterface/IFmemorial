@@ -1,10 +1,11 @@
 class Module {
-  private static final float BASE_LEVEL_DEFAULT = 0.04; // 최소 base level 높이. 단위: 0-1
+  private static final float BASE_LEVEL_DEFAULT = 0.02; // 최소 base level 높이. 단위: 0-1
   private static final float BASE_LEVEL_MAX = 0.4; // 최대 base level 높이. 단위: 0-1
   private static final float BASE_LEVEL_INCREASE_RATE_LOW = 0.52; // 놓을때마다 base level 증가 랜덤 최솟값. 1에 가까울수록 적게 증가. 단위: 1-0
   private static final float BASE_LEVEL_INCREASE_RATE_HIGH = 0.94; // 놓을때마다 base level 증가 랜덤 최댓값. 1에 가까울수록 적게 증가. 단위: 1-0
   private static final float BASE_LEVEL_DECREASE_RATE = 0.998; // Frame당 base level 감소값. 1에 가까울수록 적게 감소. 단위: 1-0
-  private static final float BASE_LEVEL_RANDOM = 0.002; // Frame당 base level 랜덤 변화폭. 단위: 0-1
+  private static final float BASE_LEVEL_RANDOM = 0.003; // Frame당 base level 랜덤 변화폭. 단위: 0-1
+  private static final float BASE_LEVEL_RANDOM_PERIOD = 5;
 
 
   private static final int WAVE_OPACITY = 200; // Wave 투명도. 단위: 0-255
@@ -21,6 +22,8 @@ class Module {
   private static final int NOTE_RANDOM_FACTOR = 1; // Base level별 소리 note 무작위 변화폭. 단위: 0-127
 
   private static final float PARTICLE_FREQUENCY_FACTOR = 0.12; // Wave 최대 높이에서 입자 생성 확률 인자
+  
+  private static final float NO_DRAW_BASE_LEVEL_THRESHOLD = 0.01;
 
   private int x, y;
   private List<Trigger> triggers;
@@ -88,8 +91,12 @@ class Module {
 
     drawLine(color(0, 0, 0, random(0, BLINK_OPACITY)), 0, 1);
     baseLevel = (baseLevel - BASE_LEVEL_DEFAULT) * BASE_LEVEL_DECREASE_RATE + BASE_LEVEL_DEFAULT;
-    if (!isPulled)
-      baseLevel += random(-BASE_LEVEL_RANDOM, BASE_LEVEL_RANDOM);
+    if (!isPulled && frameCount%BASE_LEVEL_RANDOM_PERIOD==0) {
+      if (baseLevel > 0)
+        baseLevel += random(-BASE_LEVEL_RANDOM, BASE_LEVEL_RANDOM);
+      else
+        baseLevel += random(-BASE_LEVEL_RANDOM/2, BASE_LEVEL_RANDOM);
+    }
   }
 
 
@@ -161,6 +168,11 @@ class Module {
 
 
   private void drawLine(color strokeColor, float start, float end) {
+    int opacity = 255;
+    if (end < NO_DRAW_BASE_LEVEL_THRESHOLD)
+      opacity = int(255 * end / NO_DRAW_BASE_LEVEL_THRESHOLD);
+    strokeColor = color(strokeColor, opacity);
+    
     int strokeW = (fieldPos == null) ? 4 : 1;
     pushStyle();
     strokeWeight(strokeW);
