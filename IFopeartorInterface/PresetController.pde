@@ -18,13 +18,10 @@ public class PresetController {
 
 
   public void triggerPullStart(int x, int y, float size) {
-    moduleView.pullStart(x, y);
   }
 
 
   public void triggerPullEnd(int x, int y, PVector direction, float size) {
-    moduleView.pullEnd(x, y);
-
     Effect effect = pullEndEffect.copy();
     effect.note = moduleView.modules[y][x].getNote();
     Trigger trigger = new Trigger(effect, x, y, frameCount);
