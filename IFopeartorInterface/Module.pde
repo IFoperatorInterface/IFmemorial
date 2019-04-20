@@ -68,6 +68,8 @@ class Module {
       //drawLine(color(effect.colorRGB[0], effect.colorRGB[1], effect.colorRGB[2], opacity), 0, 1);
     //}
 
+    drawLine(color(0, 0, 0, random(0, BLINK_OPACITY)), 0, 1);
+
     Iterator < Trigger > triggersIterator = triggers.iterator();
     while (triggersIterator.hasNext()) {
       Trigger trigger = triggersIterator.next();
@@ -89,7 +91,6 @@ class Module {
       }
     }
 
-    drawLine(color(0, 0, 0, random(0, BLINK_OPACITY)), 0, 1);
     baseLevel = (baseLevel - BASE_LEVEL_DEFAULT) * BASE_LEVEL_DECREASE_RATE + BASE_LEVEL_DEFAULT;
     if (!isPulled && frameCount%BASE_LEVEL_RANDOM_PERIOD==0) {
       if (baseLevel > 0)
