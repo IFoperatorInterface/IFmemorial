@@ -31,6 +31,7 @@ public class PresetController {
 
   public void triggerParticle(int x, int y, int start) {
     Effect effect = new Effect();
+    effect.note = -1;
     effect.barMode = BarMode.BOUNCE;
     effect.size = int(random(PARTICLE_SIZE_MIN, PARTICLE_SIZE_MAX));
     effect.position[0] = start;
